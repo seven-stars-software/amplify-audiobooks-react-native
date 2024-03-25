@@ -1,3 +1,21 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json"
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "allowJs": true,
+    "checkJs": true,
+    "strict": true,
+    // Path alias config
+    "baseUrl": ".",
+    "typeRoots": ["./src/types"],
+    "paths": {
+      "@assets/*": [
+        "assets/*"
+      ],
+      "*": [
+        "src/*"
+      ],
+    },
+  },
+  "exclude": ["node_modules", "**/node_modules/*"]
 }
