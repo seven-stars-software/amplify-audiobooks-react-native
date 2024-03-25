@@ -3,7 +3,10 @@ module.exports = {
   plugins: [
     ["module-resolver",{
       root: ['./src'],
-      extensions: [".ios.js", ".android.js", ".js", ".json", ".ts", ".tsx"]
+      extensions: [".ios.js", ".android.js", ".js", ".json", ".ts", ".tsx"],
+      alias: {
+        "@assets": "./assets"
+      },
     }]
   ]
 };
