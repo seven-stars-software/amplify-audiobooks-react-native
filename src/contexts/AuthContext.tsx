@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import EncryptedStorage from 'react-native-encrypted-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthSeal } from "types/types";
 
 type AuthContextType = [
@@ -19,7 +19,7 @@ export const AuthContextProvider = ({ children }: { children?: ReactNode }) => {
 
     useEffect(() => {
         const loadAuthSealFromStorage = async () => {
-            const fromStorage = await EncryptedStorage.getItem(storageKey);
+            const fromStorage = await AsyncStorage.getItem(storageKey);
             if (fromStorage !== undefined) {
                 setAuthSeal(fromStorage)
             }
@@ -33,7 +33,7 @@ export const AuthContextProvider = ({ children }: { children?: ReactNode }) => {
         console.log(`::: Set Auth Seal : ${seal}`)
         setAuthSeal(seal)
         if (seal !== null) {
-            await EncryptedStorage.setItem(
+            await AsyncStorage.setItem(
                 storageKey,
                 seal
             );
@@ -42,7 +42,7 @@ export const AuthContextProvider = ({ children }: { children?: ReactNode }) => {
 
     const deleteAuthSeal = async () => {
         try {
-            await EncryptedStorage.removeItem(storageKey);
+            await AsyncStorage.removeItem(storageKey);
             setAuthSeal(null)
         } catch (e) {
             console.log(e)
