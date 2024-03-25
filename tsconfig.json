@@ -7,7 +7,7 @@
     "strict": true,
     // Path alias config
     "baseUrl": ".",
-    "typeRoots": ["./src/types"],
+    "typeRoots": ["./src/types", "./node_modules/@types"],
     "paths": {
       "@assets/*": [
         "assets/*"
