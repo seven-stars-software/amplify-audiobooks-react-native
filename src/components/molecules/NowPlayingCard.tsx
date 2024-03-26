@@ -19,7 +19,7 @@ const NowPlayingCard = () => {
     const theme = useTheme();
     const playerState = usePlaybackState()
 
-    const isPlaying = playerState === TrackPlayerState.Playing
+    const isPlaying = playerState.state === TrackPlayerState.Playing
     const currentTrack = useCurrentTrack();
 
     const { position, duration } = usePlaybackProgress()

@@ -46,14 +46,14 @@ export const PlaybackContextProvider = ({ children }: { children?: ReactNode }) 
     const checkpointRef = useRef<Checkpoint | null>(null)
 
     useEffect(() => {
-        console.log(`Playback State Changed: ${playerState}`)
+        console.log(`Playback State Changed: ${JSON.stringify(playerState, null, 4)}`)
         if(playbackProblemTimeout){
             clearTimeout(playbackProblemTimeout);
         }
-        if (playerState === State.Buffering 
-            || playerState === State.Connecting) {
+        if (playerState.state === State.Buffering 
+            || playerState.state === State.Loading) {
             const timeout = setTimeout(() => {
-                handlePlaybackError({ error: 'Buffering or Connecting took too long' })
+                handlePlaybackError({ error: 'Buffering or Loading took too long' })
             }, 10000);
             setPlaybackProblemTimeout(timeout);
         }

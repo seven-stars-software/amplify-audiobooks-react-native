@@ -5,8 +5,8 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 
 export const useOnTogglePlayback = () => {
-  const state = usePlaybackState();
-  const isPlaying = state === State.Playing;
+  const playbackState = usePlaybackState();
+  const isPlaying = playbackState.state === State.Playing;
 
   return useCallback(() => {
     if (isPlaying) {

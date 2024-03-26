@@ -7,14 +7,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParams } from "navigators/RootNavigator";
 import { useContext, useEffect } from "react";
 import PlaybackContext from "contexts/PlaybackContext";
-import AutoHeightImage from "components/atoms/AutoHeightImage";
-import usePlaybackProgress from "hooks/usePlaybackProgress";
-import Scrubber from 'react-native-scrubber'
-
-import TrackPlayer, { usePlaybackState, State as TrackPlayerState } from "react-native-track-player";
-import { useCurrentTrack } from "hooks";
-import { metadataOptions } from "services";
-import { ScreenContainer } from "react-native-screens";
 import useStyles from "hooks/useStyles";
 
 const width = Dimensions.get('window').width; //full width

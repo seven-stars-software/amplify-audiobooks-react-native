@@ -28,7 +28,7 @@ const NowPlayingScreen = () => {
     const primaryColor = theme.colors.primary
 
     const playerState = usePlaybackState()
-    const isPlaying = playerState === TrackPlayerState.Playing
+    const isPlaying = playerState.state === TrackPlayerState.Playing
 
     const { nowPlaying, playBook, pauseBook } = useContext(PlaybackContext)
     const currentTrack = useCurrentTrack()

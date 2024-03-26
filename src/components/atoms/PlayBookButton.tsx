@@ -27,7 +27,7 @@ const PlayBookButton = ({ book, size = 24 }: Props) => {
 
     const playerState = usePlaybackState()
     const thisBookIsPlaying =
-        playerState === PlayerState.Playing
+        playerState.state === PlayerState.Playing
         && nowPlaying?.name === book.name
 
     useEffect(() => {
