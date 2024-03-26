@@ -10,7 +10,7 @@
     "typeRoots": ["./src/types", "./node_modules/@types"],
     "paths": {
       "@assets/*": [
-        "assets/*"
+        "./assets/*"
       ],
       "*": [
         "./src/*"
