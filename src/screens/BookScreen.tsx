@@ -15,6 +15,7 @@ import { SettingsStackParams } from "navigators/SettingsNavigator";
 import useStyles from "hooks/useStyles";
 import theme from "styler/theme";
 import URLs from "URLs";
+import DownloadButton from "components/atoms/DownloadButton";
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -34,7 +35,7 @@ const BookScreen = ({ route }: Props) => {
     }
 
     return (
-        <SafeAreaView style={{...globalStyles.BGColor, ...styles.ScreenContainer}}>
+        <SafeAreaView style={{ ...globalStyles.BGColor, ...styles.ScreenContainer }}>
             <Pressable
                 style={styles.BackButton}
                 onPress={() => {
@@ -48,20 +49,23 @@ const BookScreen = ({ route }: Props) => {
                     <View style={styles.CoverContainer}>
                         <Image style={styles.BookCover} source={{ uri: book.images[0] }} />
                     </View>
-                    <View style={styles.BookInfoAndPlayButton}>
+                    <View style={styles.BookInfo}>
                         <View style={{ flex: 1 }}>
                             <Text variant="headlineSmall">{book.name}</Text>
                             <Text variant="bodyMedium">by {book.author}</Text>
                         </View>
-                        <PlayBookButton book={book} size={width / 6} />
                     </View>
-                    <View>
-                        <Button 
-                        mode="contained" 
-                        onPress={openProductPage}
-                        style={styles.ReviewButton}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Button
+                            mode="contained"
+                            onPress={openProductPage}
+                            style={styles.ReviewButton}>
                             Write a Review
                         </Button>
+                        <View style={{paddingLeft: 5, paddingRight: 20}}>
+                        <DownloadButton book={book} size={width / 10} />
+                        </View>
+                        <PlayBookButton book={book} size={width / 6} />
                     </View>
                 </View>
                 <Surface elevation={2} style={styles.ChaptersContainer}>
@@ -82,19 +86,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: width / 16,
         marginBottom: 14,
     },
-    BookInfoAndPlayButton: {
-        flexDirection: "row",
-        alignItems: 'center',
+    BookInfo: {
+        flexDirection: "column",
+        alignItems: 'flex-start',
         paddingTop: height / 56,
-        paddingBottom: height / 32,
+        paddingBottom: height / 56,
     },
-    ReviewButton:{
+    ReviewButton: {
         margin: 4,
-    },
-    ReviewButtonText: {
-        color: "white",
-        fontSize: width / 20,
-        lineHeight: 32,
+        flexGrow: 1,
+        height: 40,
+        paddingBottom: 0
     },
     BackButton: {
         width: 24,
