@@ -17,6 +17,7 @@
     "@react-navigation/native-stack": "^6.9.26",
     "dayjs": "^1.11.10",
     "expo": "^50.0.0",
+    "expo-av": "~13.10.5",
     "expo-file-system": "~16.0.8",
     "react": "18.2.0",
     "react-native": "0.73.6",
