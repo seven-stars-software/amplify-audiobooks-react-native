@@ -31,7 +31,7 @@ export const SetupService = async (): Promise<boolean> => {
   let isSetup = false;
   try {
     // this method will only reject if player has not been setup yet
-    await TrackPlayer.getCurrentTrack();
+    await TrackPlayer.getActiveTrackIndex();
     isSetup = true;
   } catch {
     await TrackPlayer.setupPlayer();
