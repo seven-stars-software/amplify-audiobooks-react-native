@@ -29,11 +29,11 @@ const App = () => {
           <AuthContextProvider>
             <UserContextProvider>
               <PlaybackContextProvider>
-                <PaperProvider>
-                  <GestureHandlerRootView style={{ flex: 1 }}>
-                    <RootNavigator />
-                  </GestureHandlerRootView>
-                </PaperProvider>
+                  <PaperProvider>
+                    <GestureHandlerRootView style={{ flex: 1 }}>
+                      <RootNavigator />
+                    </GestureHandlerRootView>
+                  </PaperProvider>
               </PlaybackContextProvider>
             </UserContextProvider>
           </AuthContextProvider>

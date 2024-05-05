@@ -25,7 +25,7 @@ const PlaybackContext = createContext<PlaybackController>({
 
 const playerTrackFromTrack = (book: Book, track: Track): PlayerTrack => {
     return {
-        url: track.uri,
+        url: track.localURI || track.uri,
         title: track.name,
         artist: book.author,
         album: book.name,
@@ -62,10 +62,6 @@ export const PlaybackContextProvider = ({ children }: { children?: ReactNode }) 
     // Set listener for checkpoints on the active book
     // The `PlaybackProgressUpdated` event triggers on play and pause as well as on interval set in options
     useTrackPlayerEvents([Event.PlaybackProgressUpdated], async (event) => {
-        if (nowPlaying === undefined) {
-            return handleThrown(new Error(`Unexpected behavior. React Native Track Player Event: 'PlaybackProgressUpdated' triggered while nowPlaying is undefined.`))
-        }
-
         const mostRecentCheckpoint = checkpointRef.current;
         const checkpoint = {
             trackNumber: event.track,
@@ -76,6 +72,13 @@ export const PlaybackContextProvider = ({ children }: { children?: ReactNode }) 
         const progressChanged = checkpoint.position !== mostRecentCheckpoint?.position
             || checkpoint.trackNumber !== mostRecentCheckpoint?.trackNumber
         if (progressChanged) {
+
+            //NowPlaying should be defined eventually
+            if (nowPlaying === undefined) {
+                console.log('Track playback progress changed while nowPlaying is undefined')
+                return;
+            }
+
             // Saving the checkpoint
             await setCheckpoint(nowPlaying.isbn, checkpoint)
 
@@ -99,6 +102,9 @@ export const PlaybackContextProvider = ({ children }: { children?: ReactNode }) 
             tracks?: Track[],
             options?
         ) => {
+            //Update nowPlaying object
+            setNowPlaying(book)
+
             // Get optional args
             let trackNumber;
             let playFromCheckpoint = true;
@@ -111,7 +117,11 @@ export const PlaybackContextProvider = ({ children }: { children?: ReactNode }) 
                     return handleThrown(new Error(`Cannot play a new book without providing tracks`))
                 }
                 await TrackPlayer.reset()
-                await TrackPlayer.add(tracks.map((track) => playerTrackFromTrack(book, track)))
+                console.log(`Queueing tracks...`)
+                await TrackPlayer.add(tracks.map((track) => {
+                    const playerTrack = playerTrackFromTrack(book, track)
+                    return playerTrack
+                }))
             }
             // If a trackumber is provided, skip ahead to that track
             if (trackNumber !== undefined) {
@@ -126,8 +136,6 @@ export const PlaybackContextProvider = ({ children }: { children?: ReactNode }) 
             }
             // If asked to play a book that is already active, simply hit play
             await TrackPlayer.play();
-            //Update nowPlaying object
-            setNowPlaying(book)
         }
     }
     return (

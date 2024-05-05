@@ -1,15 +1,11 @@
 
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { useContext, useEffect, useState } from 'react';
 import { Dimensions, Pressable } from 'react-native';
-import { ActivityIndicator, useTheme } from 'react-native-paper';
-import { Book } from 'types/types';
+import { ActivityIndicator, Tooltip, useTheme } from 'react-native-paper';
+import { Book, Track } from 'types/types';
 import { useTracksCache } from 'caches/TracksCache';
 import * as FileSystem from 'expo-file-system';
-import PlaybackContext from 'contexts/PlaybackContext';
-import TrackPlayer from 'react-native-track-player';
-import { Audio } from 'expo-av';
-import { json } from 'stream/consumers';
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -21,10 +17,11 @@ type Props = {
 const DownloadBookButton = ({ book, size = 24 }: Props) => {
     const theme = useTheme();
     const [buttonColor, setButtonColor] = useState(theme.colors.primary);
+    const [showDownloadIndicator, setShowDownloadIndicator] = useState(false);
 
-    const { nowPlaying, playBook } = useContext(PlaybackContext);
-    const [savedURI, setSavedURI] = useState(null);
-    const { loading, tracks } = useTracksCache(book)
+    const { loading, tracks, downloadTracks } = useTracksCache(book)
+
+    const allTracksDownloaded = tracks?.every((track) => track.downloadStatus === 'downloaded')
 
     const pressIn = () => {
         setButtonColor(theme.colors.secondary)
@@ -33,67 +30,22 @@ const DownloadBookButton = ({ book, size = 24 }: Props) => {
         setButtonColor(theme.colors.primary)
     }
 
-    const makeLocalBookDirectories = async (book: Book) => {
-        const booksDirectoryInfo = await FileSystem.getInfoAsync(`${FileSystem.documentDirectory}books`);
-        console.log(`Info for ${FileSystem.documentDirectory}books`)
-        console.log(JSON.stringify(booksDirectoryInfo, null, 4))
-        if('exists' in booksDirectoryInfo && !booksDirectoryInfo.exists){
-            await FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}books`)
-        }
-
-        const isbnDirectoryInfo = await FileSystem.getInfoAsync(`${FileSystem.documentDirectory}books/${book.isbn}`);
-        console.log(`Info for ${FileSystem.documentDirectory}books/${book.isbn}`)
-        console.log(JSON.stringify(isbnDirectoryInfo, null, 4))
-        if('exists' in isbnDirectoryInfo && !isbnDirectoryInfo.exists){
-            await FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}books/${book.isbn}`)
-        }
-
-        const tracksDirectoryInfo = await FileSystem.getInfoAsync(`${FileSystem.documentDirectory}books/${book.isbn}/tracks`);
-        console.log(`Info for ${FileSystem.documentDirectory}books/${book.isbn}/tracks`)
-        console.log(JSON.stringify(tracksDirectoryInfo, null, 4))
-        if('exists' in tracksDirectoryInfo && !tracksDirectoryInfo.exists){
-            await FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}books/${book.isbn}/tracks`)
-        }
-    }
-
     const onPress = async () => {
-        const track = tracks[0];
+        //Don't do anything if tracks are already downloaded
+        if (allTracksDownloaded) {
+            return;
+        }
 
-        //create local directories to store track files
-        await makeLocalBookDirectories(book)
+        //Otherwise, start book download
+        setShowDownloadIndicator(true)
+        console.log(`INITIATE BOOK DOWNLOAD`)        
+        await downloadTracks()
+        console.log(`BOOK DOWNLOAD COMPLETED`)
 
-        //create downloadable
-        const downloadResumable = FileSystem.createDownloadResumable(
-            track.uri,
-            `${FileSystem.documentDirectory}books/${book.isbn}/tracks/${track.name}.mp3`,
-            {},
-        );
-        //begin download
-        const downloadResponse = await downloadResumable.downloadAsync();
-        console.log(JSON.stringify(downloadResponse, null, 4))
-
-        const finalFileUri = decodeURI(downloadResponse?.uri || "");
-        console.log(`Final File URI: ${finalFileUri}`)
-
+        //Log download directory
         const dir = await FileSystem.readDirectoryAsync(`${FileSystem.documentDirectory}books/${book.isbn}/tracks/`)
         console.log(`LS: ${JSON.stringify(dir, null, 4)}`)
-
-        const info = await FileSystem.getInfoAsync(finalFileUri);
-        console.log(JSON.stringify(info, null, 4))
-
-       
-        await TrackPlayer.add({
-            id: "1",
-            url: finalFileUri,
-            title: track.name,
-            artist: book.author,
-        });
-        await TrackPlayer.play();
     }
-
-    useEffect(() => {
-        console.log(savedURI)
-    }, [savedURI])
 
     return (
         <Pressable
@@ -102,7 +54,16 @@ const DownloadBookButton = ({ book, size = 24 }: Props) => {
             onPressOut={pressOut}
             onPress={onPress}
         >
-            <Icon name="arrow-down-circle" size={size} color={buttonColor} />
+            {
+                allTracksDownloaded ?
+                    <Icon name="arrow-down-circle" size={size} color={buttonColor} />
+                    : <Icon name="arrow-down-circle-outline" size={size} color={buttonColor} />
+            }
+            {
+                showDownloadIndicator ?
+                    <ActivityIndicator color={theme.colors.onPrimary} animating={true} size={size} style={{ position: "absolute" }} />
+                    : null
+            }
         </Pressable>
     )
 }

@@ -54,18 +54,23 @@ const BookScreen = ({ route }: Props) => {
                             <Text variant="headlineSmall">{book.name}</Text>
                             <Text variant="bodyMedium">by {book.author}</Text>
                         </View>
+                        <PlayBookButton book={book} size={width / 6} />
                     </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                    }}>
                         <Button
                             mode="contained"
                             onPress={openProductPage}
                             style={styles.ReviewButton}>
                             Write a Review
                         </Button>
-                        <View style={{paddingLeft: 5, paddingRight: 20}}>
-                        <DownloadButton book={book} size={width / 10} />
+                        <View style={{ paddingLeft: 5,  }}>
+                            <DownloadButton book={book} size={width / 10} />
                         </View>
-                        <PlayBookButton book={book} size={width / 6} />
+
                     </View>
                 </View>
                 <Surface elevation={2} style={styles.ChaptersContainer}>
@@ -87,8 +92,8 @@ const styles = StyleSheet.create({
         marginBottom: 14,
     },
     BookInfo: {
-        flexDirection: "column",
-        alignItems: 'flex-start',
+        flexDirection: "row",
+        alignItems: 'center',
         paddingTop: height / 56,
         paddingBottom: height / 56,
     },

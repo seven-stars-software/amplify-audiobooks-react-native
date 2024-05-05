@@ -20,7 +20,9 @@ type Track = {
     number?: number,
     name: string,
     s3Key: string,
-    uri: string
+    uri: string,
+    downloadStatus: 'downloading'|'downloaded'|'not_downloaded',
+    localURI?: string
 }
 
 type DefinedReactState<T> = [T, React.Dispatch<React.SetStateAction<T>>] 
