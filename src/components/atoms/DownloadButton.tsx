@@ -61,7 +61,7 @@ const DownloadBookButton = ({ book, size = 24 }: Props) => {
             }
             {
                 showDownloadIndicator ?
-                    <ActivityIndicator color={theme.colors.onPrimary} animating={true} size={size} style={{ position: "absolute" }} />
+                    <ActivityIndicator color={theme.colors.primary} animating={true} size={size} style={{ position: "absolute" }} />
                     : null
             }
         </Pressable>

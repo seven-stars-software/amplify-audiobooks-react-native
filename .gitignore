@@ -69,3 +69,6 @@ yarn-error.log
 
 # Visual Studio Code
 .vscode
+
+# Expo
+.expo
