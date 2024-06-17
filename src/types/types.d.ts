@@ -11,8 +11,12 @@ type Book = {
     author: string,
     duration: string,
     releaseDate: string,
+    dateCreated: string,
     isbn: string,
-    permalink: string
+    permalink: string,
+    featured: boolean,
+    purchased: boolean,
+    onSale: boolean,
 }
 
 type Track = {
