@@ -11,8 +11,11 @@ import { ErrorContextProvider } from 'contexts/ErrorContext';
 import RootNavigator from 'navigators/RootNavigator';
 import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BookStoreProvider } from 'stores/BookStore';
 
 const App = () => {
+
+  //Setup App State Listener
   useEffect(() => {
     const subscription = AppState.addEventListener('change', nextAppState => {
       console.log(`AppState:  ${nextAppState}`)
@@ -25,19 +28,23 @@ const App = () => {
   return (
     <NavigationContainer>
       <ErrorContextProvider>
-        <CachesProvider>
-          <AuthContextProvider>
-            <UserContextProvider>
-              <PlaybackContextProvider>
+        <AuthContextProvider>
+          <BookStoreProvider>
+            <CachesProvider>
+
+              <UserContextProvider>
+                <PlaybackContextProvider>
                   <PaperProvider>
                     <GestureHandlerRootView style={{ flex: 1 }}>
                       <RootNavigator />
                     </GestureHandlerRootView>
                   </PaperProvider>
-              </PlaybackContextProvider>
-            </UserContextProvider>
-          </AuthContextProvider>
-        </CachesProvider>
+                </PlaybackContextProvider>
+              </UserContextProvider>
+
+            </CachesProvider>
+          </BookStoreProvider>
+        </AuthContextProvider>
       </ErrorContextProvider>
     </NavigationContainer>
   )

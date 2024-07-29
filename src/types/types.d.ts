@@ -17,6 +17,7 @@ type Book = {
     featured: boolean,
     purchased: boolean,
     onSale: boolean,
+    tracks?: Track[]
 }
 
 type Track = {
