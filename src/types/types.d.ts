@@ -16,6 +16,7 @@ type Book = {
     permalink: string,
     featured: boolean,
     purchased: boolean,
+    newRelease: boolean,
     onSale: boolean,
     tracks?: Track[]
 }

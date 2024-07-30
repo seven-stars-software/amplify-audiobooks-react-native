@@ -74,7 +74,7 @@ const BookScreen = ({ route }: Props) => {
                     </View>
                 </View>
                 <Surface elevation={2} style={styles.ChaptersContainer}>
-                    <BookTracks book={book} />
+                    <BookTracks isbn={book.isbn} />
                 </Surface>
             </ScrollView>
         </SafeAreaView>

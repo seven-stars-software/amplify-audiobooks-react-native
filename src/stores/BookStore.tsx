@@ -13,7 +13,7 @@ const saveToStorage = async (books: BookStoreState) => {
 
 interface BookStoreContextType {
     books: BookStoreState,
-    loadBooks: () => void,
+    loadBooks: () => Promise<void>,
     loading: boolean
 }
 
@@ -36,7 +36,7 @@ const BookStoreContext = createContext<BookStoreContextType | null>(null);
 const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
     const [books, setBooks] = useCallbackState<BookStoreState>({})
     const [loading, setLoading] = useState(false)
-    const { isInternetReachable } = useNetInfo()
+    const { isInternetReachable } = {isInternetReachable: false} //DEBUG DO NOT COMMIT useNetInfo()
     const [authSeal] = useContext(AuthContext);
     const [initialLoadCompleted, setInitialLoadCompleted] = useState(false)
 
@@ -81,9 +81,8 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
             if (!response) throw new Error("Could not fetch home books")
 
             const { library, featured, newReleases, onSale } = response;
-            console.log(`Library Summary: ${JSON.stringify(library, null, 4)}`)
 
-            //In case a user owns a book that is also on-sale or featured, make sure to overwrite the version of the book that came back from the API in the on-sale or featured category since these will not have purchased:true
+            //In case a user owns a book that is also in another category, ignore the book data in the other category in favor of the version in the user's library
             const booksFromAPI: { [key: Book['isbn']]: Book } = {}
             const unownedBooks = [featured, newReleases, onSale].flat()
             unownedBooks.forEach((book) => {
@@ -109,12 +108,12 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
         //null means an unknown network connection
         if (isInternetReachable) {
             try{
-                await loadFromAPI()
+                return await loadFromAPI()
             } catch (e){
-                loadFromStorage()
+                return await loadFromStorage()
             }
         } else {
-            loadFromStorage()
+            return await loadFromStorage()
         }
     }
 

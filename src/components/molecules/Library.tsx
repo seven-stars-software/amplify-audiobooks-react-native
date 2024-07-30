@@ -10,27 +10,14 @@ import {
 import BookList from "./BookList";
 import { Cache } from "caches/GenericCache";
 import { Book } from "types/types";
+import { useBookStore } from "stores/BookStore";
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
 
 const Library = () => {
-    const { books, setBooks, lastLoad } = useLibraryCache()
-    const [authSeal,] = useContext(AuthContext);
-
-    const loadLibrary = async () => {
-        if (!authSeal) throw new Error('Cannot get library without logged in auth seal')
-        const response = await APIClient.getLibrary(authSeal);
-        if (!response) throw new Error("Could not fetch library")
-        const books: Cache<Book> = {}
-        response.forEach((book) => { books[book.isbn] = book })
-        setBooks(books)
-    }
-
-    // If the Library Cache's last load time is null, that means it has never loaded.
-    // Show the spinner in the case that the cache has not loaded
-    const loading = useLoader(loadLibrary, lastLoad !== null)
-
+    const { loading, books, loadBooks } = useBookStore()
+    const library = Object.values(books).filter((book)=>book.purchased)
 
     return (
         loading ?
@@ -40,8 +27,8 @@ const Library = () => {
             (
                 <BookList
                     header={<Text variant='headlineMedium' style={{ marginBottom: 20 }}>My Library</Text>}
-                    items={Object.values(books)}
-                    onRefresh={loadLibrary}
+                    items={library}
+                    onRefresh={loadBooks}
                 />
             )
     )

@@ -6,16 +6,19 @@ import { useTracksCache } from "caches/TracksCache";
 import { useContext } from "react";
 import PlaybackContext from "contexts/PlaybackContext";
 import { Book } from 'types/types';
+import { useBookStore } from 'stores/BookStore';
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
 
 export type Props = {
-    book: Book
+    isbn: Book['isbn']
 }
-const BookTracks = ({ book }: Props) => {
-    const { loading, tracks } = useTracksCache(book)
+const BookTracks = ({ isbn }: Props) => {
+    const { loading, books, loadBooks } = useBookStore()
     const { playBook } = useContext(PlaybackContext);
+    const book = books[isbn]
+    const { tracks } = book;
     const tracksMinusSample = tracks ? tracks.filter((track) => {
         if (track?.isSample) return
         return track

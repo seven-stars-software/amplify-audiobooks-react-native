@@ -4,20 +4,53 @@ import useHomeCache from "caches/HomeCache";
 import TopBanner, { TopBannerHeight } from "components/atoms/TopBanner";
 import BooksSideScroll from "components/molecules/BooksSideScroll";
 import useStyles from "hooks/useStyles";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions, Linking, ScrollView, View } from "react-native";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { useBookStore } from "stores/BookStore";
+import { Book } from "types/types";
 
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
 
+type BooksByCategory = {
+    libraryList: Book[]
+    featuredList: Book[]
+    newReleaseList: Book[]
+    onSaleList: Book[]
+}
+
 const HomeScreen = () => {
     const styles = useStyles()
     const insets = useSafeAreaInsets()
-    const { loading, libraryBooks, featuredBooks, newReleaseBooks, onSaleBooks } = useHomeCache()
-    const [libraryList, featuredList, newReleaseList, onSaleList] = [libraryBooks, featuredBooks, newReleaseBooks, onSaleBooks].map(cacheToList)
+    const { loading, books, loadBooks } = useBookStore()
+    
+    const [
+        {libraryList, featuredList, newReleaseList, onSaleList}, 
+        setBooksByCategory
+    ] = useState<BooksByCategory>({
+        libraryList: [],
+        featuredList: [],
+        newReleaseList: [],
+        onSaleList: []
+    });
+
+    //Sort books into categories when they load
+    useEffect(()=>{
+        const libraryList: Book[] = []
+        const featuredList: Book[] = []
+        const newReleaseList: Book[] = []
+        const onSaleList: Book[] = []
+        Object.values(books).forEach((book: Book)=>{
+            if(book.purchased) libraryList.push(book)
+            else if(book.featured) featuredList.push(book)
+            else if(book.newRelease) newReleaseList.push(book)
+            else if(book.onSale) onSaleList.push(book)
+        })
+        setBooksByCategory({libraryList, featuredList, newReleaseList, onSaleList})
+    }, [books])
 
     const openWebStore = () => {
         Linking.openURL(URLS.CatalogURL);
