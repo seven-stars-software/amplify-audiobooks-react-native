@@ -36,7 +36,7 @@ const BookStoreContext = createContext<BookStoreContextType | null>(null);
 const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
     const [books, setBooks] = useCallbackState<BookStoreState>({})
     const [loading, setLoading] = useState(false)
-    const { isInternetReachable } = {isInternetReachable: false} //DEBUG DO NOT COMMIT useNetInfo()
+    const { isInternetReachable } = {isInternetReachable: true} //DEBUG DO NOT COMMIT useNetInfo()
     const [authSeal] = useContext(AuthContext);
     const [initialLoadCompleted, setInitialLoadCompleted] = useState(false)
 

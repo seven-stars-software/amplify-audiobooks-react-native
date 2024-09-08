@@ -67,7 +67,9 @@ const useTracksLoader = (book: Book) => {
     useEffect(() => {
         const loadTracks = async () => {
             if (!authSeal) throw new Error("Cannot load tracks without auth seal")
+            console.log(`Fetching tracks for [${book.name}]`)
             const rawTracks: Track[] = await APIClient.getBookTracks({ isbn: book.isbn, seal: authSeal });
+            console.log(`Got [${rawTracks.length}] tracks for [${book.name}]`)
             //augment API tracks with local storage info
             const completeTracks: Track[] = await Promise.all(
                 rawTracks.map(
