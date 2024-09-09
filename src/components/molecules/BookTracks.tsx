@@ -15,14 +15,16 @@ export type Props = {
     isbn: Book['isbn']
 }
 const BookTracks = ({ isbn }: Props) => {
-    const { loading, books, loadBooks } = useBookStore()
-    const { playBook } = useContext(PlaybackContext);
+    const { loading: loadingBooks, books, loadBooks } = useBookStore()
     const book = books[isbn]
-    const { tracks } = book;
+
+    const { loading: loadingTracks, tracks } = useTracksCache(book);
     const tracksMinusSample = tracks ? tracks.filter((track) => {
         if (track?.isSample) return
         return track
     }) : []
+    
+    const { playBook } = useContext(PlaybackContext);
 
     const pressTrack = (trackNumber: number) => {
         playBook(book, tracks, {trackNumber})
@@ -31,7 +33,7 @@ const BookTracks = ({ isbn }: Props) => {
     return (
         <View>
             {
-                loading ?
+                loadingBooks ?
                     (<ActivityIndicator animating={true} />)
                     :
                     tracksMinusSample.map((track, index) => {
