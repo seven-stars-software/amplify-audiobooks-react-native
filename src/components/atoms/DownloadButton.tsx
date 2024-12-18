@@ -72,6 +72,7 @@ const DownloadBookButton = ({ book, size = 24 }: Props) => {
             <RemoveDownloadsDialog
                 visible={removalDialogVisible}
                 setVisible={setRemovalDialogVisible}
+                removeDownloads={()=>{console.log('Remove Downloads Button pushed')}}
             />
         </Pressable>
     )
