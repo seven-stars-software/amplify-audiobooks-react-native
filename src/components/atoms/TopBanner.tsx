@@ -49,13 +49,13 @@ const TopBanner = () => {
 
                     <Text style={{
                         fontSize: 24,
-                        fontFamily: 'Shrikhand',
+                        fontFamily: 'GlacialIndifference-Bold',
                         color: 'white',
                         textAlign: 'center',
                     }}>AMPlify</Text>
                     <Text style={{
                         fontSize: 12,
-                        fontFamily: 'Shrikhand',
+                        fontFamily: 'GlacialIndifference-Bold',
                         color: 'white',
                         textAlign: 'center',
                         marginTop: -6,

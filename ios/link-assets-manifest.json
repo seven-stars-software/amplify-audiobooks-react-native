@@ -1,0 +1,101 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Glacial-Indifference/GlacialIndifference-Bold.otf",
+      "sha1": "c371faeff1a978f9a4d9a3018fd522182bcea5d5"
+    },
+    {
+      "path": "assets/fonts/Glacial-Indifference/GlacialIndifference-Bold.ttf",
+      "sha1": "51e03db9cda24cd73c189dec567070f71d4498dd"
+    },
+    {
+      "path": "assets/fonts/Glacial-Indifference/GlacialIndifference-Bold.woff",
+      "sha1": "27c11afcf2c9c9808bb305fb6a699771a4b97ae4"
+    },
+    {
+      "path": "assets/fonts/Glacial-Indifference/GlacialIndifference-Bold.woff2",
+      "sha1": "b1986ecc0832da5573ebab84f48d57f926706a11"
+    },
+    {
+      "path": "assets/fonts/Glacial-Indifference/GlacialIndifference-Regular.otf",
+      "sha1": "ff2a7dfa4e0c84345d05dcc6ca03af2f8850508c"
+    },
+    {
+      "path": "assets/fonts/Glacial-Indifference/GlacialIndifference-Regular.ttf",
+      "sha1": "b07a3f8489c68d68ddd1d1b520b9d3ac960bc8a6"
+    },
+    {
+      "path": "assets/fonts/Glacial-Indifference/GlacialIndifference-Regular.woff",
+      "sha1": "e48375912acfe29e9c5262b367cd2e749db0bd3c"
+    },
+    {
+      "path": "assets/fonts/Glacial-Indifference/GlacialIndifference-Regular.woff2",
+      "sha1": "73ca985f44752aed8d4e2ae252313032cab07c90"
+    },
+    {
+      "path": "assets/fonts/Glacial-Indifference/GlacialIndifference_Specimen.html",
+      "sha1": "dc0c46397c6ca6fb03a9391ba98126d72a0cd21c"
+    },
+    {
+      "path": "assets/fonts/Glacial-Indifference/OFL.txt",
+      "sha1": "b618c0c6bbb5861a8d5f76f47063081868566a81"
+    },
+    {
+      "path": "assets/fonts/Roboto/LICENSE.txt",
+      "sha1": "47b573e3824cd5e02a1a3ae99e2735b49e0256e4"
+    },
+    {
+      "path": "assets/fonts/Roboto/Roboto-Black.ttf",
+      "sha1": "3f8e401d808f6ce84b542266726514ac8be73171"
+    },
+    {
+      "path": "assets/fonts/Roboto/Roboto-BlackItalic.ttf",
+      "sha1": "03d6e3747d862385dbe48e8296385b9236101a62"
+    },
+    {
+      "path": "assets/fonts/Roboto/Roboto-Bold.ttf",
+      "sha1": "62442a18a9fe9457c1afeabf683d263a691b7798"
+    },
+    {
+      "path": "assets/fonts/Roboto/Roboto-BoldItalic.ttf",
+      "sha1": "2f10ad9e8cab0880182705c4e0fbaeabae706e64"
+    },
+    {
+      "path": "assets/fonts/Roboto/Roboto-Italic.ttf",
+      "sha1": "65f3f6a7e1bd2fa6f2df35e4b07775d7f1dde4f0"
+    },
+    {
+      "path": "assets/fonts/Roboto/Roboto-Light.ttf",
+      "sha1": "18788c5d630fa695f9283f6393bfa541b2031508"
+    },
+    {
+      "path": "assets/fonts/Roboto/Roboto-LightItalic.ttf",
+      "sha1": "6e01f9df9449565697032b002706a94b51862bbe"
+    },
+    {
+      "path": "assets/fonts/Roboto/Roboto-Medium.ttf",
+      "sha1": "3c6a09fcc6a454924c81af7dff94fc6d399ed79b"
+    },
+    {
+      "path": "assets/fonts/Roboto/Roboto-MediumItalic.ttf",
+      "sha1": "b3aa2d8f16d5a331fdced82f213a052b204eaca0"
+    },
+    {
+      "path": "assets/fonts/Roboto/Roboto-Regular.ttf",
+      "sha1": "56c5c0d38bde4c1f1549dda43db37b09c608aad3"
+    },
+    {
+      "path": "assets/fonts/Roboto/Roboto-Thin.ttf",
+      "sha1": "58c733e22bceeaf9609ce578eca92ac303c6d92f"
+    },
+    {
+      "path": "assets/fonts/Roboto/Roboto-ThinItalic.ttf",
+      "sha1": "cc79d5a23bd0ec08b1d99f5390bf33cacc3082f4"
+    },
+    {
+      "path": "assets/fonts/Shrikhand/Shrikhand-Regular.ttf",
+      "sha1": "ee1a2ca14244d2173f066edb18eb96b6faf4c09f"
+    }
+  ]
+}

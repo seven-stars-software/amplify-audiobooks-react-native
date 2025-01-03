@@ -38,18 +38,18 @@ const SplashLogo = () => {
 
             <Text style={{
                 fontSize: 48,
-                fontFamily: 'Shrikhand',
+                fontFamily: 'GlacialIndifference-Bold',
                 color: 'white',
                 width: 300,
                 textAlign: 'center',
             }}>AMPlify</Text>
             <Text style={{
-                fontSize: 30,
-                fontFamily: 'Shrikhand',
+                fontSize: 26,
+                fontFamily: 'GlacialIndifference-Bold',
                 color: 'white',
                 width: 300,
                 textAlign: 'center',
-                marginTop: -20,
+                marginTop: -10,
             }}>Audiobooks</Text>
         </View>
     )
