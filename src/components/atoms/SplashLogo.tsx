@@ -34,7 +34,7 @@ const SplashLogo = () => {
             <Image style={{
                 width: 120,
                 height: 100
-            }} source={require('@assets/images/black-and-white-logo.png')} />
+            }} source={require('@assets/images/logo-bw.png')} />
 
             <Text style={{
                 fontSize: 48,

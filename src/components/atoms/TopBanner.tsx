@@ -45,7 +45,7 @@ const TopBanner = () => {
                     <Image style={{
                         width: 40 * ratio,
                         height: 40,
-                    }} source={require('@assets/images/black-and-white-logo.png')} />
+                    }} source={require('@assets/images/logo-bw.png')} />
 
                     <Text style={{
                         fontSize: 24,

@@ -1,4 +1,4 @@
-import LogoImageSource from '@assets/images/black-and-white-logo.png'
+import LogoImageSource from '@assets/images/logo-bw.png'
 import styler from "styler/styler"
 import { Dimensions, StyleSheet, Text, View } from "react-native"
 import AnimatedBG from 'components/molecules/AnimatedBG'

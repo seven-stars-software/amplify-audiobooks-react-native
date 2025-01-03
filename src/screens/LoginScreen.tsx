@@ -1,4 +1,4 @@
-import LogoImageSource from '@assets/images/black-and-white-logo.png'
+import LogoImageSource from '@assets/images/logo-bw.png'
 import styler from "styler/styler"
 import { Dimensions, ScrollView, StyleSheet, View } from "react-native"
 import LoginForm from "components/molecules/LoginForm"
