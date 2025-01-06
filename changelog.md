@@ -1,8 +1,10 @@
-v2.0.1
+# v2.0.1
 - Fixed app name "AmplifyAudiobooks" => "AMPlify Audiobooks"
 - New font for in-app titles, "Glacial Indifference"
+- Fixed font color on Account Registration screen. Will now always be black regardless of light mode or dark mode on host platform
+- 
 
 
-v2.0
+# v2.0
 - Downloadable books
 - New app icon
