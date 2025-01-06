@@ -33,7 +33,7 @@ const BookTracks = ({ isbn }: Props) => {
     return (
         <View>
             {
-                loadingBooks ?
+                loadingTracks ?
                     (<ActivityIndicator animating={true} />)
                     :
                     tracksMinusSample.map((track, index) => {

@@ -3,6 +3,7 @@
 - New font for in-app titles, "Glacial Indifference"
 - Fixed font color on Account Registration screen
 - Fixed padding of logo in top banner on Settings screen
+- 
 
 
 # v2.0

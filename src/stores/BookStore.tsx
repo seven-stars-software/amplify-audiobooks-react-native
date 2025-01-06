@@ -43,7 +43,6 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
     useEffect(() => {
         if (authSeal !== null && !initialLoadCompleted) {
             loadBooks()
-            setInitialLoadCompleted(true)
         }
     }, [authSeal])
 
@@ -58,8 +57,8 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
 
                 const sampleBookISBN = Object.keys(booksFromStorage).find((isbn)=>{return booksFromStorage[isbn].purchased}) || ''
                 
-
                 setBooks(booksFromStorage, () => setLoading(false))
+                if(!initialLoadCompleted) setInitialLoadCompleted(true)
             } else {
                 console.log(`No books found in local storage`)
             }
@@ -96,6 +95,7 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
             saveToStorage(booksFromAPI)
             //Update state
             setBooks(booksFromAPI, ()=>setLoading(false))
+            if(!initialLoadCompleted) setInitialLoadCompleted(true)
         } finally {
             //Ensure loading is reset to false even in case of errors
             setLoading(false)
