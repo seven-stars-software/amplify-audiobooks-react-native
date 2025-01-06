@@ -104,7 +104,8 @@ const CoreTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
 
 const styles = StyleSheet.create({
     NowPlayingContainer: {
-        paddingTop: 5,
+        position: 'absolute',
+        top: '-100%',
         paddingHorizontal: 5,
     },
     TabsContainer: {

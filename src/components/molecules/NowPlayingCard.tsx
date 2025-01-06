@@ -70,9 +70,9 @@ const NowPlayingCard = () => {
 
 const styles = StyleSheet.create({
     CardSurface: {
-        height: 65,
+        
         borderRadius: 5,
-        marginBottom: 5,
+        
         justifyContent: 'space-between'
     },
     PressableContainer: {
@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     Progress: {
+        
     }
 })
 
