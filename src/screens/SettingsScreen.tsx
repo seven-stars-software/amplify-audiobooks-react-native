@@ -4,7 +4,8 @@ import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-naviga
 import AuthContext from "contexts/AuthContext";
 import { RootStackParams } from "navigators/RootNavigator";
 import { useContext, useEffect, useRef, useState } from "react";
-import { Animated, Linking, SafeAreaView, View } from "react-native"
+import { Animated, Linking, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { ActivityIndicator, Button, Divider, List, Modal, Portal, Text, useTheme } from "react-native-paper"
 import TopBanner, { TopBannerHeight } from 'components/atoms/TopBanner';
 import APIClient from 'APIClient';
