@@ -5,9 +5,8 @@ import TopBanner, { TopBannerHeight } from "components/atoms/TopBanner";
 import BooksSideScroll from "components/molecules/BooksSideScroll";
 import useStyles from "hooks/useStyles";
 import React, { useEffect, useState } from "react";
-import { Dimensions, Linking, ScrollView, View } from "react-native";
+import { Dimensions, Linking, ScrollView, View, SafeAreaView } from "react-native";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBookStore } from "stores/BookStore";
 import { Book } from "types/types";
 
@@ -24,11 +23,10 @@ type BooksByCategory = {
 
 const HomeScreen = () => {
     const styles = useStyles()
-    const insets = useSafeAreaInsets()
     const { loading, books, loadBooks } = useBookStore()
-    
+
     const [
-        {libraryList, featuredList, newReleaseList, onSaleList}, 
+        { libraryList, featuredList, newReleaseList, onSaleList },
         setBooksByCategory
     ] = useState<BooksByCategory>({
         libraryList: [],
@@ -38,18 +36,18 @@ const HomeScreen = () => {
     });
 
     //Sort books into categories when they load
-    useEffect(()=>{
+    useEffect(() => {
         const libraryList: Book[] = []
         const featuredList: Book[] = []
         const newReleaseList: Book[] = []
         const onSaleList: Book[] = []
-        Object.values(books).forEach((book: Book)=>{
-            if(book.purchased) libraryList.push(book)
-            else if(book.featured) featuredList.push(book)
-            else if(book.newRelease) newReleaseList.push(book)
-            else if(book.onSale) onSaleList.push(book)
+        Object.values(books).forEach((book: Book) => {
+            if (book.purchased) libraryList.push(book)
+            else if (book.featured) featuredList.push(book)
+            else if (book.newRelease) newReleaseList.push(book)
+            else if (book.onSale) onSaleList.push(book)
         })
-        setBooksByCategory({libraryList, featuredList, newReleaseList, onSaleList})
+        setBooksByCategory({ libraryList, featuredList, newReleaseList, onSaleList })
     }, [books])
 
     const openWebStore = () => {
@@ -63,53 +61,55 @@ const HomeScreen = () => {
                 loading ?
                     <LoadingPlaceholder />
                     :
-                    <ScrollView 
-                    style={{ paddingTop: insets.top + TopBannerHeight }}
-                    showsVerticalScrollIndicator={false}
-                    >
-                        {
-                            libraryList.length > 0 ?
-                                (
-                                    <ListContainer>
-                                        <SectionTitle>My Library</SectionTitle>
-                                        <BooksSideScroll
-                                            books={libraryList}
-                                            booksAreInLibrary={true}
-                                        />
-                                    </ListContainer>
-                                )
-                                : null
-                        }
-                        <Button 
-                            mode="contained"
-                            onPress={openWebStore}
-                            style={{
-                                marginHorizontal: 40,
-                                marginVertical: 20
-                            }}
+                    <SafeAreaView>
+                        <ScrollView
+                            style={{ paddingTop: TopBannerHeight + 20 }}
+                            showsVerticalScrollIndicator={false}
                         >
-                            Browse Web Catalog
-                        </Button>
-                        <ListContainer>
-                            <SectionTitle>New Releases</SectionTitle>
-                            <BooksSideScroll
-                                books={newReleaseList}
-                            />
-                        </ListContainer>
-                        <ListContainer>
-                            <SectionTitle>Featured</SectionTitle>
-                            <BooksSideScroll
-                                books={featuredList}
-                            />
-                        </ListContainer>
-                        <ListContainer>
-                            <SectionTitle>On Sale</SectionTitle>
-                            <BooksSideScroll
-                                books={onSaleList}
-                            />
-                        </ListContainer>
-                        <View style={{ marginBottom: 200 }}></View>
-                    </ScrollView>
+                            {
+                                libraryList.length > 0 ?
+                                    (
+                                        <ListContainer>
+                                            <SectionTitle>My Library</SectionTitle>
+                                            <BooksSideScroll
+                                                books={libraryList}
+                                                booksAreInLibrary={true}
+                                            />
+                                        </ListContainer>
+                                    )
+                                    : null
+                            }
+                            <Button
+                                mode="contained"
+                                onPress={openWebStore}
+                                style={{
+                                    marginHorizontal: 40,
+                                    marginVertical: 20
+                                }}
+                            >
+                                Browse Web Catalog
+                            </Button>
+                            <ListContainer>
+                                <SectionTitle>New Releases</SectionTitle>
+                                <BooksSideScroll
+                                    books={newReleaseList}
+                                />
+                            </ListContainer>
+                            <ListContainer>
+                                <SectionTitle>Featured</SectionTitle>
+                                <BooksSideScroll
+                                    books={featuredList}
+                                />
+                            </ListContainer>
+                            <ListContainer>
+                                <SectionTitle>On Sale</SectionTitle>
+                                <BooksSideScroll
+                                    books={onSaleList}
+                                />
+                            </ListContainer>
+                            <View style={{ marginBottom: 200 }}></View>
+                        </ScrollView>
+                    </SafeAreaView>
             }
 
         </View>

@@ -40,7 +40,6 @@ const BookList = ({ items, onRefresh, header }: BookListProps) => {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
                 paddingHorizontal: 20,
-                paddingTop: TopBannerHeight,
                 paddingBottom: 20
             }}
         />

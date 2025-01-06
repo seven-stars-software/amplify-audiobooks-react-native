@@ -4,8 +4,7 @@ import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-naviga
 import AuthContext from "contexts/AuthContext";
 import { RootStackParams } from "navigators/RootNavigator";
 import { useContext, useEffect, useRef, useState } from "react";
-import { Animated, Linking, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Animated, Linking, View, SafeAreaView } from "react-native";
 import { ActivityIndicator, Button, Divider, List, Modal, Portal, Text, useTheme } from "react-native-paper"
 import TopBanner, { TopBannerHeight } from 'components/atoms/TopBanner';
 import APIClient from 'APIClient';
@@ -102,9 +101,10 @@ const SettingsScreen = ({ navigation }: Props) => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+        <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
             <TopBanner />
-            <View style={{ paddingHorizontal: 20, paddingTop: TopBannerHeight }}>
+            <SafeAreaView>
+            <View style={{ paddingHorizontal: 20, paddingTop: TopBannerHeight + 20 }}>
                 <Text variant='headlineMedium'>Settings</Text>
                 <List.Section>
                     <List.Item title="Report a Bug" onPress={openBugReport} right={ArrowIcon} />
@@ -192,7 +192,8 @@ const SettingsScreen = ({ navigation }: Props) => {
                     </Button>
                 </Modal>
             </Portal>
-        </SafeAreaView>
+            </SafeAreaView>
+        </View>
     )
 }
 
