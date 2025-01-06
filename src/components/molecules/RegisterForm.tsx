@@ -198,7 +198,7 @@ const makeStyles = (paperTheme: MD3Theme) => {
             borderTopStartRadius: 20,
             justifyContent: "space-between",
             backgroundColor: "white",
-            color: paperTheme.colors.onPrimary,
+            color: 'black',
             alignItems: "center",
             flexDirection: "row",
             fontSize: width / 20,
