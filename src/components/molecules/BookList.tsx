@@ -2,7 +2,7 @@ import BookCard from "components/atoms/BookCard";
 import CatalogLinkListItem from "components/atoms/CatalogLinkListItem";
 import { TopBannerHeight } from "components/atoms/TopBanner";
 import { ReactNode, ReactPropTypes, useState } from "react";
-import { Dimensions, FlatList, StyleSheet, View } from "react-native";
+import { Dimensions, FlatList, RefreshControl, StyleSheet, View } from "react-native";
 import { MD3Theme, Text, useTheme } from "react-native-paper";
 import { Book } from "types/types";
 
@@ -34,8 +34,15 @@ const BookList = ({ items, onRefresh, header }: BookListProps) => {
             ListEmptyComponent={<Text style={styles.EmptyText} variant='bodyLarge'>Looks like you don't have any books yet!</Text>}
             ListFooterComponent={<CatalogLinkListItem />}
             ListHeaderComponent={header}
-            onRefresh={handleRefresh}
-            refreshing={refreshing} 
+            refreshControl={
+                <RefreshControl 
+                refreshing={refreshing} 
+                onRefresh={handleRefresh} 
+                title="Reload"
+                tintColor={theme.colors.primary}
+                titleColor={"black"}
+                />
+            }
             progressViewOffset={TopBannerHeight}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{

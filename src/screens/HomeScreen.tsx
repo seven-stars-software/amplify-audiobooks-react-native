@@ -73,6 +73,15 @@ const HomeScreen = () => {
                     <SafeAreaView>
                         <ScrollView
                             showsVerticalScrollIndicator={false}
+                            refreshControl={
+                                <RefreshControl 
+                                refreshing={refreshing} 
+                                onRefresh={onRefresh} 
+                                title="Reload"
+                                tintColor={theme.colors.primary}
+                                titleColor={"black"}
+                                />
+                            }
                         >
                             {
                                 libraryList.length > 0 ?
