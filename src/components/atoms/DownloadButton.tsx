@@ -61,7 +61,7 @@ const DownloadBookButton = ({ book, size = 24 }: Props) => {
         >
             {
                 allTracksDownloaded ?
-                    <Icon name="arrow-down-circle" size={size} color={buttonColor} />
+                    <Icon name="checkmark-circle" size={size} color={buttonColor} />
                     : <Icon name="arrow-down-circle-outline" size={size} color={buttonColor} />
             }
             {

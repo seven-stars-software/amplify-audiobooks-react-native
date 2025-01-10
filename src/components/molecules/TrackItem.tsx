@@ -16,7 +16,7 @@ const DownloadStatus = ({ track }: DownloadStatusProps) => {
     const size = 24;
 
     if (track.downloadStatus === 'downloaded') {
-        return <Icon name="arrow-down-circle" size={size} color={theme.colors.primary} />
+        return <Icon name="checkmark-circle" size={size} color={theme.colors.primary} />
     } else if (track.downloadStatus === 'downloading') {
         return (
             <View>

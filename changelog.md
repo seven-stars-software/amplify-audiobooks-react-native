@@ -7,6 +7,7 @@
 - Fixed hidden progress bar on Now Playing preview card
 - Added scroll-down to refresh to Home Screen
 - Disable gesture-based navigation
+- Change downloaded icon to checkmark
 
 
 # v2.0
