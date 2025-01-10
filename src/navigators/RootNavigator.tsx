@@ -22,7 +22,7 @@ const RootStack = createNativeStackNavigator<RootStackParams>();
 
 const RootNavigator = () => {
     return (
-        <RootStack.Navigator>
+        <RootStack.Navigator screenOptions={{gestureEnabled: false}}>
             <RootStack.Screen
                 name="Splash"
                 component={SplashScreen}
