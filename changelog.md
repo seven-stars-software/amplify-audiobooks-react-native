@@ -6,6 +6,7 @@
 - Fixed loading spinner for track 
 - Fixed hidden progress bar on Now Playing preview card
 - Added scroll-down to refresh to Home Screen
+- Disable gesture-based navigation
 
 
 # v2.0
