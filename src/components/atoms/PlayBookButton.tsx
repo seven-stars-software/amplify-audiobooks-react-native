@@ -7,6 +7,9 @@ import { Dimensions, Pressable } from 'react-native';
 import { ActivityIndicator, useTheme } from 'react-native-paper';
 import TrackPlayer, { State as PlayerState, usePlaybackState,} from 'react-native-track-player';
 import { Book } from 'types/types';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParams } from 'navigators/RootNavigator';
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -19,6 +22,11 @@ const PlayBookButton = ({ book, size = 24 }: Props) => {
     const theme = useTheme();
     const {nowPlaying, playBook} = useContext(PlaybackContext);
     const {loading, tracks} = useTracksCache(book)
+    
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>();
+    const goToNowPlaying = () => {
+        navigation.navigate('NowPlaying')
+    }
 
     const [buttonColor, setButtonColor] = useState(theme.colors.primary);
 
@@ -60,6 +68,7 @@ const PlayBookButton = ({ book, size = 24 }: Props) => {
             setPlayOnLoad(true)
         } else {
             togglePlay()
+            
         }
     }
 

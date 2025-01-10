@@ -49,7 +49,7 @@ const NowPlayingCard = () => {
 
                 <View style={styles.Details}>
                     <Text numberOfLines={1} style={styles.TrackName}>{currentTrack?.title}</Text>
-                    <Text numberOfLines={1} style={styles.Book}>{currentTrack?.album}</Text>
+                    <Text numberOfLines={1} style={styles.Book}>{nowPlaying?.name}</Text>
                 </View>
 
                 <View style={styles.Controls}>
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     Details: {
         flex: 3,
         marginLeft: 10,
-        justifyContent: 'space-between'
+        justifyContent: 'center'
     },
     TrackName: {
         fontSize: width / 30,

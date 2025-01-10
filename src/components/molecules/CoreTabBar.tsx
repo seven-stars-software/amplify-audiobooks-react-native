@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
     NowPlayingContainer: {
         position: 'absolute',
         top: '-100%',
+        width: "100%",
         paddingHorizontal: 5,
     },
     TabsContainer: {
