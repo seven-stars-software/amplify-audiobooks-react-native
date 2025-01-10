@@ -1,4 +1,4 @@
-import TopBanner, { TopBannerHeight } from "components/atoms/TopBanner";
+import TopBanner from "components/atoms/TopBanner";
 import Library from "components/molecules/Library"
 import useStyles from "hooks/useStyles";
 import { Dimensions, View, SafeAreaView } from "react-native"

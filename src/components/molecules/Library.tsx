@@ -11,7 +11,6 @@ import BookList from "./BookList";
 import { Cache } from "caches/GenericCache";
 import { Book } from "types/types";
 import { useBookStore } from "stores/BookStore";
-import { TopBannerHeight } from "components/atoms/TopBanner";
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -24,7 +23,6 @@ const Library = () => {
         <SafeAreaView>
             <View style={{
             height: '100%',
-            paddingTop: TopBannerHeight + 20,
         }}>
             {
                 loading ?

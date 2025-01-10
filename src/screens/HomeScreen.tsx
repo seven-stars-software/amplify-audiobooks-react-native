@@ -1,13 +1,14 @@
 import URLS from "URLs";
 import { cacheToList } from "caches/CacheUtils";
 import useHomeCache from "caches/HomeCache";
-import TopBanner, { TopBannerHeight } from "components/atoms/TopBanner";
+import TopBanner from "components/atoms/TopBanner";
 import BooksSideScroll from "components/molecules/BooksSideScroll";
 import useStyles from "hooks/useStyles";
 import React, { useEffect, useState } from "react";
-import { Dimensions, Linking, ScrollView, View, SafeAreaView } from "react-native";
-import { ActivityIndicator, Button, Text } from "react-native-paper";
+import { Dimensions, Linking, ScrollView, View, SafeAreaView, RefreshControl } from "react-native";
+import { ActivityIndicator, Button, Text, useTheme } from "react-native-paper";
 import { useBookStore } from "stores/BookStore";
+import theme from "styler/theme";
 import { Book } from "types/types";
 
 
@@ -23,7 +24,9 @@ type BooksByCategory = {
 
 const HomeScreen = () => {
     const styles = useStyles()
+    const theme = useTheme()
     const { loading, books, loadBooks } = useBookStore()
+    const [refreshing, setRefreshing] = useState(false);
 
     const [
         { libraryList, featuredList, newReleaseList, onSaleList },
@@ -53,6 +56,12 @@ const HomeScreen = () => {
     const openWebStore = () => {
         Linking.openURL(URLS.CatalogURL);
     }
+    
+    const onRefresh = async () => {
+        setRefreshing(true)
+        await loadBooks()
+        setRefreshing(false)
+    }
 
     return (
         <View style={{ flex: 1, ...styles.BGColor }}>
@@ -63,7 +72,6 @@ const HomeScreen = () => {
                     :
                     <SafeAreaView>
                         <ScrollView
-                            style={{ paddingTop: TopBannerHeight + 20 }}
                             showsVerticalScrollIndicator={false}
                         >
                             {

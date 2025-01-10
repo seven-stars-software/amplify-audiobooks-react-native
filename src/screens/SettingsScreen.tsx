@@ -6,7 +6,7 @@ import { RootStackParams } from "navigators/RootNavigator";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Animated, Linking, View, SafeAreaView } from "react-native";
 import { ActivityIndicator, Button, Divider, List, Modal, Portal, Text, useTheme } from "react-native-paper"
-import TopBanner, { TopBannerHeight } from 'components/atoms/TopBanner';
+import TopBanner from 'components/atoms/TopBanner';
 import APIClient from 'APIClient';
 import UserContext from 'contexts/UserContext';
 import useHomeCache from 'caches/HomeCache';
@@ -104,7 +104,7 @@ const SettingsScreen = ({ navigation }: Props) => {
         <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
             <TopBanner />
             <SafeAreaView>
-            <View style={{ paddingHorizontal: 20, paddingTop: TopBannerHeight + 20 }}>
+            <View style={{ paddingHorizontal: 20 }}>
                 <Text variant='headlineMedium'>Settings</Text>
                 <List.Section>
                     <List.Item title="Report a Bug" onPress={openBugReport} right={ArrowIcon} />
