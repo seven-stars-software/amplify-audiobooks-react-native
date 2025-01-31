@@ -11,7 +11,8 @@ const theme = {
         violet: "#b200ff",
         deepBlue: "#2c00ff",
         cyan: "#00eaff",
-        background: "#e6e0fa",
+        background: "#efeaff",
+        defaultBackground: DefaultTheme.colors.background
     },
 };
 

@@ -14,6 +14,8 @@ import usePlaybackProgress from "hooks/usePlaybackProgress";
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
 
+export const nowPlayingCardHeight = 80;
+
 const NowPlayingCard = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>();
     const theme = useTheme();
@@ -70,10 +72,9 @@ const NowPlayingCard = () => {
 
 const styles = StyleSheet.create({
     CardSurface: {
-        
+        height: nowPlayingCardHeight,
         borderRadius: 5,
-        
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     PressableContainer: {
         padding: 10,

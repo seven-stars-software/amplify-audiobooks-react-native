@@ -4,6 +4,8 @@ import { View } from 'react-native';
 import TopBanner, { topBannerHeight } from './TopBanner';
 import useStyles from 'hooks/useStyles';
 import { useTheme } from 'react-native-paper';
+import { nowPlayingCardHeight } from 'components/molecules/NowPlayingCard';
+import { tabBarHeight } from 'components/molecules/CoreTabBar';
 
 export type Props = {
     children: ReactNode
@@ -12,18 +14,14 @@ export type Props = {
 const MainScreenContainer = ({ children }: Props) => {
     const styles = useStyles();
     const theme = useTheme();
-    const bottomTabBarHeight = useBottomTabBarHeight();
     return (
         <View style={{
             height: '100%',
             width: '100%',
-
-            marginBottom: bottomTabBarHeight,
             backgroundColor: theme.colors.background
         }}>
             <TopBanner />
             {children}
-
         </View>
     )
 }

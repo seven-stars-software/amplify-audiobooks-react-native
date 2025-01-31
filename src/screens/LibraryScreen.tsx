@@ -1,6 +1,7 @@
 import MainScreenContainer from "components/atoms/MainScreenContainer";
 import { topBannerHeight } from "components/atoms/TopBanner";
 import BookList from "components/molecules/BookList";
+import { tabBarHeight } from "components/molecules/CoreTabBar";
 
 import { ActivityIndicator, Text } from "react-native-paper";
 import { useBookStore } from "stores/BookStore";

@@ -1,6 +1,7 @@
 # v2.0.2
 - Splash screen font is now Glacial Indifference Bold. Bug with iOS font usage resolved.
-- Visual fixes: top banner scroll-under content, section headers, background color
+- Visual fixes: top banner scroll-under content, tab bar matches top banner, various color and font tweaks
+- 
 
 # v2.0.1
 - Fixed app name "AmplifyAudiobooks" => "AMPlify Audiobooks"

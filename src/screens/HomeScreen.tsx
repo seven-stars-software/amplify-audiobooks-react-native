@@ -4,6 +4,7 @@ import useHomeCache from "caches/HomeCache";
 import MainScreenContainer from "components/atoms/MainScreenContainer";
 import TopBanner, { topBannerHeight } from "components/atoms/TopBanner";
 import BooksSideScroll from "components/molecules/BooksSideScroll";
+import { tabBarHeight } from "components/molecules/CoreTabBar";
 import useStyles from "hooks/useStyles";
 import React, { useEffect, useState } from "react";
 import { Dimensions, Linking, ScrollView, View, SafeAreaView, RefreshControl } from "react-native";
@@ -66,7 +67,6 @@ const HomeScreen = () => {
 
     return (
         <MainScreenContainer>
-
             {
                 loading ?
                     <LoadingPlaceholder />
@@ -126,10 +126,9 @@ const HomeScreen = () => {
                                 books={onSaleList}
                             />
                         </ListContainer>
+                        <ListContainer style={{ height: tabBarHeight + 20 }} />
                     </ScrollView>
-
             }
-
         </MainScreenContainer>
     )
 }

@@ -22,7 +22,9 @@ const CoreTabsNavigator = () => {
                     navigation={navigation}
                     insets={insets} />
             }}
-            screenOptions={{ headerShown: false }}
+            screenOptions={{
+                headerShown: false,
+            }}
             backBehavior='history'
         >
             <Tab.Screen
