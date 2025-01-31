@@ -12,6 +12,7 @@ import RootNavigator from 'navigators/RootNavigator';
 import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BookStoreProvider } from 'stores/BookStore';
+import theme from 'styler/theme';
 
 const App = () => {
 
@@ -34,7 +35,7 @@ const App = () => {
 
               <UserContextProvider>
                 <PlaybackContextProvider>
-                  <PaperProvider>
+                  <PaperProvider theme={theme}>
                     <GestureHandlerRootView style={{ flex: 1 }}>
                       <RootNavigator />
                     </GestureHandlerRootView>

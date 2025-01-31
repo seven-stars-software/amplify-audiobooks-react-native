@@ -1,7 +1,8 @@
 import URLS from "URLs";
 import { cacheToList } from "caches/CacheUtils";
 import useHomeCache from "caches/HomeCache";
-import TopBanner from "components/atoms/TopBanner";
+import MainScreenContainer from "components/atoms/MainScreenContainer";
+import TopBanner, { topBannerHeight } from "components/atoms/TopBanner";
 import BooksSideScroll from "components/molecules/BooksSideScroll";
 import useStyles from "hooks/useStyles";
 import React, { useEffect, useState } from "react";
@@ -56,7 +57,7 @@ const HomeScreen = () => {
     const openWebStore = () => {
         Linking.openURL(URLS.CatalogURL);
     }
-    
+
     const onRefresh = async () => {
         setRefreshing(true)
         await loadBooks()
@@ -64,72 +65,72 @@ const HomeScreen = () => {
     }
 
     return (
-        <View style={{ flex: 1, ...styles.BGColor }}>
-            <TopBanner />
+        <MainScreenContainer>
+
             {
                 loading ?
                     <LoadingPlaceholder />
                     :
-                    <SafeAreaView>
-                        <ScrollView
-                            showsVerticalScrollIndicator={false}
-                            refreshControl={
-                                <RefreshControl 
-                                refreshing={refreshing} 
-                                onRefresh={onRefresh} 
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
                                 title="Reload"
                                 tintColor={theme.colors.primary}
                                 titleColor={"black"}
-                                />
-                            }
+                                progressViewOffset={topBannerHeight}
+                            />
+                        }
+                    >
+                        <ListContainer style={{ height: topBannerHeight + 20 }} />
+                        {
+                            libraryList.length > 0 ?
+                                (
+                                    <ListContainer>
+                                        <SectionTitle>Library</SectionTitle>
+                                        <BooksSideScroll
+                                            books={libraryList}
+                                            booksAreInLibrary={true}
+                                        />
+                                    </ListContainer>
+                                )
+                                : null
+                        }
+                        <Button
+                            mode="contained"
+                            onPress={openWebStore}
+                            style={{
+                                marginHorizontal: 40,
+                                marginVertical: 20
+                            }}
                         >
-                            {
-                                libraryList.length > 0 ?
-                                    (
-                                        <ListContainer>
-                                            <SectionTitle>My Library</SectionTitle>
-                                            <BooksSideScroll
-                                                books={libraryList}
-                                                booksAreInLibrary={true}
-                                            />
-                                        </ListContainer>
-                                    )
-                                    : null
-                            }
-                            <Button
-                                mode="contained"
-                                onPress={openWebStore}
-                                style={{
-                                    marginHorizontal: 40,
-                                    marginVertical: 20
-                                }}
-                            >
-                                Browse Web Catalog
-                            </Button>
-                            <ListContainer>
-                                <SectionTitle>New Releases</SectionTitle>
-                                <BooksSideScroll
-                                    books={newReleaseList}
-                                />
-                            </ListContainer>
-                            <ListContainer>
-                                <SectionTitle>Featured</SectionTitle>
-                                <BooksSideScroll
-                                    books={featuredList}
-                                />
-                            </ListContainer>
-                            <ListContainer>
-                                <SectionTitle>On Sale</SectionTitle>
-                                <BooksSideScroll
-                                    books={onSaleList}
-                                />
-                            </ListContainer>
-                            <View style={{ marginBottom: 200 }}></View>
-                        </ScrollView>
-                    </SafeAreaView>
+                            Browse Web Catalog
+                        </Button>
+                        <ListContainer>
+                            <SectionTitle>New Releases</SectionTitle>
+                            <BooksSideScroll
+                                books={newReleaseList}
+                            />
+                        </ListContainer>
+                        <ListContainer>
+                            <SectionTitle>Featured</SectionTitle>
+                            <BooksSideScroll
+                                books={featuredList}
+                            />
+                        </ListContainer>
+                        <ListContainer>
+                            <SectionTitle>On Sale</SectionTitle>
+                            <BooksSideScroll
+                                books={onSaleList}
+                            />
+                        </ListContainer>
+                    </ScrollView>
+
             }
 
-        </View>
+        </MainScreenContainer>
     )
 }
 
@@ -143,7 +144,11 @@ const LoadingPlaceholder = () => {
 
 const SectionTitle = ({ children }: { children: React.ComponentProps<typeof Text>['children'] }) => {
     return (
-        <Text style={{ marginBottom: 10, paddingHorizontal: 20 }} variant="headlineMedium">{children}</Text>
+        <Text style={{
+            marginBottom: 10,
+            paddingHorizontal: 20,
+            fontWeight: "900"
+        }} variant="headlineMedium">{children}</Text>
     )
 }
 

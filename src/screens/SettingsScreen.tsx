@@ -6,10 +6,11 @@ import { RootStackParams } from "navigators/RootNavigator";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Animated, Linking, View, SafeAreaView } from "react-native";
 import { ActivityIndicator, Button, Divider, List, Modal, Portal, Text, useTheme } from "react-native-paper"
-import TopBanner from 'components/atoms/TopBanner';
+import TopBanner, { topBannerHeight } from 'components/atoms/TopBanner';
 import APIClient from 'APIClient';
 import UserContext from 'contexts/UserContext';
 import useHomeCache from 'caches/HomeCache';
+import MainScreenContainer from 'components/atoms/MainScreenContainer';
 
 const BugReportFormURL = 'https://form.asana.com/?k=aL3z-9pBJ-WVl37kGN9CkQ&d=234782228840442'
 const PrivacyPolicyURL = 'https://proaudiovoices.com/privacy-policy/'
@@ -27,7 +28,7 @@ const SettingsScreen = ({ navigation }: Props) => {
     const theme = useTheme()
     const [user, setUser] = useContext(UserContext)
     const [authSeal, setAuthSeal, deleteAuthSeal] = useContext(AuthContext)
-    const {clear: clearHomeCaches} = useHomeCache();
+    const { clear: clearHomeCaches } = useHomeCache();
     const [loggingOut, setLoggingOut] = useState(false)
     const [modalVisible, setModalVisible] = useState(false)
     const [deleteLoading, setDeleteLoading] = useState(false)
@@ -76,12 +77,10 @@ const SettingsScreen = ({ navigation }: Props) => {
 
     const startAccountDeletion = async () => {
         setDeleteLoading(true)
-        await APIClient.deleteAccount({userID: user?.wpUser?.id})
+        await APIClient.deleteAccount({ userID: user?.wpUser?.id })
         setDeleteLoading(false)
         setAccountDeleted(true)
     }
-
-
 
     const handleLogout = async () => {
         await logout()
@@ -101,11 +100,11 @@ const SettingsScreen = ({ navigation }: Props) => {
     }
 
     return (
-        <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-            <TopBanner />
-            <SafeAreaView>
-            <View style={{ paddingHorizontal: 20 }}>
-                <Text variant='headlineMedium'>Settings</Text>
+        <MainScreenContainer>
+            <View style={{ paddingHorizontal: 20, paddingTop: topBannerHeight + 20 }}>
+                <Text style={{
+                    fontWeight: "900"
+                }} variant="headlineMedium">Settings</Text>
                 <List.Section>
                     <List.Item title="Report a Bug" onPress={openBugReport} right={ArrowIcon} />
                     <Divider />
@@ -192,8 +191,7 @@ const SettingsScreen = ({ navigation }: Props) => {
                     </Button>
                 </Modal>
             </Portal>
-            </SafeAreaView>
-        </View>
+        </MainScreenContainer>
     )
 }
 

@@ -13,14 +13,12 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1658EAEFC25E46FFA7FA401E /* GlacialIndifference-Regular.woff in Resources */ = {isa = PBXBuildFile; fileRef = CD1A1E35429D4AE5A5D7FFD2 /* GlacialIndifference-Regular.woff */; };
 		17A753EC534A4A17A5E972D1 /* GlacialIndifference-Bold.woff in Resources */ = {isa = PBXBuildFile; fileRef = 02C42A101D0C4AC696472314 /* GlacialIndifference-Bold.woff */; };
 		17CAC14E794A4BA683C89748 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C0DAAD2101CF48A4A3E952C6 /* Roboto-Bold.ttf */; };
 		185FAC60087046EA9FCA639C /* Shrikhand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 648AB7BA3BF041179CAD6F68 /* Shrikhand-Regular.ttf */; };
 		2703EFF2FE474F0F91FC8A64 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03FFCF20EFD141B3BB4B4681 /* Roboto-Thin.ttf */; };
 		38807E1CCDE047D0884CD8D3 /* GlacialIndifference-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B3DD4A2FD264974BCA4FA42 /* GlacialIndifference-Bold.ttf */; };
 		3D59DC5B1DA543509164C277 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2155F344E8490EA7B2B309 /* Roboto-Medium.ttf */; };
-		4607BB4E26FD4CCBA0FAD448 /* GlacialIndifference-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F40B7E91070475D8041B9DF /* GlacialIndifference-Regular.ttf */; };
 		50AE3CA440D64C8F889B1FA6 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBEFCD5FB7734A4B8A7C011A /* Roboto-Black.ttf */; };
 		5A18B5C94F9749DDB91607A5 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5521ED951BA14AE88D0A850E /* Roboto-Light.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-AmplifyAudiobooks-AmplifyAudiobooksTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-AmplifyAudiobooks-AmplifyAudiobooksTests.a */; };
@@ -45,14 +43,12 @@
 		9865E6EE2BB24A4A004F6D25 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9865E6DC2BB24A4A004F6D25 /* Roboto-ThinItalic.ttf */; };
 		9865E6F02BB24A4A004F6D25 /* Shrikhand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9865E6DF2BB24A4A004F6D25 /* Shrikhand-Regular.ttf */; };
 		9D8CDAE2691D4965B1ED626D /* Roboto-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 24945DF6A0A043DF936634CE /* Roboto-MediumItalic.ttf */; };
-		A42623A5D1D04388A830AD1F /* GlacialIndifference-Regular.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = FB8CB92EB4834FA39C86C10D /* GlacialIndifference-Regular.woff2 */; };
 		B0CD17B70ED340C8819CF7D5 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FEC9EACBA7BA47C68C21058B /* Roboto-BlackItalic.ttf */; };
 		B2993FFE23FB40D7AC24FFDA /* GlacialIndifference-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 34F9700ACC2843E2A1D4E31C /* GlacialIndifference-Bold.otf */; };
 		B6C0928AAA6942AEADA76308 /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6DEC7A5B70A4EC8A0BBEF1C /* Roboto-BoldItalic.ttf */; };
 		CF9ADF36AD1BA006DC8407F9 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCACD0A71B32ACCE02EFD555 /* ExpoModulesProvider.swift */; };
 		DCA159C0D520416C9432C48B /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 314DA436E30F4B4CB0074788 /* LICENSE.txt */; };
 		E2C227D4A193434F84790DDB /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 797C5CDC110D4066B5947CCD /* Roboto-LightItalic.ttf */; };
-		FC81BDDE5FE04404B0FBF560 /* GlacialIndifference-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 443E97A95D934E4CAF2121FE /* GlacialIndifference-Regular.otf */; };
 		FDDD9BAE297C431D85F31C7B /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D02DC2E74444EBAB6CF40F6 /* Roboto-ThinItalic.ttf */; };
 /* End PBXBuildFile section */
 
@@ -70,8 +66,8 @@
 		00E356EE1AD99517003FC87E /* AmplifyAudiobooksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AmplifyAudiobooksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* AmplifyAudiobooksTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AmplifyAudiobooksTests.m; sourceTree = "<group>"; };
-		02C42A101D0C4AC696472314 /* GlacialIndifference-Bold.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GlacialIndifference-Bold.woff"; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference-Bold.woff"; sourceTree = "<group>"; };
-		03FFCF20EFD141B3BB4B4681 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Thin.ttf"; path = "../assets/fonts/Roboto/Roboto-Thin.ttf"; sourceTree = "<group>"; };
+		02C42A101D0C4AC696472314 /* GlacialIndifference-Bold.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GlacialIndifference-Bold.woff"; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference-Bold.woff"; sourceTree = "<group>"; };
+		03FFCF20EFD141B3BB4B4681 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Thin.ttf"; path = "../assets/fonts/Roboto/Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* AmplifyAudiobooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmplifyAudiobooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = AmplifyAudiobooks/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = AmplifyAudiobooks/AppDelegate.mm; sourceTree = "<group>"; };
@@ -79,24 +75,22 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = AmplifyAudiobooks/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = AmplifyAudiobooks/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-AmplifyAudiobooks-AmplifyAudiobooksTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AmplifyAudiobooks-AmplifyAudiobooksTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1F2155F344E8490EA7B2B309 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../assets/fonts/Roboto/Roboto-Medium.ttf"; sourceTree = "<group>"; };
-		1F40B7E91070475D8041B9DF /* GlacialIndifference-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GlacialIndifference-Regular.ttf"; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference-Regular.ttf"; sourceTree = "<group>"; };
-		2016D9686D424D91B9F90C6A /* GlacialIndifference-Bold.woff2 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GlacialIndifference-Bold.woff2"; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference-Bold.woff2"; sourceTree = "<group>"; };
-		24945DF6A0A043DF936634CE /* Roboto-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-MediumItalic.ttf"; path = "../assets/fonts/Roboto/Roboto-MediumItalic.ttf"; sourceTree = "<group>"; };
-		314DA436E30F4B4CB0074788 /* LICENSE.txt */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = LICENSE.txt; path = ../assets/fonts/Roboto/LICENSE.txt; sourceTree = "<group>"; };
-		34F9700ACC2843E2A1D4E31C /* GlacialIndifference-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GlacialIndifference-Bold.otf"; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference-Bold.otf"; sourceTree = "<group>"; };
+		1F2155F344E8490EA7B2B309 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../assets/fonts/Roboto/Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		2016D9686D424D91B9F90C6A /* GlacialIndifference-Bold.woff2 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GlacialIndifference-Bold.woff2"; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference-Bold.woff2"; sourceTree = "<group>"; };
+		24945DF6A0A043DF936634CE /* Roboto-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-MediumItalic.ttf"; path = "../assets/fonts/Roboto/Roboto-MediumItalic.ttf"; sourceTree = "<group>"; };
+		314DA436E30F4B4CB0074788 /* LICENSE.txt */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = LICENSE.txt; path = ../assets/fonts/Roboto/LICENSE.txt; sourceTree = "<group>"; };
+		34F9700ACC2843E2A1D4E31C /* GlacialIndifference-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GlacialIndifference-Bold.otf"; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference-Bold.otf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-AmplifyAudiobooks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmplifyAudiobooks.debug.xcconfig"; path = "Target Support Files/Pods-AmplifyAudiobooks/Pods-AmplifyAudiobooks.debug.xcconfig"; sourceTree = "<group>"; };
-		436F5B8340994FC7A36132E3 /* GlacialIndifference_Specimen.html */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = GlacialIndifference_Specimen.html; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference_Specimen.html"; sourceTree = "<group>"; };
-		443E97A95D934E4CAF2121FE /* GlacialIndifference-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GlacialIndifference-Regular.otf"; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference-Regular.otf"; sourceTree = "<group>"; };
-		4B3DD4A2FD264974BCA4FA42 /* GlacialIndifference-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GlacialIndifference-Bold.ttf"; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference-Bold.ttf"; sourceTree = "<group>"; };
-		5521ED951BA14AE88D0A850E /* Roboto-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Light.ttf"; path = "../assets/fonts/Roboto/Roboto-Light.ttf"; sourceTree = "<group>"; };
+		436F5B8340994FC7A36132E3 /* GlacialIndifference_Specimen.html */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = GlacialIndifference_Specimen.html; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference_Specimen.html"; sourceTree = "<group>"; };
+		4B3DD4A2FD264974BCA4FA42 /* GlacialIndifference-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GlacialIndifference-Bold.ttf"; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference-Bold.ttf"; sourceTree = "<group>"; };
+		5521ED951BA14AE88D0A850E /* Roboto-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Light.ttf"; path = "../assets/fonts/Roboto/Roboto-Light.ttf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-AmplifyAudiobooks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmplifyAudiobooks.release.xcconfig"; path = "Target Support Files/Pods-AmplifyAudiobooks/Pods-AmplifyAudiobooks.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-AmplifyAudiobooks-AmplifyAudiobooksTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmplifyAudiobooks-AmplifyAudiobooksTests.debug.xcconfig"; path = "Target Support Files/Pods-AmplifyAudiobooks-AmplifyAudiobooksTests/Pods-AmplifyAudiobooks-AmplifyAudiobooksTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-AmplifyAudiobooks.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AmplifyAudiobooks.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		648AB7BA3BF041179CAD6F68 /* Shrikhand-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Shrikhand-Regular.ttf"; path = "../assets/fonts/Shrikhand/Shrikhand-Regular.ttf"; sourceTree = "<group>"; };
-		797C5CDC110D4066B5947CCD /* Roboto-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-LightItalic.ttf"; path = "../assets/fonts/Roboto/Roboto-LightItalic.ttf"; sourceTree = "<group>"; };
-		7D02DC2E74444EBAB6CF40F6 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-ThinItalic.ttf"; path = "../assets/fonts/Roboto/Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
-		7F11B3D1FB004C30B0B4C902 /* Roboto-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Italic.ttf"; path = "../assets/fonts/Roboto/Roboto-Italic.ttf"; sourceTree = "<group>"; };
+		648AB7BA3BF041179CAD6F68 /* Shrikhand-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Shrikhand-Regular.ttf"; path = "../assets/fonts/Shrikhand/Shrikhand-Regular.ttf"; sourceTree = "<group>"; };
+		797C5CDC110D4066B5947CCD /* Roboto-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-LightItalic.ttf"; path = "../assets/fonts/Roboto/Roboto-LightItalic.ttf"; sourceTree = "<group>"; };
+		7D02DC2E74444EBAB6CF40F6 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-ThinItalic.ttf"; path = "../assets/fonts/Roboto/Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
+		7F11B3D1FB004C30B0B4C902 /* Roboto-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Italic.ttf"; path = "../assets/fonts/Roboto/Roboto-Italic.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AmplifyAudiobooks/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-AmplifyAudiobooks-AmplifyAudiobooksTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmplifyAudiobooks-AmplifyAudiobooksTests.release.xcconfig"; path = "Target Support Files/Pods-AmplifyAudiobooks-AmplifyAudiobooksTests/Pods-AmplifyAudiobooks-AmplifyAudiobooksTests.release.xcconfig"; sourceTree = "<group>"; };
 		8A5EE1C9EDC7BAB940142884 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-AmplifyAudiobooks/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
@@ -134,16 +128,14 @@
 		9865E7012BB24D6E004F6D25 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		9865E7022BB24D6E004F6D25 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		9865E7032BB24D6E004F6D25 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
-		9F16BEC05FA04E51A677304F /* OFL.txt */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = OFL.txt; path = "../assets/fonts/Glacial-Indifference/OFL.txt"; sourceTree = "<group>"; };
-		A7658F9B1F594F16B3D90750 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Regular.ttf"; path = "../assets/fonts/Roboto/Roboto-Regular.ttf"; sourceTree = "<group>"; };
-		C0DAAD2101CF48A4A3E952C6 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Bold.ttf"; path = "../assets/fonts/Roboto/Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		9F16BEC05FA04E51A677304F /* OFL.txt */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = OFL.txt; path = "../assets/fonts/Glacial-Indifference/OFL.txt"; sourceTree = "<group>"; };
+		A7658F9B1F594F16B3D90750 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Regular.ttf"; path = "../assets/fonts/Roboto/Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		C0DAAD2101CF48A4A3E952C6 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Bold.ttf"; path = "../assets/fonts/Roboto/Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		CCACD0A71B32ACCE02EFD555 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-AmplifyAudiobooks-AmplifyAudiobooksTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		CD1A1E35429D4AE5A5D7FFD2 /* GlacialIndifference-Regular.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GlacialIndifference-Regular.woff"; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference-Regular.woff"; sourceTree = "<group>"; };
-		D6DEC7A5B70A4EC8A0BBEF1C /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BoldItalic.ttf"; path = "../assets/fonts/Roboto/Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
+		D6DEC7A5B70A4EC8A0BBEF1C /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BoldItalic.ttf"; path = "../assets/fonts/Roboto/Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		FB8CB92EB4834FA39C86C10D /* GlacialIndifference-Regular.woff2 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GlacialIndifference-Regular.woff2"; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference-Regular.woff2"; sourceTree = "<group>"; };
-		FBEFCD5FB7734A4B8A7C011A /* Roboto-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Black.ttf"; path = "../assets/fonts/Roboto/Roboto-Black.ttf"; sourceTree = "<group>"; };
-		FEC9EACBA7BA47C68C21058B /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BlackItalic.ttf"; path = "../assets/fonts/Roboto/Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
+		FBEFCD5FB7734A4B8A7C011A /* Roboto-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Black.ttf"; path = "../assets/fonts/Roboto/Roboto-Black.ttf"; sourceTree = "<group>"; };
+		FEC9EACBA7BA47C68C21058B /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BlackItalic.ttf"; path = "../assets/fonts/Roboto/Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,13 +272,8 @@
 				4B3DD4A2FD264974BCA4FA42 /* GlacialIndifference-Bold.ttf */,
 				02C42A101D0C4AC696472314 /* GlacialIndifference-Bold.woff */,
 				2016D9686D424D91B9F90C6A /* GlacialIndifference-Bold.woff2 */,
-				443E97A95D934E4CAF2121FE /* GlacialIndifference-Regular.otf */,
-				1F40B7E91070475D8041B9DF /* GlacialIndifference-Regular.ttf */,
-				CD1A1E35429D4AE5A5D7FFD2 /* GlacialIndifference-Regular.woff */,
-				FB8CB92EB4834FA39C86C10D /* GlacialIndifference-Regular.woff2 */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		9865E6DD2BB24A4A004F6D25 /* Roboto */ = {
@@ -506,10 +493,6 @@
 				38807E1CCDE047D0884CD8D3 /* GlacialIndifference-Bold.ttf in Resources */,
 				17A753EC534A4A17A5E972D1 /* GlacialIndifference-Bold.woff in Resources */,
 				0DD73E9AA94D450ABA3030D5 /* GlacialIndifference-Bold.woff2 in Resources */,
-				FC81BDDE5FE04404B0FBF560 /* GlacialIndifference-Regular.otf in Resources */,
-				4607BB4E26FD4CCBA0FAD448 /* GlacialIndifference-Regular.ttf in Resources */,
-				1658EAEFC25E46FFA7FA401E /* GlacialIndifference-Regular.woff in Resources */,
-				A42623A5D1D04388A830AD1F /* GlacialIndifference-Regular.woff2 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -795,7 +778,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.0.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -832,7 +815,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.0.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -921,10 +904,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -992,10 +972,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

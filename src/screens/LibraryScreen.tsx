@@ -1,23 +1,40 @@
-import TopBanner from "components/atoms/TopBanner";
-import Library from "components/molecules/Library"
-import useStyles from "hooks/useStyles";
-import { Dimensions, View, SafeAreaView } from "react-native"
-import { Text } from "react-native-paper";
+import MainScreenContainer from "components/atoms/MainScreenContainer";
+import { topBannerHeight } from "components/atoms/TopBanner";
+import BookList from "components/molecules/BookList";
 
-const width = Dimensions.get('window').width; //full width
-const height = Dimensions.get('window').height; //full height
+import { ActivityIndicator, Text } from "react-native-paper";
+import { useBookStore } from "stores/BookStore";
+
 
 const LibraryScreen = () => {
-    const styles = useStyles();
+    const { loading, books, loadBooks } = useBookStore()
+    const library = Object.values(books).filter((book) => book.purchased)
+
 
     return (
-        <View style={{
-            ...styles.BGColor,
-            flex: 1,
-        }}>
-            <TopBanner />
-            <Library />
-        </View>
+        <MainScreenContainer>
+            {
+                loading ?
+                    (
+                        <ActivityIndicator animating={true} style={{ marginTop: 40 }} />
+                    ) :
+                    (
+                        <BookList
+                            header={
+                                <Text variant="headlineMedium" style={{
+                                    marginTop: 20,
+                                    marginBottom: 20,
+                                    paddingTop: topBannerHeight,
+                                    fontWeight: "900"
+                                    
+                                }}>Library</Text>
+                            }
+                            items={library}
+                            onRefresh={loadBooks}
+                        />
+                    )
+            }
+        </MainScreenContainer>
     )
 }
 
