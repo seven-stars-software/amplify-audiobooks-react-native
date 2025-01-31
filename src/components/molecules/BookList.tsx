@@ -5,7 +5,7 @@ import { ReactNode, ReactPropTypes, useState } from "react";
 import { Dimensions, FlatList, RefreshControl, StyleSheet, View } from "react-native";
 import { MD3Theme, Text, useTheme } from "react-native-paper";
 import { Book } from "types/types";
-import { tabBarHeight } from "./CoreTabBar";
+import { tabBarHeight, tabBarPlusNowPlayingHeight } from "./CoreTabBar";
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -59,7 +59,7 @@ const BookList = ({ items, onRefresh, header }: BookListProps) => {
 const ListFooterComponent = () => {
     return(
         <View style={{
-            marginBottom: tabBarHeight
+            marginBottom: tabBarPlusNowPlayingHeight
         }}>
             <CatalogLinkListItem />
         </View>

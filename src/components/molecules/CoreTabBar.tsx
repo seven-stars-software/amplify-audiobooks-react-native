@@ -4,7 +4,7 @@ import { BottomTabBarProps, BottomTabScreenProps } from "@react-navigation/botto
 import { ReactNode, useContext } from "react";
 import { ImageBackground, Pressable, SafeAreaView, StyleSheet, View } from "react-native";
 import { Surface, Text, useTheme } from "react-native-paper";
-import NowPlayingCard from './NowPlayingCard';
+import NowPlayingCard, { nowPlayingCardHeight } from './NowPlayingCard';
 import { TabParamList } from 'navigators/CoreTabs';
 import PlaybackContext from 'contexts/PlaybackContext';
 import theme from 'styler/theme';
@@ -31,7 +31,10 @@ const TabIcon = ({ focused, routeName, color }: args) => {
     )
 }
 
-export const tabBarHeight = 100;
+export const tabBarHeight = 90;
+const spaceBetweenNowPlayingAndTabBar = 10
+
+export const tabBarPlusNowPlayingHeight = tabBarHeight + spaceBetweenNowPlayingAndTabBar + nowPlayingCardHeight;
 
 const CoreTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
 
@@ -44,6 +47,11 @@ const CoreTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
             bottom: 0,
             height: tabBarHeight,
             width: "100%",
+
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.5,
+            shadowRadius: 5,
+            shadowColor: 'black',
 
             backgroundColor: 'transparent',
         }}>
@@ -63,6 +71,7 @@ const CoreTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
                     borderTopLeftRadius: 100,
                     borderTopRightRadius: 100,
                     overflow: "hidden",
+
                 }}
                 source={require('@assets/images/fancy-bg.png')}
             >
@@ -71,9 +80,10 @@ const CoreTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
                     width: "100%",
                     flexDirection: 'row',
                     justifyContent: 'space-evenly',
-                    alignItems: 'center',
-                    
-                    paddingHorizontal: 20
+                    alignItems: 'flex-start',
+
+                    paddingHorizontal: 20,
+                    paddingTop: 10
                 }}>
                     {state.routes.map((route, index) => {
                         const { options } = descriptors[route.key];
@@ -121,7 +131,7 @@ const CoreTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
                                     borderRadius: 100,
                                     width: 80,
                                     height: 60,
-                                    
+
                                 }}
                                 key={index}
                             >
@@ -141,12 +151,12 @@ const CoreTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
 const styles = StyleSheet.create({
     NowPlayingContainer: {
         position: 'absolute',
-        top: '-100%',
+        bottom: tabBarHeight + spaceBetweenNowPlayingAndTabBar,
         width: "100%",
         paddingHorizontal: 5,
     },
     TabItem: {
-        
+
     }
 })
 

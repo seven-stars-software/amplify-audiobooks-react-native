@@ -11,6 +11,7 @@ import APIClient from 'APIClient';
 import UserContext from 'contexts/UserContext';
 import useHomeCache from 'caches/HomeCache';
 import MainScreenContainer from 'components/atoms/MainScreenContainer';
+import { tabBarPlusNowPlayingHeight } from 'components/molecules/CoreTabBar';
 
 const BugReportFormURL = 'https://form.asana.com/?k=aL3z-9pBJ-WVl37kGN9CkQ&d=234782228840442'
 const PrivacyPolicyURL = 'https://proaudiovoices.com/privacy-policy/'
@@ -101,7 +102,11 @@ const SettingsScreen = ({ navigation }: Props) => {
 
     return (
         <MainScreenContainer>
-            <View style={{ paddingHorizontal: 20, paddingTop: topBannerHeight + 20 }}>
+            <View style={{ 
+                paddingHorizontal: 20, 
+                paddingTop: topBannerHeight + 20,
+                marginBottom: tabBarPlusNowPlayingHeight
+                }}>
                 <Text style={{
                     fontWeight: "900"
                 }} variant="headlineMedium">Settings</Text>

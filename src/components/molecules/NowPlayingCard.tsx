@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import PlaybackContext from "contexts/PlaybackContext";
 import { useCurrentTrack } from "hooks/useCurrentTrack";
 import { useContext } from "react";
-import { Dimensions, Image, Pressable, StyleSheet, View } from "react-native";
+import { Dimensions, Image, ImageBackground, Pressable, StyleSheet, View } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Surface, Text, ProgressBar, useTheme } from "react-native-paper";
 import TrackPlayer, { State as TrackPlayerState, usePlaybackState } from 'react-native-track-player';
@@ -14,7 +14,7 @@ import usePlaybackProgress from "hooks/usePlaybackProgress";
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
 
-export const nowPlayingCardHeight = 80;
+export const nowPlayingCardHeight = 70;
 
 const NowPlayingCard = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -45,27 +45,68 @@ const NowPlayingCard = () => {
 
     return (
         <Surface style={styles.CardSurface}>
-            <Pressable style={styles.PressableContainer} onPress={goToNowPlaying}>
+            <ImageBackground
+                resizeMode='cover'
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: nowPlayingCardHeight,
+                    overflow: 'hidden',
+                }}
+                blurRadius={10}
+                source={require('@assets/images/fancy-bg-copy.png')}
+            >
+                <View style={{
+                    width: '100%',
+                    height: '100%',
+                    justifyContent: 'space-between',
+                    paddingHorizontal: nowPlayingCardHeight / 4,
+                }}>
+                    <Pressable style={styles.PressableContainer} onPress={goToNowPlaying}>
 
-                <Image style={styles.CoverImage} source={{ uri: nowPlaying.images[0] }} />
+                        <Image style={styles.CoverImage} source={{ uri: nowPlaying.images[0] }} />
 
-                <View style={styles.Details}>
-                    <Text numberOfLines={1} style={styles.TrackName}>{currentTrack?.title}</Text>
-                    <Text numberOfLines={1} style={styles.Book}>{nowPlaying?.name}</Text>
-                </View>
+                        <View style={styles.Details}>
+                            <Text
+                                numberOfLines={1}
+                                style={{
+                                    ...styles.TrackName,
+                                    color: theme.colors.onPrimary
+                                }}>
+                                {currentTrack?.title}
+                            </Text>
+                            <Text
+                                numberOfLines={1}
+                                style={{
+                                    ...styles.Book,
+                                    color: theme.colors.onPrimary
+                                }}>
+                                {nowPlaying?.name}
+                            </Text>
+                        </View>
 
-                <View style={styles.Controls}>
-                    <Pressable onPress={togglePlay}>
-                        {isPlaying ?
-                            <Icon name="pause-sharp" size={32} color={theme.colors.primary} />
-                            : <Icon name="play" size={32} color={theme.colors.primary} />
-                        }
+                        <View style={styles.Controls}>
+                            <Pressable onPress={togglePlay}>
+                                {isPlaying ?
+                                    <Icon name="pause-sharp" size={32} color={theme.colors.onPrimary} />
+                                    : <Icon name="play" size={32} color={theme.colors.onPrimary} />
+                                }
+                            </Pressable>
+                        </View>
                     </Pressable>
+                    <View style={styles.Progress}>
+                        <ProgressBar 
+                        progress={duration > 0 ? position / duration : 0} 
+                        color={theme.colors.onPrimary}
+                        theme={{
+                            colors:{
+                                surfaceVariant: 'rgba(0,0,0,0.2)'
+                            }
+                        }}
+                        />
+                    </View>
                 </View>
-            </Pressable>
-            <View style={styles.Progress}>
-                <ProgressBar progress={duration > 0 ? position / duration : 0} color={theme.colors.primary} />
-            </View>
+            </ImageBackground>
         </Surface>
     )
 }
@@ -73,28 +114,27 @@ const NowPlayingCard = () => {
 const styles = StyleSheet.create({
     CardSurface: {
         height: nowPlayingCardHeight,
-        borderRadius: 5,
-        justifyContent: 'space-between',
+        borderRadius: nowPlayingCardHeight,
     },
     PressableContainer: {
-        padding: 10,
         display: "flex",
         flexDirection: "row",
-        alignItems: "stretch"
+        alignItems: "stretch",
+        paddingTop: 10
     },
     ImageContainer: {
         height: '100%',
     },
     CoverImage: {
-        height: height / 16,
-        width: height / 16,
+        height: height / 18,
+        width: height / 18,
         resizeMode: "contain",
-        borderRadius: 10,
+        borderRadius: 12,
     },
     Details: {
         flex: 3,
         marginLeft: 10,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     TrackName: {
         fontSize: width / 30,
@@ -102,13 +142,15 @@ const styles = StyleSheet.create({
     },
     Book: {
         marginTop: 5,
+        fontWeight: "500",
     },
     Controls: {
         justifyContent: 'center',
         alignItems: 'center'
     },
     Progress: {
-        
+        width: "100%",
+
     }
 })
 
