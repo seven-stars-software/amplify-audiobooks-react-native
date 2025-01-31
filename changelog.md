@@ -1,7 +1,7 @@
 # v2.0.2
 - Splash screen font is now Glacial Indifference Bold. Bug with iOS font usage resolved.
-- Visual fixes: top banner scroll-under content, tab bar matches top banner, various color and font tweaks
-- 
+- New style for bottom tabs and now playing card
+- Now playing card no longer hides content on any screens
 
 # v2.0.1
 - Fixed app name "AmplifyAudiobooks" => "AMPlify Audiobooks"
