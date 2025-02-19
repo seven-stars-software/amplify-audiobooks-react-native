@@ -1,3 +1,6 @@
+# v2.0.3
+- Download removal
+
 # v2.0.2
 - Splash screen font is now Glacial Indifference Bold. Bug with iOS font usage resolved.
 - New style for bottom tabs and now playing card
