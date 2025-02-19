@@ -22,7 +22,7 @@ const DownloadBookButton = ({ book, size = 24 }: Props) => {
 
     const [removalDialogVisible, setRemovalDialogVisible] = useState(false);
 
-    const { loading, tracks, downloadTracks } = useTracksCache(book)
+    const { loading, tracks, downloadTracks, removeDownloads } = useTracksCache(book)
 
     const allTracksDownloaded = tracks?.every((track) => track.downloadStatus === 'downloaded')
 
@@ -72,7 +72,10 @@ const DownloadBookButton = ({ book, size = 24 }: Props) => {
             <RemoveDownloadsDialog
                 visible={removalDialogVisible}
                 setVisible={setRemovalDialogVisible}
-                removeDownloads={()=>{console.log('Remove Downloads Button pushed')}}
+                removeDownloads={async ()=>{
+                    await removeDownloads()
+                    setRemovalDialogVisible(false)
+                }}
             />
         </Pressable>
     )

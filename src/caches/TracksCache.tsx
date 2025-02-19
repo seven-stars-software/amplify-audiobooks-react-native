@@ -11,20 +11,34 @@ import * as FileSystem from 'expo-file-system';
  */
 
 export const isTrackDownloaded = async (isbn: Book['isbn'], track: Track) => {
-    const trackFileInfo = await FileSystem.getInfoAsync(`${FileSystem.documentDirectory}books/${isbn}/tracks/${track.name}.mp3`);
+    const trackURI = getTrackURI(isbn, track);
+    const trackFileInfo = await FileSystem.getInfoAsync(trackURI);
     return trackFileInfo.exists;
 }
 
-export const getLocalURI = (isbn: Book['isbn'], track: Track) => {
-    return `${FileSystem.documentDirectory}books/${isbn}/tracks/${track.name}.mp3`;
+export const getTrackURI = (isbn: Book['isbn'], track: Track) => {
+    const bookURI = getBookURI(isbn);
+    return `${bookURI}/tracks/${track.name}.mp3`;
+}
+
+export const getBookURI = (isbn: Book['isbn']) => {
+    return `${FileSystem.documentDirectory}books/${isbn}`;
 }
 
 export const getTrackDownloadable = async (isbn: Book['isbn'], track: Track) => {
     return await FileSystem.createDownloadResumable(
         track.uri,
-        getLocalURI(isbn, track),
+        getTrackURI(isbn, track),
         {},
     );
+}
+
+export const deleteBook = async (isbn: Book['isbn']) => {
+    const bookURI = getBookURI(isbn);
+    const bookDirInfo = await FileSystem.getInfoAsync(bookURI);
+    if(bookDirInfo.exists){
+        await FileSystem.deleteAsync(bookURI);
+    }
 }
 
 export const makeLocalBookDirectories = async (isbn: Book['isbn']) => {
@@ -76,7 +90,7 @@ const useTracksLoader = (book: Book) => {
                     async (track): Promise<Track> => {
                         const isDownloaded = await isTrackDownloaded(book.isbn, track)
                         let localURI = undefined
-                        if (isDownloaded) localURI = getLocalURI(book.isbn, track)
+                        if (isDownloaded) localURI = getTrackURI(book.isbn, track)
                         return { ...track, downloadStatus: isDownloaded ? 'downloaded' : 'not_downloaded', localURI }
                     }
                 )
@@ -143,10 +157,27 @@ const useTracksLoader = (book: Book) => {
 
                 //update tracks cache with new localURI
                 updatedTrack.downloadStatus = 'downloaded'
-                updatedTrack.localURI = getLocalURI(book.isbn, updatedTrack)
+                updatedTrack.localURI = getTrackURI(book.isbn, updatedTrack)
                 updateTrack(book.isbn, updatedTrack)
             })
         )
+    }
+
+    const removeDownloads = async () => {
+        await deleteBook(book.isbn)
+        markAllTracksNotDownloaded(book.isbn)
+    }
+
+    const markAllTracksNotDownloaded = (isbn: Book['isbn']) => {
+        const bookTracks = data[isbn];
+        const downloadStatus: Track['downloadStatus'] = 'not_downloaded';
+        const updatedBookTracks = bookTracks.map((track) => {
+            return {
+                ...track,
+                downloadStatus: downloadStatus
+            }
+        })
+        setKey(isbn, updatedBookTracks)
     }
 
     return {
@@ -154,6 +185,7 @@ const useTracksLoader = (book: Book) => {
         tracks,
         updateTrack,
         downloadTracks,
+        removeDownloads,
         clear
     }
 }
