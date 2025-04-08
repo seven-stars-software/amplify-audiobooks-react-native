@@ -1,3 +1,6 @@
+# v2.0.4
+- Updated iOS background mode for audio
+
 # v2.0.3
 - Download removal
 
