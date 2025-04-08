@@ -69,6 +69,7 @@ const LoginForm = () => {
             }
             //Set Auth Seal
             const newAuthSeal = res?.seal || null
+            if(newAuthSeal == null) throw new Error("No auth seal returned")
             setAuthSeal(newAuthSeal)
 
             //Set WP User

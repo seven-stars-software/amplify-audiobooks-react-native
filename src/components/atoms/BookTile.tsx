@@ -35,11 +35,10 @@ const BookTile = ({ book, inLibrary, style }: Props) => {
             <View style={styles.Details}>
                 <View>
                     <Pressable onPress={handlePress}>
-                        <PaperText variant="titleSmall" numberOfLines={2}>{book.name}</PaperText>
+                        <PaperText variant="titleMedium" numberOfLines={1}>{book.name}</PaperText>
                     </Pressable>
                     <Text style={{color: theme.colors.secondary, ...styles.Author}} numberOfLines={1}>{book.author}</Text>
                 </View>
-                <Text style={{color: theme.colors.secondary}}>{book.duration}</Text>
             </View>
         </Pressable>
     )
@@ -62,10 +61,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     Details: {
+        paddingTop: 10,
         justifyContent: 'space-between'
     },
     Author: {
-        marginTop: 5,
+        
     },
 })
 

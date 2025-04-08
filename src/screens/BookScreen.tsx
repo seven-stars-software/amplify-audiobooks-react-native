@@ -50,9 +50,9 @@ const BookScreen = ({ route }: Props) => {
                         <Image style={styles.BookCover} source={{ uri: book.images[0] }} />
                     </View>
                     <View style={styles.BookInfo}>
-                        <View style={{ flex: 1 }}>
-                            <Text variant="headlineSmall">{book.name}</Text>
-                            <Text variant="bodyMedium">by {book.author}</Text>
+                        <View style={{ flex: 1, paddingRight: 5 }}>
+                            <Text variant="headlineMedium">{book.name}</Text>
+                            <Text variant="titleLarge">{book.author}</Text>
                         </View>
                         <PlayBookButton book={book} size={width / 6} />
                     </View>
@@ -107,15 +107,16 @@ const styles = StyleSheet.create({
         width: 24,
         height: 24,
         marginLeft: 20,
+        marginBottom: 10
     },
     CoverContainer: {
         display: "flex",
-        alignItems: "center"
+        flexDirection: 'row',
     },
     BookCover: {
-        height: height / 3,
-        width: height / 3,
-        resizeMode: "contain",
+        resizeMode: 'contain',
+        flex: 1,
+        aspectRatio: 1,
         borderRadius: 10,
     },
     ChaptersContainer: {

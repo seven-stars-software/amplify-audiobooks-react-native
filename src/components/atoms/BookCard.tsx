@@ -30,7 +30,7 @@ const BookCard = ({ book }: Props) => {
                 <View style={styles.Details}>
                     <View style={styles.TitleAndAuthor}>
                         <Pressable onPress={goToBook}>
-                            <PaperText variant="titleMedium" numberOfLines={2}>{book.name}</PaperText>
+                            <PaperText variant="titleMedium" ellipsizeMode='tail' numberOfLines={1}>{book.name}</PaperText>
                         </Pressable>
                         <Text style={{...styles.Author, color: theme.colors.primary}}>by {book.author}</Text>
                     </View>
