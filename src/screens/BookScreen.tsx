@@ -7,15 +7,13 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 import { useNavigation } from "@react-navigation/native";
 import PlayBookButton from "components/atoms/PlayBookButton";
-import { RootStackParams } from "navigators/RootNavigator";
 import { Book } from "types/types";
 import { HomeStackParams } from "navigators/HomeNavigator";
 import { LibraryStackParams } from "navigators/LibraryNavigator";
 import { SettingsStackParams } from "navigators/SettingsNavigator";
 import useStyles from "hooks/useStyles";
-import theme from "styler/theme";
-import URLs from "URLs";
 import DownloadButton from "components/atoms/DownloadButton";
+import { tabBarPlusNowPlayingHeight } from 'components/molecules/CoreTabBar';
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -121,7 +119,8 @@ const styles = StyleSheet.create({
     },
     ChaptersContainer: {
         flex: 1,
-        paddingVertical: 20
+        paddingVertical: 20,
+        marginBottom: tabBarPlusNowPlayingHeight
     }
 })
 
