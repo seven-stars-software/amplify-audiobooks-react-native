@@ -40,7 +40,7 @@ const playerTrackFromTrack = (book: Book, track: Track): PlayerTrack => {
 export const PlaybackContextProvider = ({ children }: { children?: ReactNode }) => {
     const { handleThrown, handlePlaybackError } = useContext(ErrorContext);
     const playerState = usePlaybackState()
-    const [playbackProblemTimeout, setPlaybackProblemTimeout] = useState<number>();
+    const [playbackProblemTimeout, setPlaybackProblemTimeout] = useState<NodeJS.Timeout>();
     const [nowPlaying, setNowPlaying] = useState<Book>()
     const { getCheckpoint, setCheckpoint } = useCheckpoints();
     const checkpointRef = useRef<Checkpoint | null>(null)
