@@ -22,12 +22,12 @@
       "sha1": "dc0c46397c6ca6fb03a9391ba98126d72a0cd21c"
     },
     {
-      "path": "assets/fonts/Glacial-Indifference/OFL.txt",
-      "sha1": "b618c0c6bbb5861a8d5f76f47063081868566a81"
+      "path": "assets/fonts/Gloria-Hallelujah/GloriaHallelujah-Regular.ttf",
+      "sha1": "f8daece907bf486d3ccf7138f34027e37583c862"
     },
     {
-      "path": "assets/fonts/Roboto/LICENSE.txt",
-      "sha1": "47b573e3824cd5e02a1a3ae99e2735b49e0256e4"
+      "path": "assets/fonts/Nanum-Pen-Script/NanumPen-Regular.ttf",
+      "sha1": "aeae66616efb356c1cbc2f7285d3a288b56e9013"
     },
     {
       "path": "assets/fonts/Roboto/Roboto-Black.ttf",
@@ -76,6 +76,10 @@
     {
       "path": "assets/fonts/Roboto/Roboto-ThinItalic.ttf",
       "sha1": "cc79d5a23bd0ec08b1d99f5390bf33cacc3082f4"
+    },
+    {
+      "path": "assets/fonts/Rock-Salt/RockSalt-Regular.ttf",
+      "sha1": "ae9793e6aea0ab637f2cf6757e0430d2029ede5a"
     },
     {
       "path": "assets/fonts/Shrikhand/Shrikhand-Regular.ttf",

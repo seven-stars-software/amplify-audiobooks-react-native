@@ -25,7 +25,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationCategoryType</key>
-	<string></string>
+	<string/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -70,6 +70,9 @@
 		<string>Zocial.ttf</string>
 		<string>GlacialIndifference-Bold.otf</string>
 		<string>GlacialIndifference-Bold.ttf</string>
+		<string>GloriaHallelujah-Regular.ttf</string>
+		<string>RockSalt-Regular.ttf</string>
+		<string>NanumPen-Regular.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
