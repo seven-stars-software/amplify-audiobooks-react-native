@@ -1,16 +1,13 @@
 import URLS from "URLs";
-import { cacheToList } from "caches/CacheUtils";
-import useHomeCache from "caches/HomeCache";
 import MainScreenContainer from "components/atoms/MainScreenContainer";
-import TopBanner, { topBannerHeight } from "components/atoms/TopBanner";
 import BooksSideScroll from "components/molecules/BooksSideScroll";
-import { tabBarHeight, tabBarPlusNowPlayingHeight } from "components/molecules/CoreTabBar";
+import { tabBarPlusNowPlayingHeight } from "components/molecules/CoreTabBar";
+import LayoutContext from "contexts/LayoutContext";
 import useStyles from "hooks/useStyles";
-import React, { useEffect, useState } from "react";
-import { Dimensions, Linking, ScrollView, View, SafeAreaView, RefreshControl } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { Dimensions, Linking, ScrollView, View, RefreshControl } from "react-native";
 import { ActivityIndicator, Button, Text, useTheme } from "react-native-paper";
 import { useBookStore } from "stores/BookStore";
-import theme from "styler/theme";
 import { Book } from "types/types";
 
 
@@ -25,6 +22,7 @@ type BooksByCategory = {
 }
 
 const HomeScreen = () => {
+    const {topBannerHeight} = useContext(LayoutContext);
     const styles = useStyles()
     const theme = useTheme()
     const { loading, books, loadBooks } = useBookStore()

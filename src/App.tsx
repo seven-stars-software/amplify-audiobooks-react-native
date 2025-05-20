@@ -13,6 +13,7 @@ import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BookStoreProvider } from 'stores/BookStore';
 import theme from 'styler/theme';
+import { LayoutContextProvider } from 'contexts/LayoutContext';
 
 const App = () => {
 
@@ -30,21 +31,23 @@ const App = () => {
     <NavigationContainer>
       <ErrorContextProvider>
         <AuthContextProvider>
-          <BookStoreProvider>
-            <CachesProvider>
+          <LayoutContextProvider>
+            <BookStoreProvider>
+              <CachesProvider>
 
-              <UserContextProvider>
-                <PlaybackContextProvider>
-                  <PaperProvider theme={theme}>
-                    <GestureHandlerRootView style={{ flex: 1 }}>
-                      <RootNavigator />
-                    </GestureHandlerRootView>
-                  </PaperProvider>
-                </PlaybackContextProvider>
-              </UserContextProvider>
+                <UserContextProvider>
+                  <PlaybackContextProvider>
+                    <PaperProvider theme={theme}>
+                      <GestureHandlerRootView style={{ flex: 1 }}>
+                        <RootNavigator />
+                      </GestureHandlerRootView>
+                    </PaperProvider>
+                  </PlaybackContextProvider>
+                </UserContextProvider>
 
-            </CachesProvider>
-          </BookStoreProvider>
+              </CachesProvider>
+            </BookStoreProvider>
+          </LayoutContextProvider>
         </AuthContextProvider>
       </ErrorContextProvider>
     </NavigationContainer>

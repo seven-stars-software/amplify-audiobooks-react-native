@@ -1,11 +1,11 @@
 import BookCard from "components/atoms/BookCard";
 import CatalogLinkListItem from "components/atoms/CatalogLinkListItem";
-import { topBannerHeight } from "components/atoms/TopBanner";
-import { ReactNode, ReactPropTypes, useState } from "react";
+import { ReactNode, ReactPropTypes, useContext, useState } from "react";
 import { Dimensions, FlatList, RefreshControl, StyleSheet, View } from "react-native";
 import { MD3Theme, Text, useTheme } from "react-native-paper";
 import { Book } from "types/types";
 import { tabBarHeight, tabBarPlusNowPlayingHeight } from "./CoreTabBar";
+import LayoutContext from "contexts/LayoutContext";
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -16,6 +16,7 @@ type BookListProps = {
     header?: React.ComponentProps<typeof FlatList>['ListHeaderComponent']
 }
 const BookList = ({ items, onRefresh, header }: BookListProps) => {
+    const {topBannerHeight} = useContext(LayoutContext);
     const theme = useTheme();
     const styles = makeStyles(theme)
     const [refreshing, setRefreshing] = useState(false);

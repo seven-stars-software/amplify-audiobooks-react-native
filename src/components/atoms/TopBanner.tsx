@@ -1,11 +1,14 @@
-import { Image, ImageBackground, Text, View, SafeAreaView } from "react-native"
+import LayoutContext from "contexts/LayoutContext"
+import { useContext } from "react"
+import { Image, ImageBackground, Text, View, SafeAreaView, useWindowDimensions } from "react-native"
 
 const logoHeight = 1255
 const logoWidth = 1526
 const ratio = logoWidth / logoHeight
-export const topBannerHeight = 150;
 
 const TopBanner = () => {
+    const {topBannerHeight} = useContext(LayoutContext);
+
     return (
         <View style={{
             position: 'absolute',

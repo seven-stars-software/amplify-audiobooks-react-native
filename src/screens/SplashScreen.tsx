@@ -63,7 +63,7 @@ const SplashScreen = ({ navigation }: Props) => {
             timeout = setTimeout(() => {
                 console.log(`ready check timeout ${ms}: ready? ${ready.current}`)
                 if (ready.current) {
-                    //navigateToFirstScreen()
+                    navigateToFirstScreen()
                 } else {
                     setReadyAfterTimeout(1000)
                 }

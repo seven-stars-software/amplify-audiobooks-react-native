@@ -4,9 +4,11 @@ import { WelcomeStackParams } from "navigators/WelcomeNavigator";
 import { Dimensions, Image, SafeAreaView, View } from "react-native";
 import { Button, Text, useTheme } from "react-native-paper";
 import Screen from "./Screen";
-import { TopBannerHeight } from "components/atoms/TopBanner";
+import { useContext } from "react";
+import LayoutContext from "contexts/LayoutContext";
 
 const CreatorsScreen = ({ navigation }: NativeStackScreenProps<WelcomeStackParams>) => {
+    const {topBannerHeight} = useContext(LayoutContext);
     const theme = useTheme();
     const { skipWelcome } = useWelcome();
 
@@ -24,7 +26,7 @@ const CreatorsScreen = ({ navigation }: NativeStackScreenProps<WelcomeStackParam
             <View style={{
                 flex: 1,
                 paddingHorizontal: 20,
-                paddingTop: TopBannerHeight + 40,
+                paddingTop: topBannerHeight + 40,
                 alignItems: 'center',
             }}>
                 <Text style={{

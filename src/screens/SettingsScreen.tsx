@@ -6,12 +6,12 @@ import { RootStackParams } from "navigators/RootNavigator";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Animated, Linking, View, SafeAreaView } from "react-native";
 import { ActivityIndicator, Button, Divider, List, Modal, Portal, Text, useTheme } from "react-native-paper"
-import TopBanner, { topBannerHeight } from 'components/atoms/TopBanner';
 import APIClient from 'APIClient';
 import UserContext from 'contexts/UserContext';
 import useHomeCache from 'caches/HomeCache';
 import MainScreenContainer from 'components/atoms/MainScreenContainer';
 import { tabBarPlusNowPlayingHeight } from 'components/molecules/CoreTabBar';
+import LayoutContext from 'contexts/LayoutContext';
 
 const BugReportFormURL = 'https://form.asana.com/?k=aL3z-9pBJ-WVl37kGN9CkQ&d=234782228840442'
 const PrivacyPolicyURL = 'https://proaudiovoices.com/privacy-policy/'
@@ -26,6 +26,7 @@ const ArrowIcon = () => {
 type Props = NativeStackScreenProps<RootStackParams>
 
 const SettingsScreen = ({ navigation }: Props) => {
+    const {topBannerHeight} = useContext(LayoutContext);
     const theme = useTheme()
     const [user, setUser] = useContext(UserContext)
     const [authSeal, setAuthSeal, deleteAuthSeal] = useContext(AuthContext)
