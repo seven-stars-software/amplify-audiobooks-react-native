@@ -1,3 +1,7 @@
+# v2.0.5
+- Dynamic banner sizing based on screen size
+- Loading screen quotes
+
 # v2.0.4
 - Updated iOS background mode for audio
 
