@@ -8,7 +8,7 @@ import { useContext } from "react";
 import LayoutContext from "contexts/LayoutContext";
 
 const CreatorsScreen = ({ navigation }: NativeStackScreenProps<WelcomeStackParams>) => {
-    const {topBannerHeight} = useContext(LayoutContext);
+    const [{topBannerHeight}] = useContext(LayoutContext);
     const theme = useTheme();
     const { skipWelcome } = useWelcome();
 

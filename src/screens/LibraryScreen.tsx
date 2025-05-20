@@ -8,7 +8,7 @@ import { useBookStore } from "stores/BookStore";
 
 
 const LibraryScreen = () => {
-    const {topBannerHeight} = useContext(LayoutContext);
+    const [{topBannerHeight}] = useContext(LayoutContext);
     const { loading, books, loadBooks } = useBookStore()
     const library = Object.values(books).filter((book) => book.purchased)
 

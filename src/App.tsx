@@ -14,6 +14,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BookStoreProvider } from 'stores/BookStore';
 import theme from 'styler/theme';
 import { LayoutContextProvider } from 'contexts/LayoutContext';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App = () => {
 
@@ -31,6 +32,7 @@ const App = () => {
     <NavigationContainer>
       <ErrorContextProvider>
         <AuthContextProvider>
+          <SafeAreaProvider>
           <LayoutContextProvider>
             <BookStoreProvider>
               <CachesProvider>
@@ -48,6 +50,7 @@ const App = () => {
               </CachesProvider>
             </BookStoreProvider>
           </LayoutContextProvider>
+          </SafeAreaProvider>
         </AuthContextProvider>
       </ErrorContextProvider>
     </NavigationContainer>

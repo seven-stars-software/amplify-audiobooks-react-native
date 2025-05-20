@@ -1,5 +1,5 @@
 import LayoutContext from "contexts/LayoutContext"
-import { useContext } from "react"
+import { useContext, useLayoutEffect, useRef } from "react"
 import { Image, ImageBackground, Text, View, SafeAreaView, useWindowDimensions } from "react-native"
 
 const logoHeight = 1255
@@ -7,13 +7,19 @@ const logoWidth = 1526
 const ratio = logoWidth / logoHeight
 
 const TopBanner = () => {
-    const {topBannerHeight} = useContext(LayoutContext);
+    const bannerRef = useRef<View>(null)
+    const [layout, setLayout] = useContext(LayoutContext);
+
+    useLayoutEffect(() => {
+        bannerRef.current?.measure((x, y, width, height, pageX, pageY) => {
+            setLayout({topBannerHeight: height})
+        });
+    }, []);
 
     return (
-        <View style={{
+        <View ref={bannerRef} style={{
             position: 'absolute',
             zIndex: 2,
-            height: topBannerHeight,
             width: '100%',
 
             display: "flex",
@@ -24,7 +30,7 @@ const TopBanner = () => {
             shadowOpacity: 0.5,
             shadowRadius: 5,
             shadowColor: 'black',
-            
+
             backgroundColor: 'transparent',
         }}>
             <ImageBackground
@@ -39,13 +45,19 @@ const TopBanner = () => {
                 }}
                 source={require('@assets/images/fancy-bg.png')}
             >
-                <SafeAreaView>
+                <SafeAreaView style={{
+                    borderColor: 'black',
+                    borderWidth: 1,
+                }}>
                     <View style={{
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
+                        justifyContent: 'center',
                         paddingBottom: 10,
-                        
+                        borderColor: 'red',
+                        borderWidth: 1,
+                        height: "100%",
                     }}>
                         <Image style={{
                             width: 40 * ratio,

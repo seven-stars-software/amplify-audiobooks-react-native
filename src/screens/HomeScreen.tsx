@@ -22,7 +22,7 @@ type BooksByCategory = {
 }
 
 const HomeScreen = () => {
-    const {topBannerHeight} = useContext(LayoutContext);
+    const [{topBannerHeight}] = useContext(LayoutContext);
     const styles = useStyles()
     const theme = useTheme()
     const { loading, books, loadBooks } = useBookStore()

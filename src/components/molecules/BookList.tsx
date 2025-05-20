@@ -16,7 +16,7 @@ type BookListProps = {
     header?: React.ComponentProps<typeof FlatList>['ListHeaderComponent']
 }
 const BookList = ({ items, onRefresh, header }: BookListProps) => {
-    const {topBannerHeight} = useContext(LayoutContext);
+    const [{topBannerHeight}] = useContext(LayoutContext);
     const theme = useTheme();
     const styles = makeStyles(theme)
     const [refreshing, setRefreshing] = useState(false);

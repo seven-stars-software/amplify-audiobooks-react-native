@@ -26,7 +26,7 @@ const ArrowIcon = () => {
 type Props = NativeStackScreenProps<RootStackParams>
 
 const SettingsScreen = ({ navigation }: Props) => {
-    const {topBannerHeight} = useContext(LayoutContext);
+    const [{topBannerHeight}] = useContext(LayoutContext);
     const theme = useTheme()
     const [user, setUser] = useContext(UserContext)
     const [authSeal, setAuthSeal, deleteAuthSeal] = useContext(AuthContext)
