@@ -45,18 +45,13 @@ const TopBanner = () => {
                 }}
                 source={require('@assets/images/fancy-bg.png')}
             >
-                <SafeAreaView style={{
-                    borderColor: 'black',
-                    borderWidth: 1,
-                }}>
+                <SafeAreaView>
                     <View style={{
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
                         paddingBottom: 10,
-                        borderColor: 'red',
-                        borderWidth: 1,
                         height: "100%",
                     }}>
                         <Image style={{
