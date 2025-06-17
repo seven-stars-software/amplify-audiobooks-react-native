@@ -814,7 +814,7 @@
 				DEVELOPMENT_TEAM = UY4JPXJYBN;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = AmplifyAudiobooks/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Amplify Audiobooks";
+				INFOPLIST_KEY_CFBundleDisplayName = "AMPlify Audiobooks";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -851,7 +851,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = UY4JPXJYBN;
 				INFOPLIST_FILE = AmplifyAudiobooks/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Amplify Audiobooks";
+				INFOPLIST_KEY_CFBundleDisplayName = "AMPlify Audiobooks";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
