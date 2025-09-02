@@ -1,21 +1,22 @@
-buildscript {
-    ext {
-        buildToolsVersion = "34.0.0"
-        minSdkVersion = 21
-        compileSdkVersion = 34
-        targetSdkVersion = 34
-        ndkVersion = "25.1.8937393"
-        kotlinVersion = "1.8.0"
-    }
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle")
-        classpath("com.facebook.react:react-native-gradle-plugin")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
-    }
+// Project-level build.gradle (android/build.gradle)
+
+// --- Plugins DSL (recommended for AGP/Kotlin) ---
+plugins {
+    id "com.android.application" version "8.12.2" apply false
+    id "com.android.library"     version "8.12.2" apply false
+    id "org.jetbrains.kotlin.android" version "2.2.10" apply false
+    // React Native root project plugin (version comes from includeBuild in settings.gradle)
+    id "com.facebook.react.rootproject"
 }
 
-apply plugin: "com.facebook.react.rootproject"
+
+ext {
+    buildToolsVersion = "34.0.0"          // AGP can auto-select; safe to keep
+    minSdkVersion     = 21                // consider 23+ when you bump RN/SDKs
+    compileSdkVersion = 34                // consider 35 when you target Android 15
+    targetSdkVersion  = 34
+    // IMPORTANT for 16KB pages: prefer NDK r28+ (update here if modules read ext.ndkVersion)
+    ndkVersion        = "28.2.13676358"
+    // Kotlin compiler used by module plugins; Plugins DSL above pins the Gradle plugin
+    kotlinVersion     = "2.0.20"
+}

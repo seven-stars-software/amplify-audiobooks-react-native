@@ -1,7 +1,37 @@
-rootProject.name = 'AmplifyAudiobooks'
-apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
-include ':app'
-includeBuild('../node_modules/@react-native/gradle-plugin')
+// --- React Native plugin wiring (new style) ---
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+    // Make the RN Gradle plugin available to this build
+    includeBuild("../node_modules/@react-native/gradle-plugin")
+}
 
-apply from: new File(["node", "--print", "require.resolve('expo/package.json')"].execute(null, rootDir).text.trim(), "../scripts/autolinking.gradle")
+// This settings plugin replaces the legacy native_modules.gradle apply-from
+plugins {
+    id("com.facebook.react.settings")
+}
+
+// --- Dependency resolution (standard for modern RN) ---
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        mavenCentral()
+        google()
+        // RN’s local Maven repo (required for resolving RN Android artifacts)
+        maven { url("$rootDir/../node_modules/react-native/android") }
+    }
+}
+
+// --- Your project name and modules ---
+rootProject.name = "AmplifyAudiobooks"
+include(":app")
+
+// --- KEEP: Expo autolinking (unchanged) ---
+apply from: new File(
+        ["node", "--print", "require.resolve('expo/package.json')"].execute(null, rootDir).text.trim(),
+        "../scripts/autolinking.gradle"
+)
 useExpoModules()
