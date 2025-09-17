@@ -14,6 +14,16 @@ plugins {
     id("com.facebook.react.settings")
 }
 
+includeBuild("../node_modules/@react-native/gradle-plugin") {
+    dependencySubstitution {
+        substitute(module("com.facebook.react:react-native-gradle-plugin"))
+                .using(project(":gradle-plugin:react-native-gradle-plugin"))
+    }
+}
+
+//https://stackoverflow.com/questions/78721642/upon-attempting-to-deploy-react-native-project-on-android-emulator-experience-r
+extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autolinkLibrariesFromCommand() }
+
 // --- Dependency resolution (standard for modern RN) ---
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
@@ -22,6 +32,8 @@ dependencyResolutionManagement {
         google()
         // RN’s local Maven repo (required for resolving RN Android artifacts)
         maven { url("$rootDir/../node_modules/react-native/android") }
+        // 👇 Needed for react-native-track-player + react-native-video
+        maven { url("https://jitpack.io") }
     }
 }
 

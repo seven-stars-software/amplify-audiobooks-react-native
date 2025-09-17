@@ -53,9 +53,8 @@ react {
     // hermesFlags = ["-O", "-output-source-map"]
     //
     // Added by install-expo-modules
-    entryFile = file(["node", "-e", "require('expo/scripts/resolveAppEntry')", rootDir.getAbsoluteFile().getParentFile().getAbsolutePath(), "android", "absolute"].execute(null, rootDir).text.trim())
-    cliFile = new File(["node", "--print", "require.resolve('@expo/cli')"].execute(null, rootDir).text.trim())
-    bundleCommand = "export:embed"
+    // entryFile = file(["node", "-e", "require('expo/scripts/resolveAppEntry')", rootDir.getAbsoluteFile().getParentFile().getAbsolutePath(), "android", "absolute"].execute(null, rootDir).text.trim())
+    autolinkLibrariesWithApp()
 }
 
 /**
@@ -78,12 +77,12 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
     ndkVersion "28.2.13676358"
-    compileSdk 34
+    compileSdk 36
 
     namespace "com.amplifyaudiobooks"
     defaultConfig {
         applicationId "com.amplifyaudiobooks"
-        minSdk 21
+        minSdk 24
         targetSdk 34
         versionCode 1
         versionName "2.0.5"
@@ -113,7 +112,7 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-    implementation("com.facebook.react:flipper-integration")
+
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

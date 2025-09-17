@@ -12,8 +12,8 @@ plugins {
 
 ext {
     buildToolsVersion = "34.0.0"          // AGP can auto-select; safe to keep
-    minSdkVersion     = 21                // consider 23+ when you bump RN/SDKs
-    compileSdkVersion = 34                // consider 35 when you target Android 15
+    minSdkVersion     = 24
+    compileSdkVersion = 36
     targetSdkVersion  = 34
     // IMPORTANT for 16KB pages: prefer NDK r28+ (update here if modules read ext.ndkVersion)
     ndkVersion        = "28.2.13676358"
