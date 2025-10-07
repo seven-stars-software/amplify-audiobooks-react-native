@@ -1,5 +1,5 @@
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { useContext, useEffect, useState } from 'react';
 import { Dimensions, Pressable } from 'react-native';
 import { ActivityIndicator, Tooltip, useTheme } from 'react-native-paper';
@@ -13,7 +13,7 @@ const height = Dimensions.get('window').height; //full height
 
 type Props = {
     book: Book,
-    size: React.ComponentProps<typeof Icon>['size']
+    size: React.ComponentProps<typeof Ionicons>['size']
 }
 const DownloadBookButton = ({ book, size = 24 }: Props) => {
     const theme = useTheme();
@@ -61,8 +61,8 @@ const DownloadBookButton = ({ book, size = 24 }: Props) => {
         >
             {
                 allTracksDownloaded ?
-                    <Icon name="checkmark-circle" size={size} color={buttonColor} />
-                    : <Icon name="arrow-down-circle-outline" size={size} color={buttonColor} />
+                    <Ionicons name="checkmark-circle" size={size} color={buttonColor} />
+                    : <Ionicons name="arrow-down-circle-outline" size={size} color={buttonColor} />
             }
             {
                 showDownloadIndicator ?

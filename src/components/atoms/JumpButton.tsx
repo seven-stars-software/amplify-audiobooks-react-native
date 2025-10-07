@@ -1,11 +1,11 @@
 
-import Icon from "react-native-vector-icons/AntDesign";
+import {AntDesign} from "@react-native-vector-icons/ant-design";
 import { Text, TransformsStyle, View } from "react-native";
 
 type Props = {
     direction?: 'forward' | 'backward',
     increment?: number,
-    iconProps: Omit<React.ComponentProps<typeof Icon>, 'name'>
+    iconProps: Omit<React.ComponentProps<typeof AntDesign>, 'name'>
 }
 
 const JumpIcon = ({ direction = 'forward', increment = 15, iconProps }: Props) => {
@@ -22,9 +22,9 @@ const JumpIcon = ({ direction = 'forward', increment = 15, iconProps }: Props) =
 
     return (
         <View style={{position: 'relative', justifyContent: 'center', alignItems:'center'}}>
-            <Icon style={[{}, {
+            <AntDesign style={[{}, {
                 transform: transforms
-            }]} name="reload1" {...iconProps} />
+            }]} name="reload" {...iconProps} />
             <Text style={{position: 'absolute', fontSize: size/3, color: String(iconProps.color), }}>{increment}</Text>
         </View>
     )

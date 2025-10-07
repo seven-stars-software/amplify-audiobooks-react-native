@@ -1,6 +1,6 @@
 import { Text, useTheme } from 'react-native-paper';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import IonIcon from 'react-native-vector-icons/Ionicons';
+import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons';
+import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { Dimensions, Linking, Pressable, StyleSheet } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
@@ -11,7 +11,7 @@ type IconLib = 'Material' | 'Ion'
 
 type Props = {
     iconLib: IconLib,
-    iconName: React.ComponentProps<typeof MaterialIcon>['name'] | React.ComponentProps<typeof IonIcon>['name'],
+    iconName: React.ComponentProps<typeof MaterialDesignIcons>['name'] | React.ComponentProps<typeof Ionicons>['name'],
     label?: string,
     url?: string,
     screenName?: string
@@ -33,9 +33,9 @@ const IconNavButton = ({iconLib, iconName, label, url, screenName}: Props) => {
     const Icon = ({lib}: {lib: IconLib}) => {
         switch(lib){
             case 'Material':
-                return <MaterialIcon name={iconName} size={36} color={theme.colors.primary} />
+                return <MaterialDesignIcons name={iconName} size={36} color={theme.colors.primary} />
             case 'Ion':
-                return <IonIcon name={iconName} size={36} color={theme.colors.primary} />
+                return <Ionicons name={iconName} size={36} color={theme.colors.primary} />
         }
     }
 

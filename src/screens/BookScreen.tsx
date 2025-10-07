@@ -3,7 +3,7 @@ import { Dimensions, Image, Linking, Pressable, SafeAreaView, ScrollView, StyleS
 import { Button, Surface, Text, useTheme } from 'react-native-paper';
 import BookTracks from "components/molecules/BookTracks";
 
-import Icon from 'react-native-vector-icons/AntDesign';
+import {AntDesign} from '@react-native-vector-icons/ant-design';
 
 import { useNavigation } from "@react-navigation/native";
 import PlayBookButton from "components/atoms/PlayBookButton";
@@ -40,7 +40,7 @@ const BookScreen = ({ route }: Props) => {
                     navigation.goBack()
                 }}
             >
-                <Icon name="left" size={24} color={theme.colors.primary} />
+                <AntDesign name="left" size={24} color={theme.colors.primary} />
             </Pressable>
             <ScrollView>
                 <View style={styles.ContentContainer}>

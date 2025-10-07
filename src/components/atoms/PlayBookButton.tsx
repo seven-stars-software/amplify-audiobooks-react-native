@@ -1,5 +1,5 @@
 
-import Icon from 'react-native-vector-icons/AntDesign';
+import {AntDesign} from "@react-native-vector-icons/ant-design";
 import { useTracksCache } from 'caches/TracksCache';
 import PlaybackContext from 'contexts/PlaybackContext';
 import { useContext, useEffect, useState } from 'react';
@@ -16,7 +16,7 @@ const height = Dimensions.get('window').height; //full height
 
 type Props = {
     book: Book,
-    size: React.ComponentProps<typeof Icon>['size']
+    size: React.ComponentProps<typeof AntDesign>['size']
 }
 const PlayBookButton = ({ book, size = 24 }: Props) => {
     const theme = useTheme();
@@ -79,8 +79,8 @@ const PlayBookButton = ({ book, size = 24 }: Props) => {
             onPressOut={pressOut}
             onPress={press}>
             {thisBookIsPlaying ?
-                <Icon name="pausecircle" size={size} color={buttonColor} />
-                : <Icon name="play" size={size} color={buttonColor} />}
+                <AntDesign name="pause-circle" size={size} color={buttonColor} />
+                : <AntDesign name="play-circle" size={size} color={buttonColor} />}
 
             {
                 showLoadingIndicator ?

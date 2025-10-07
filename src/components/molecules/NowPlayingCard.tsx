@@ -3,7 +3,7 @@ import PlaybackContext from "contexts/PlaybackContext";
 import { useCurrentTrack } from "hooks/useCurrentTrack";
 import { useContext } from "react";
 import { Dimensions, Image, ImageBackground, Pressable, StyleSheet, View } from "react-native";
-import Icon from 'react-native-vector-icons/Ionicons';
+import {Ionicons} from '@react-native-vector-icons/ionicons'
 import { Surface, Text, ProgressBar, useTheme } from "react-native-paper";
 import TrackPlayer, { State as TrackPlayerState, usePlaybackState } from 'react-native-track-player';
 import React from "react";
@@ -88,8 +88,8 @@ const NowPlayingCard = () => {
                         <View style={styles.Controls}>
                             <Pressable onPress={togglePlay}>
                                 {isPlaying ?
-                                    <Icon name="pause-sharp" size={32} color={theme.colors.onPrimary} />
-                                    : <Icon name="play" size={32} color={theme.colors.onPrimary} />
+                                    <Ionicons name="pause-sharp" size={32} color={theme.colors.onPrimary} />
+                                    : <Ionicons name="play" size={32} color={theme.colors.onPrimary} />
                                 }
                             </Pressable>
                         </View>

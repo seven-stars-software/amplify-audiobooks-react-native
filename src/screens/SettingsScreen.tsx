@@ -1,4 +1,4 @@
-import Icon from 'react-native-vector-icons/Ionicons';
+import {Ionicons} from '@react-native-vector-icons/ionicons';
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 import AuthContext from "contexts/AuthContext";
@@ -19,7 +19,7 @@ const PrivacyPolicyURL = 'https://proaudiovoices.com/privacy-policy/'
 const ArrowIcon = () => {
     const theme = useTheme()
     return (
-        <Icon name="chevron-forward" color={theme.colors.onBackground} size={20} />
+        <Ionicons name="chevron-forward" color={theme.colors.onBackground} size={20} />
     )
 }
 

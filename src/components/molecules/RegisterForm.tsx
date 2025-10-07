@@ -1,7 +1,7 @@
 import { Button,useTheme, Text, MD3Theme } from 'react-native-paper';
 import { useContext, useEffect, useRef, useState } from "react";
 import { Dimensions,StyleSheet, TextInput, View, Keyboard, Pressable } from "react-native";
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons';
 import APIClient from "APIClient";
 import AuthContext from "contexts/AuthContext";
 import UserContext from "contexts/UserContext";
@@ -145,7 +145,7 @@ const RegisterForm = () => {
                         onPress={()=>setPasswordVisibile(!passwordVisible)}
                         style={styles.VisibilityToggle}
                     >
-                        <Icon size={20} name={passwordVisible?"visibility-off":"visibility"} />
+                        <MaterialDesignIcons size={20} name={passwordVisible?"eye-off":"eye"} />
                     </Pressable>
                 </View>
             {

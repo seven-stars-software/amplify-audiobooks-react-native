@@ -1,7 +1,7 @@
 import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
-import Icon from "react-native-vector-icons/AntDesign";
+import {AntDesign} from "@react-native-vector-icons/ant-design";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParams } from "navigators/RootNavigator";
@@ -69,7 +69,7 @@ const NowPlayingScreen = () => {
                     navigation.goBack()
                 }}
             >
-                <Icon name="down" size={24} color={theme.colors.primary} />
+                <AntDesign name="down" size={24} color={theme.colors.primary} />
             </Pressable>
             <View style={styles.ContentContainer}>
                 <View style={styles.CoverContainer}>
@@ -93,25 +93,25 @@ const NowPlayingScreen = () => {
 
                 <View style={styles.ControlsContainer}>
                     <Pressable onPress={controlHandlers.skipBack}>
-                        <Icon name="stepbackward" size={32} color={primaryColor} />
+                        <AntDesign name="step-backward" size={32} color={primaryColor} />
                     </Pressable>
                     <Pressable onPress={controlHandlers.jumpBack}>
                         <JumpIcon direction="backward" iconProps={{ size: 48, color: theme.colors.primary }} />
                     </Pressable>
                     {isPlaying ?
                         <Pressable onPress={controlHandlers.pause}>
-                            <Icon name="pausecircle" size={64} color={primaryColor} />
+                            <AntDesign name="pause-circle" size={64} color={primaryColor} />
                         </Pressable>
                         :
                         <Pressable onPress={controlHandlers.play}>
-                            <Icon name="play" size={64} color={primaryColor} />
+                            <AntDesign name="play-circle" size={64} color={primaryColor} />
                         </Pressable>
                     }
                     <Pressable onPress={controlHandlers.jumpForward}>
                         <JumpIcon direction="forward" iconProps={{ size: 48, color: primaryColor }} />
                     </Pressable>
                     <Pressable onPress={controlHandlers.skipForward}>
-                        <Icon name="stepforward" size={32} color={primaryColor} />
+                        <AntDesign name="step-forward" size={32} color={primaryColor} />
                     </Pressable>
                 </View>
 

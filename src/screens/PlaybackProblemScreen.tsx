@@ -1,7 +1,7 @@
 import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
+import {Ionicons} from "@react-native-vector-icons/ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParams } from "navigators/RootNavigator";
@@ -35,7 +35,7 @@ const PlaybackProblemScreen = () => {
                     <Text style={{ marginTop: 10 }} variant="bodyLarge">This can happen when your network connection is interrupted.</Text>
                 </View>
                 <Pressable style={{ alignItems: 'center', marginTop: 60 }} onPress={attemptReset}>
-                    <Icon name="reload" size={64} color={primaryColor} />
+                    <Ionicons name="reload" size={64} color={primaryColor} />
                     <Text variant='bodyMedium'>Reset Playback</Text>
                 </Pressable>
             </View>

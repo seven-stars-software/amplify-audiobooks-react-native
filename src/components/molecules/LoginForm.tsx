@@ -12,7 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParams } from 'navigators/RootNavigator';
 import URLs from 'URLs'
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons'
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -127,7 +127,7 @@ const LoginForm = () => {
                     onPress={() => setPasswordVisibile(!passwordVisible)}
                     style={styles.VisibilityToggle}
                 >
-                    <Icon size={20} name={passwordVisible ? "visibility-off" : "visibility"} />
+                    <MaterialDesignIcons size={20} name={passwordVisible ? "eye-off" : "eye"} />
                 </Pressable>
             </View>
             {

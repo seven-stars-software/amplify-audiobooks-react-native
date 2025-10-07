@@ -1,5 +1,5 @@
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { BottomTabBarProps, BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { ReactNode, useContext } from "react";
 import { ImageBackground, Pressable, SafeAreaView, StyleSheet, View } from "react-native";
@@ -7,7 +7,6 @@ import { Surface, Text, useTheme } from "react-native-paper";
 import NowPlayingCard, { nowPlayingCardHeight } from './NowPlayingCard';
 import { TabParamList } from 'navigators/CoreTabs';
 import PlaybackContext from 'contexts/PlaybackContext';
-import theme from 'styler/theme';
 
 type RouteName = BottomTabScreenProps<TabParamList>['route']['name']
 
@@ -17,13 +16,13 @@ type args = {
     [key: string]: any
 }
 const TabIcon = ({ focused, routeName, color }: args) => {
-    const routeToIconMap: { [key in RouteName]: React.ComponentProps<typeof Icon>['name'] } = {
+    const routeToIconMap: { [key in RouteName]: React.ComponentProps<typeof Ionicons>['name'] } = {
         'HomeTab': focused ? 'home' : 'home-outline',
         'LibraryTab': focused ? 'book' : 'book-outline',
         'SettingsTab': focused ? 'settings' : 'settings-outline'
     }
     return (
-        <Icon
+        <Ionicons
             name={routeToIconMap[routeName]}
             size={24}
             color={color}

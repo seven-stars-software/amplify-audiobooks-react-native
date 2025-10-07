@@ -1,6 +1,6 @@
 import { Dimensions, View } from "react-native";
 import { Text, useTheme, ActivityIndicator } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {Ionicons} from '@react-native-vector-icons/ionicons';
 import { Track } from "types/types";
 
 
@@ -16,11 +16,11 @@ const DownloadStatus = ({ track }: DownloadStatusProps) => {
     const size = 24;
 
     if (track.downloadStatus === 'downloaded') {
-        return <Icon name="checkmark-circle" size={size} color={theme.colors.primary} />
+        return <Ionicons name="checkmark-circle" size={size} color={theme.colors.primary} />
     } else if (track.downloadStatus === 'downloading') {
         return (
             <View>
-                <Icon name="arrow-down-circle-outline" size={size} color={theme.colors.primary} />
+                <Ionicons name="arrow-down-circle-outline" size={size} color={theme.colors.primary} />
                 <ActivityIndicator color={theme.colors.primary} animating={true} size={size} style={{ position: "absolute" }} />
             </View>
         )
