@@ -30,7 +30,6 @@ export const AuthContextProvider = ({ children }: { children?: ReactNode }) => {
     }, [])
 
     const setAndStoreAuthSeal = async (seal: AuthSeal) => {
-        console.log(`::: Set Auth Seal : ${seal}`)
         setAuthSeal(seal)
         if (seal !== null) {
             await AsyncStorage.setItem(
