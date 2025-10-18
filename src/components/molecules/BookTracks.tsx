@@ -2,7 +2,6 @@ import { ActivityIndicator } from 'react-native-paper';
 
 import { Dimensions, FlatList, Pressable, View } from "react-native";
 import TrackItem from "./TrackItem";
-import { useTracksCache } from "caches/TracksCache";
 import { useContext } from "react";
 import PlaybackContext from "contexts/PlaybackContext";
 import { Book } from 'types/types';
@@ -15,10 +14,13 @@ export type Props = {
     isbn: Book['isbn']
 }
 const BookTracks = ({ isbn }: Props) => {
-    const { loading: loadingBooks, books, loadBooks } = useBookStore()
+    const { loading: loadingBooks, books, } = useBookStore()
     const book = books[isbn]
-
-    const { loading: loadingTracks, tracks } = useTracksCache(book);
+    if(book.tracks === undefined){
+        console.log('No tracks available for book:', book.name)
+        console.log(`Does user own book? ${book.purchased?'Yes':'No'}`)
+    }
+    const { tracks } = book;
     const tracksMinusSample = tracks ? tracks.filter((track) => {
         if (track?.isSample) return
         return track
@@ -33,7 +35,7 @@ const BookTracks = ({ isbn }: Props) => {
     return (
         <View>
             {
-                loadingTracks ?
+                loadingBooks ?
                     (<ActivityIndicator animating={true} />)
                     :
                     tracksMinusSample.map((track, index) => {

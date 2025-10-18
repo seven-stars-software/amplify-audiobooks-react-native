@@ -4,6 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { Book, Track } from "types/types";
 import { createCacheContext, getCacheProvider } from "./GenericCache";
 import * as FileSystem from 'expo-file-system';
+import { requestPermissionsAsync } from "expo-av/build/Audio";
 
 
 /**
@@ -64,26 +65,30 @@ export const makeLocalBookDirectories = async (isbn: Book['isbn']) => {
     }
 }
 
-export const TracksCacheContext = createCacheContext<Track[]>()
-
-type LoadingStatusTracker = {
-    [isbn: Book['isbn']]: 'loading' | 'loaded'
-}
-
-const tracker: LoadingStatusTracker = {}
+type TracksLoadingState = undefined | 'loading' | 'loaded' | 'error'
+export const TracksCacheContext = createCacheContext<{loadingState: TracksLoadingState, tracks:Track[]}>()
 
 const useTracksLoader = (book: Book) => {
+    console.log(`
+        Initializing useTracksLoader for [${book.name}]`);
+    if(book === undefined){
+        throw new Error("Cannot load tracks for undefined book")
+    }
     const [authSeal,] = useContext(AuthContext);
-    const { data, setKey, clear } = useContext(TracksCacheContext)
-    const isLoaded = book !== undefined && data[book.isbn] !== undefined
-    const tracks = book ? data[book.isbn] : [];
+    const { data: tracksCache, setKey, clear } = useContext(TracksCacheContext)
+    const loadingState = tracksCache[book.isbn]?.loadingState;
+    const tracks = book ? tracksCache[book.isbn] : [];
 
     useEffect(() => {
+        console.log(`
+            useTracksLoader effect for [${book.name}]`)
         const loadTracks = async () => {
             if (!authSeal) throw new Error("Cannot load tracks without auth seal")
+
             console.log(`Fetching tracks for [${book.name}]`)
             const rawTracks: Track[] = await APIClient.getBookTracks({ isbn: book.isbn, seal: authSeal });
             console.log(`Got [${rawTracks.length}] tracks for [${book.name}]`)
+
             //augment API tracks with local storage info
             const completeTracks: Track[] = await Promise.all(
                 rawTracks.map(
@@ -95,16 +100,15 @@ const useTracksLoader = (book: Book) => {
                     }
                 )
             )
-            tracker[book.isbn] = 'loaded'
-            setKey(book.isbn, completeTracks)
+            
+            setKey(book.isbn, {loadingState: 'loaded', tracks: completeTracks})
         }
-
-        const bookTracksAreLoading = tracker[book.isbn] === 'loading'
-        if (!isLoaded && !bookTracksAreLoading) {
-            tracker[book.isbn] = 'loading'
+        
+        if(loadingState !== 'loaded' && loadingState !== 'loading'){
+            setKey(book.isbn, {loadingState: 'loading', tracks: []});
             loadTracks();
         }
-    }, [book])
+    }, [book, loadingState])
 
     const updateTrack = (isbn: Book['isbn'], trackToUpdate: Track) => {
         const bookTracks = data[isbn]
@@ -181,8 +185,8 @@ const useTracksLoader = (book: Book) => {
     }
 
     return {
-        loading: !isLoaded,
-        tracks,
+        loading: loadingState === 'loading',
+        tracks: tracksCache[book.isbn]?.tracks || [],
         updateTrack,
         downloadTracks,
         removeDownloads,
@@ -191,10 +195,6 @@ const useTracksLoader = (book: Book) => {
 }
 
 export const useTracksCache = (book: Book) => {
-    return useTracksLoader(book)
-}
-
-export const prefetch = async (book: Book) => {
     return useTracksLoader(book)
 }
 

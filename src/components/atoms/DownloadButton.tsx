@@ -24,7 +24,7 @@ const DownloadBookButton = ({ book, size = 24 }: Props) => {
 
     const { loading, tracks, downloadTracks, removeDownloads } = useTracksCache(book)
 
-    const allTracksDownloaded = tracks?.every((track) => track.downloadStatus === 'downloaded')
+    const allTracksDownloaded = tracks.every((track) => track.downloadStatus === 'downloaded')
 
     const pressIn = () => {
         setButtonColor(theme.colors.secondary)
