@@ -22,7 +22,7 @@ export const useCurrentTrack = (): Track | null => {
   useEffect(() => {
     (async () => {
       // getCurrentTrack returns an index, not a track 🙄
-      const currentIndex = await TrackPlayer.getCurrentTrack()
+      const currentIndex = await TrackPlayer.getActiveTrack()
       if (currentIndex !== null) {
         const currentTrack = await getTrackFromQueue(currentIndex)
         setCurrentTrack(currentTrack)

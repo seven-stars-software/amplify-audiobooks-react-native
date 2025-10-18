@@ -1,11 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import PlaybackContext from "contexts/PlaybackContext";
-import { useCurrentTrack } from "hooks/useCurrentTrack";
 import { useContext } from "react";
 import { Dimensions, Image, ImageBackground, Pressable, StyleSheet, View } from "react-native";
 import {Ionicons} from '@react-native-vector-icons/ionicons'
 import { Surface, Text, ProgressBar, useTheme } from "react-native-paper";
-import TrackPlayer, { State as TrackPlayerState, usePlaybackState } from 'react-native-track-player';
+import TrackPlayer, { State as TrackPlayerState, useActiveTrack, usePlaybackState } from 'react-native-track-player';
 import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParams } from "navigators/RootNavigator";
@@ -22,7 +21,7 @@ const NowPlayingCard = () => {
     const playerState = usePlaybackState()
 
     const isPlaying = playerState.state === TrackPlayerState.Playing
-    const currentTrack = useCurrentTrack();
+    const currentTrack = useActiveTrack();
 
     const { position, duration } = usePlaybackProgress()
 

@@ -11,8 +11,7 @@ import AutoHeightImage from "components/atoms/AutoHeightImage";
 import usePlaybackProgress from "hooks/usePlaybackProgress";
 import Scrubber from 'react-native-scrubber'
 
-import TrackPlayer, { usePlaybackState, State as TrackPlayerState } from "react-native-track-player";
-import { useCurrentTrack } from "hooks";
+import TrackPlayer, { usePlaybackState, State as TrackPlayerState, useActiveTrack } from "react-native-track-player";
 import JumpIcon from "components/atoms/JumpButton";
 import { metadataOptions } from "services";
 import { ScreenContainer } from "react-native-screens";
@@ -31,7 +30,7 @@ const NowPlayingScreen = () => {
     const isPlaying = playerState.state === TrackPlayerState.Playing
 
     const { nowPlaying, playBook, pauseBook } = useContext(PlaybackContext)
-    const currentTrack = useCurrentTrack()
+    const currentTrack = useActiveTrack()
     const { position, duration, buffered } = usePlaybackProgress()
 
     const handleScrub = async (position) => {
@@ -46,11 +45,11 @@ const NowPlayingScreen = () => {
             await TrackPlayer.skipToNext()
         },
         jumpBack: async () => {
-            const position = (await TrackPlayer.getPosition()) - metadataOptions.backwardJumpInterval;
+            const position = (await TrackPlayer.getProgress()).position - metadataOptions.backwardJumpInterval;
             await TrackPlayer.seekTo(position);
         },
         jumpForward: async () => {
-            const position = (await TrackPlayer.getPosition()) + metadataOptions.forwardJumpInterval;
+            const position = (await TrackPlayer.getProgress()).position + metadataOptions.forwardJumpInterval;
             await TrackPlayer.seekTo(position);
         },
         play: async () => {
