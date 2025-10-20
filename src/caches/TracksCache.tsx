@@ -110,18 +110,6 @@ const useTracksLoader = (book: Book) => {
         }
     }, [book, loadingState])
 
-    const updateTrack = (isbn: Book['isbn'], trackToUpdate: Track) => {
-        const bookTracks = data[isbn]
-        const updatedBookTracks = bookTracks.map((track) => {
-            let updatedTrack = track
-            if (track.s3Key === trackToUpdate.s3Key) {
-                updatedTrack = trackToUpdate
-            }
-            return updatedTrack
-        })
-        setKey(isbn, updatedBookTracks)
-    }
-
     const downloadTracks = async () => {
         //Build all the EXPO download objects
         console.log('Building Expo Downloadables...')
@@ -187,7 +175,6 @@ const useTracksLoader = (book: Book) => {
     return {
         loading: loadingState === 'loading',
         tracks: tracksCache[book.isbn]?.tracks || [],
-        updateTrack,
         downloadTracks,
         removeDownloads,
         clear

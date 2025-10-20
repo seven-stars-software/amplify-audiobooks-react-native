@@ -5,6 +5,7 @@ import { Book } from "types/types";
 import AuthContext from "contexts/AuthContext";
 import APIClient from "APIClient";
 import useCallbackState from "hooks/useCallbackState";
+import { Directory, Paths, File } from "expo-file-system";
 
 const BookStoreBucket = '@BookBucket'
 const saveToStorage = async (books: BookStoreState) => {
@@ -14,6 +15,8 @@ const saveToStorage = async (books: BookStoreState) => {
 interface BookStoreContextType {
     books: BookStoreState,
     loadBooks: () => Promise<void>,
+    downloadAudioFiles: (isbn: Book['isbn']) => Promise<(File | undefined)[]>,
+    trackFileExists: (isbn: Book['isbn'], trackName: string) => Promise<boolean>,
     loading: boolean
 }
 
@@ -36,7 +39,7 @@ const BookStoreContext = createContext<BookStoreContextType | null>(null);
 const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
     const [books, setBooks] = useCallbackState<BookStoreState>({})
     const [loading, setLoading] = useState(false)
-    const { isInternetReachable } = {isInternetReachable: true} //DEBUG DO NOT COMMIT useNetInfo()
+    const { isInternetReachable } = { isInternetReachable: true } //DEBUG DO NOT COMMIT useNetInfo()
     const [authSeal] = useContext(AuthContext);
 
     useEffect(() => {
@@ -54,8 +57,8 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
             if (booksFromStorageJSON != null) {
                 const booksFromStorage = JSON.parse(booksFromStorageJSON)
 
-                const sampleBookISBN = Object.keys(booksFromStorage).find((isbn)=>{return booksFromStorage[isbn].purchased}) || ''
-                
+                const sampleBookISBN = Object.keys(booksFromStorage).find((isbn) => { return booksFromStorage[isbn].purchased }) || ''
+
                 setBooks(booksFromStorage, () => setLoading(false))
             } else {
                 console.log(`No books found in local storage`)
@@ -92,7 +95,7 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
             //Update local storage any time we fetch fresh data from the API
             saveToStorage(booksFromAPI)
             //Update state
-            setBooks(booksFromAPI, ()=>setLoading(false))
+            setBooks(booksFromAPI, () => setLoading(false))
             console.log(`Books loaded from API!`)
         } finally {
             //Ensure loading is reset to false even in case of errors
@@ -103,11 +106,10 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
     const loadBooks = async () => {
         console.log(`Loading Books...`)
         console.log(`Internet Reachable...? [${isInternetReachable}]`)
-        //null means an unknown network connection
         if (isInternetReachable) {
-            try{
+            try {
                 return await loadFromAPI()
-            } catch (e){
+            } catch (e) {
                 return await loadFromStorage()
             }
         } else {
@@ -115,8 +117,42 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
         }
     }
 
+    const getTrackFile = (isbn: Book['isbn'], trackName: string) => {
+        return new File(Paths.document, 'books', isbn, 'tracks', trackName + '.mp3');
+    }
+
+    const trackFileExists = async (isbn: Book['isbn'], trackName: string) => {
+        const trackFile = getTrackFile(isbn, trackName);
+        return trackFile.exists;
+    };
+
+    const downloadAudioFiles = async (isbn: Book['isbn']) => {
+        const book = books[isbn];
+        if (!book) {
+            throw new Error(`Cannot download audio files for unknown book with ISBN [${isbn}]`)
+        }
+        const tracks = book.tracks;
+        if (!tracks) {
+            throw new Error(`Book with ISBN [${isbn}] has no tracks to download`)
+        }
+
+        const audioFiles = await Promise.all(tracks.map(async (track) => {
+            const fileToBeCreated = getTrackFile(isbn, track.name);
+            let createdFile;
+            try {
+                createdFile = await File.downloadFileAsync(track.uri, fileToBeCreated) as File;
+                console.log(`${track.name}: ${createdFile.exists?'exists':'doesnt'}`); // true
+                console.log(`   ${createdFile.uri}`); // path to the downloaded file, e.g., '${cacheDirectory}/pdfs/sample.pdf'
+            } catch (error) {
+                console.error(error);
+            }
+            return createdFile;
+        }));
+        return audioFiles;
+    }
+
     return (
-        <BookStoreContext.Provider value={{ books, loadBooks, loading }}>
+        <BookStoreContext.Provider value={{ books, loadBooks, downloadAudioFiles, trackFileExists, loading }}>
             {children}
         </BookStoreContext.Provider>
     )
