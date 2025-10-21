@@ -2,9 +2,9 @@ import { useState } from "react"
 
 declare module "*.png"
 
-type AuthSeal = string
+export type AuthSeal = string
 
-type Book = {
+export type Book = {
     wooProductID: string,
     name: string,
     images: string[],
@@ -21,15 +21,21 @@ type Book = {
     tracks?: Track[]
 }
 
-type Track = {
+export const enum DownloadStatus {
+    DOWNLOADING = 'downloading',
+    DOWNLOADED = 'downloaded',
+    NOT_DOWNLOADED = 'not_downloaded'
+}
+
+export type Track = {
     isSample: boolean,
     number?: number,
     name: string,
     s3Key: string,
     uri: string,
-    downloadStatus: 'downloading'|'downloaded'|'not_downloaded',
+    downloadStatus: DownloadStatus
     localURI?: string
 }
 
-type DefinedReactState<T> = [T, React.Dispatch<React.SetStateAction<T>>] 
-type PossiblyDefinedReactState<T> = ReturnType<typeof useState<T>>
+export type DefinedReactState<T> = [T, React.Dispatch<React.SetStateAction<T>>] 
+export type PossiblyDefinedReactState<T> = ReturnType<typeof useState<T>>

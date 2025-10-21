@@ -1,7 +1,7 @@
 /**
  * @format
  */
-
+import '@expo/metro-runtime'; // Must be first! Ensures that Expo's URL polyfill is loaded. Otherwise URL won't work on Android!
 import {AppRegistry} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import {PlaybackService} from './src/services';

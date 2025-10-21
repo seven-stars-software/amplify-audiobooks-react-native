@@ -8,6 +8,7 @@ const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
 
 
+
 type DownloadStatusProps = {
     track: Track
 }
