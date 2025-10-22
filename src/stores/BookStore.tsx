@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { useNetInfo } from "@react-native-community/netinfo";
+import { ReactNode, createContext, use, useContext, useEffect, useRef, useState } from "react";
+import { addEventListener, useNetInfo } from "@react-native-community/netinfo";
 import { Book, DownloadStatus } from "types/types";
 import AuthContext from "contexts/AuthContext";
 import APIClient from "APIClient";
@@ -39,28 +39,41 @@ const BookStoreContext = createContext<BookStoreContextType | null>(null);
 const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
     const [books, setBooks] = useCallbackState<BookStoreState>({})
     const [loading, setLoading] = useState(false)
-    const { isInternetReachable } = { isInternetReachable: true } //DEBUG DO NOT COMMIT useNetInfo()
+    const { isInternetReachable } = useNetInfo();
     const [authSeal] = useContext(AuthContext);
+
+    //Monitor internet reachability changes to attempt reload of books when connectivity is regained
+    const internetReachableRef = useRef(isInternetReachable);
+    useEffect(() => {
+        const prevInternetReachable = internetReachableRef.current;
+        if (prevInternetReachable !== isInternetReachable &&
+            (isInternetReachable === true || isInternetReachable === null)) {
+            console.log(`Internet Reachability changed: ${internetReachableRef.current} --> ${isInternetReachable}`);
+            //We may have regained internet connectivity
+            loadBooks();
+        }
+        internetReachableRef.current = isInternetReachable;
+    }, [isInternetReachable])
 
     useEffect(() => {
         if (authSeal !== null) {
             loadBooks()
         }
-
-        const downloadSetup = async () => {
-            try {
-                const booksDirectory: Directory = new Directory(Paths.document, 'books');
-                if (!booksDirectory.exists) {
-                    console.log(`Creating books directory at ${booksDirectory.uri}`);
-                    booksDirectory.create();
-                }
-            } catch (e) {
-                console.error(`Error during download setup: ${e}`)
-            }
-        }
-        downloadSetup();
-
     }, [authSeal])
+
+    //One time setup
+    useEffect(() => {
+        //Ensure downloads directory is created
+        try {
+            const booksDirectory: Directory = new Directory(Paths.document, 'books');
+            if (!booksDirectory.exists) {
+                console.log(`Creating books directory at ${booksDirectory.uri}`);
+                booksDirectory.create();
+            }
+        } catch (e) {
+            console.error(`Error during download setup: ${e}`)
+        }
+    }, [])
 
     //Destructive overwrite of 'books' state
     const loadFromStorage = async () => {
@@ -74,9 +87,13 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
                 const sampleBookISBN = Object.keys(booksFromStorage).find((isbn) => { return booksFromStorage[isbn].purchased }) || ''
 
                 setBooks(booksFromStorage, () => setLoading(false))
+                console.log(`Books loaded from Storage!`)
             } else {
                 console.log(`No books found in local storage`)
             }
+        } catch(e){
+            console.error(`Error loading books from storage: ${e}`)
+            throw e
         } finally {
             setLoading(false)
         }
@@ -88,7 +105,6 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
         console.log(`Loading Books from API...`)
         setLoading(true)
         try {
-            if (!isInternetReachable) throw new Error("Cannot load books from API without network connection")
             if (authSeal === null) throw new Error('Cannot make API call without first loading auth seal')
 
             const response = await APIClient.getHomeBooks(authSeal);
@@ -111,6 +127,9 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
             //Update state
             setBooks(booksFromAPI, () => setLoading(false))
             console.log(`Books loaded from API!`)
+        } catch(e){
+            console.error(`Error loading books from API: ${e}`)
+            throw e
         } finally {
             //Ensure loading is reset to false even in case of errors
             setLoading(false)
@@ -120,13 +139,14 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
     const loadBooks = async () => {
         console.log(`Loading Books...`)
         console.log(`Internet Reachable...? [${isInternetReachable}]`)
-        if (isInternetReachable) {
+        if (isInternetReachable === true || isInternetReachable === null) {
             try {
                 await loadFromAPI()
             } catch (e) {
+                console.error(`Error loading books from API: ${e}. Falling back to local storage.`)
                 await loadFromStorage()
             }
-        } else {
+        } else if (isInternetReachable === false) {
             await loadFromStorage()
         }
         initAllBookTracksDownloadStatus();
@@ -142,7 +162,7 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
                         downloadStatus: trackFileExists(book.isbn, track.name) ? DownloadStatus.DOWNLOADED : DownloadStatus.NOT_DOWNLOADED
                     }
                 });
-                updatedBooks[isbn] = {...book, tracks: updatedTracks };
+                updatedBooks[isbn] = { ...book, tracks: updatedTracks };
             })
             return updatedBooks;
         });
@@ -189,7 +209,7 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
         const bookTracksDirectory = new Directory(Paths.document, 'books', isbn, 'tracks');
         if (!bookTracksDirectory.exists) {
             console.log(`Creating tracks directory at ${bookTracksDirectory.uri}`);
-            bookTracksDirectory.create({intermediates: true});
+            bookTracksDirectory.create({ intermediates: true });
         }
 
         const audioFiles = await Promise.all(tracks.map(async (track) => {
