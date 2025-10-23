@@ -36,7 +36,7 @@ const DownloadBookButton = ({ book, size = 24 }: Props) => {
             }
             const trackDownloadStatuses = await Promise.all(
                 book.tracks.map(async (track) => {
-                    return await trackFileExists(book.isbn, track.name)
+                    return trackFileExists(book.isbn, track.name)
                 })
             );
             const allTracksDownloaded = trackDownloadStatuses.every(status => status === true);
@@ -44,7 +44,6 @@ const DownloadBookButton = ({ book, size = 24 }: Props) => {
         }
         checkAllTracksDownloaded();
     }, [book]);
-
     
 
     const pressIn = () => {
