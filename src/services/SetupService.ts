@@ -31,13 +31,13 @@ export const SetupService = async (): Promise<boolean> => {
   let isSetup = false;
   try {
     // this method will only reject if player has not been setup yet
+    console.log(JSON.stringify(Object.keys(TrackPlayer), null, 4))
     await TrackPlayer.getActiveTrackIndex();
-    isSetup = true;
-  } catch {
     await TrackPlayer.setupPlayer();
     await TrackPlayer.updateOptions(metadataOptions);
-
     isSetup = true;
+  } catch(e) {
+    console.error("TrackPlayer setup error:", e);
   } finally {
     // eslint-disable-next-line no-unsafe-finally
     return isSetup;

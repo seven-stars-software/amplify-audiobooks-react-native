@@ -7,12 +7,6 @@ require File.join(File.dirname(`node --print "require.resolve('expo/package.json
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
-linkage = ENV['USE_FRAMEWORKS']
-if linkage != nil
-  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
-  use_frameworks! :linkage => linkage.to_sym
-end
-
 target 'AmplifyAudiobooks' do
   use_expo_modules!
   post_integrate do |installer|
@@ -27,7 +21,10 @@ target 'AmplifyAudiobooks' do
   use_react_native!(
     :path => config[:reactNativePath],
     # An absolute path to your application root.
-    :app_path => "#{Pod::Config.instance.installation_root}/.."
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
+    :hermes_enabled => true,
+    :fabric_enabled => true,
+    :new_arch_enabled => true
   )
 
   target 'AmplifyAudiobooksTests' do
@@ -42,5 +39,16 @@ target 'AmplifyAudiobooks' do
       config[:reactNativePath],
       :mac_catalyst_enabled => false
     )
+
+    # Force bridgeless OFF in Debug to avoid early event races
+    installer.pods_project.targets.each do |t|
+      t.build_configurations.each do |cfg|
+        defs = cfg.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)']
+        defs << 'RCT_NEW_ARCH_ENABLED=1'
+        defs << 'RCT_FABRIC_ENABLED=1'
+        defs << 'RCT_ENABLE_BRIDGELESS=0'
+      end
+    end
+
   end
 end

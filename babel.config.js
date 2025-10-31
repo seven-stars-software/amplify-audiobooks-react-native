@@ -6,8 +6,15 @@ module.exports = {
       root: ['./src'],
       extensions: [".ios.js", ".android.js", ".js", ".json", ".ts", ".tsx"],
       alias: {
-        "@assets": "./assets"
-      },
+        '@': './src',
+        'navigators': './src/navigators',
+        'screens': './src/screens',
+        'contexts': './src/contexts',
+        'stores': './src/stores',
+        'components': './src/components',
+        'styler': './src/styler',
+        '@assets': './assets'
+      }
     }]
   ]
 };

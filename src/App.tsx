@@ -9,12 +9,12 @@ import { CachesProvider } from 'contexts/CachesProvider';
 import { PlaybackContextProvider } from 'contexts/PlaybackContext';
 import { ErrorContextProvider } from 'contexts/ErrorContext';
 import RootNavigator from 'navigators/RootNavigator';
-import { AppState } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { AppState, View } from 'react-native';
+import { GestureHandlerRootView, Text } from 'react-native-gesture-handler';
 import { BookStoreProvider } from 'stores/BookStore';
 import theme from 'styler/theme';
 import { LayoutContextProvider } from 'contexts/LayoutContext';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { initialWindowMetrics, SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App = () => {
 
@@ -30,9 +30,22 @@ const App = () => {
 
   return (
     <NavigationContainer>
+      <SafeAreaProvider>
+        <View>
+          <Text>App is running...</Text>
+        </View>
+      </SafeAreaProvider>
+      
+    </NavigationContainer>
+  )
+
+  /*
+  return (
+    <NavigationContainer>
+      <SafeAreaProvider>
       <ErrorContextProvider>
         <AuthContextProvider>
-          <SafeAreaProvider>
+          
           <LayoutContextProvider>
             <BookStoreProvider>
               <CachesProvider>
@@ -50,11 +63,13 @@ const App = () => {
               </CachesProvider>
             </BookStoreProvider>
           </LayoutContextProvider>
-          </SafeAreaProvider>
+          
         </AuthContextProvider>
       </ErrorContextProvider>
+      </SafeAreaProvider>
     </NavigationContainer>
   )
+    */
 }
 
 export default App
