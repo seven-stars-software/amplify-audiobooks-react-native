@@ -10,9 +10,7 @@
 		00E356F31AD99517003FC87E /* AmplifyAudiobooksTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AmplifyAudiobooksTests.m */; };
 		0C80B921A6F3F58F76C31292 /* libPods-AmplifyAudiobooks.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-AmplifyAudiobooks.a */; };
 		0DD73E9AA94D450ABA3030D5 /* GlacialIndifference-Bold.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 2016D9686D424D91B9F90C6A /* GlacialIndifference-Bold.woff2 */; };
-		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		17A753EC534A4A17A5E972D1 /* GlacialIndifference-Bold.woff in Resources */ = {isa = PBXBuildFile; fileRef = 02C42A101D0C4AC696472314 /* GlacialIndifference-Bold.woff */; };
 		17CAC14E794A4BA683C89748 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C0DAAD2101CF48A4A3E952C6 /* Roboto-Bold.ttf */; };
 		185FAC60087046EA9FCA639C /* Shrikhand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 648AB7BA3BF041179CAD6F68 /* Shrikhand-Regular.ttf */; };
@@ -29,12 +27,11 @@
 		840DD7BC34CD413C9066946B /* GlacialIndifference_Specimen.html in Resources */ = {isa = PBXBuildFile; fileRef = 436F5B8340994FC7A36132E3 /* GlacialIndifference_Specimen.html */; };
 		8507B0C38D1140FCBBCE83E6 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F11B3D1FB004C30B0B4C902 /* Roboto-Italic.ttf */; };
 		96228F9660DED1C913942A50 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3E82B331E0A002C9DDCB630D /* PrivacyInfo.xcprivacy */; };
-		9802538F2EB42F800072CCEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9802538E2EB42F800072CCEC /* AppDelegate.swift */; };
+		9842CAB72EB47C500035C17E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9842CAB62EB47C500035C17E /* AppDelegate.swift */; };
 		985D0CB52DCC13BD00DC7174 /* GlacialIndifference-Bold.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 985D0CB22DCC13BD00DC7174 /* GlacialIndifference-Bold.woff2 */; };
 		985D0CB62DCC13BD00DC7174 /* GlacialIndifference-Bold.woff in Resources */ = {isa = PBXBuildFile; fileRef = 985D0CB12DCC13BD00DC7174 /* GlacialIndifference-Bold.woff */; };
 		985D0CB72DCC13BD00DC7174 /* GlacialIndifference-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 985D0CAF2DCC13BD00DC7174 /* GlacialIndifference-Bold.otf */; };
 		985D0CB82DCC13BD00DC7174 /* GlacialIndifference_Specimen.html in Resources */ = {isa = PBXBuildFile; fileRef = 985D0CAE2DCC13BD00DC7174 /* GlacialIndifference_Specimen.html */; };
-		9860510E2EB4337000091229 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9860510D2EB4337000091229 /* AppDelegate.swift */; };
 		9865E6E32BB24A4A004F6D25 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9865E6D12BB24A4A004F6D25 /* Roboto-Black.ttf */; };
 		9865E6E72BB24A4A004F6D25 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9865E6D52BB24A4A004F6D25 /* Roboto-Italic.ttf */; };
 		9865E6EE2BB24A4A004F6D25 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9865E6DC2BB24A4A004F6D25 /* Roboto-ThinItalic.ttf */; };
@@ -64,11 +61,8 @@
 		02C42A101D0C4AC696472314 /* GlacialIndifference-Bold.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GlacialIndifference-Bold.woff"; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference-Bold.woff"; sourceTree = "<group>"; };
 		03FFCF20EFD141B3BB4B4681 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Thin.ttf"; path = "../assets/fonts/Roboto/Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* AmplifyAudiobooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmplifyAudiobooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = AmplifyAudiobooks/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = AmplifyAudiobooks/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AmplifyAudiobooks/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = AmplifyAudiobooks/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = AmplifyAudiobooks/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-AmplifyAudiobooks-AmplifyAudiobooksTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AmplifyAudiobooks-AmplifyAudiobooksTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F2155F344E8490EA7B2B309 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../assets/fonts/Roboto/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		2016D9686D424D91B9F90C6A /* GlacialIndifference-Bold.woff2 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GlacialIndifference-Bold.woff2"; path = "../assets/fonts/Glacial-Indifference/GlacialIndifference-Bold.woff2"; sourceTree = "<group>"; };
@@ -90,7 +84,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AmplifyAudiobooks/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-AmplifyAudiobooks-AmplifyAudiobooksTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmplifyAudiobooks-AmplifyAudiobooksTests.release.xcconfig"; path = "Target Support Files/Pods-AmplifyAudiobooks-AmplifyAudiobooksTests/Pods-AmplifyAudiobooks-AmplifyAudiobooksTests.release.xcconfig"; sourceTree = "<group>"; };
 		8A5EE1C9EDC7BAB940142884 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-AmplifyAudiobooks/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		9802538E2EB42F800072CCEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9842CAB62EB47C500035C17E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		985D0CAE2DCC13BD00DC7174 /* GlacialIndifference_Specimen.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = GlacialIndifference_Specimen.html; sourceTree = "<group>"; };
 		985D0CAF2DCC13BD00DC7174 /* GlacialIndifference-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GlacialIndifference-Bold.otf"; sourceTree = "<group>"; };
 		985D0CB02DCC13BD00DC7174 /* GlacialIndifference-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GlacialIndifference-Bold.ttf"; sourceTree = "<group>"; };
@@ -103,7 +97,6 @@
 		985D0CCE2DCC1DF800DC7174 /* OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
 		985D0CD02DCC1DF800DC7174 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		985D0CD12DCC1DF800DC7174 /* RockSalt-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RockSalt-Regular.ttf"; sourceTree = "<group>"; };
-		9860510D2EB4337000091229 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9865E6D02BB24A4A004F6D25 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		9865E6D12BB24A4A004F6D25 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
 		9865E6D22BB24A4A004F6D25 /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
@@ -189,14 +182,10 @@
 		13B07FAE1A68108700A75B9A /* AmplifyAudiobooks */ = {
 			isa = PBXGroup;
 			children = (
-				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
+				9842CAB62EB47C500035C17E /* AppDelegate.swift */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				9802538E2EB42F800072CCEC /* AppDelegate.swift */,
-				9860510D2EB4337000091229 /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
-				13B07FB71A68108700A75B9A /* main.m */,
 				3E82B331E0A002C9DDCB630D /* PrivacyInfo.xcprivacy */,
 			);
 			name = AmplifyAudiobooks;
@@ -741,10 +730,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9802538F2EB42F800072CCEC /* AppDelegate.swift in Sources */,
-				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
-				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				9860510E2EB4337000091229 /* AppDelegate.swift in Sources */,
+				9842CAB72EB47C500035C17E /* AppDelegate.swift in Sources */,
 				76BF36B6551BC520E4C66C55 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -855,7 +841,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/AmplifyAudiobooks/AmplifyAudiobooks-Bridging-Header.h\n";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -894,7 +880,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/AmplifyAudiobooks/AmplifyAudiobooks-Bridging-Header.h\n";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";

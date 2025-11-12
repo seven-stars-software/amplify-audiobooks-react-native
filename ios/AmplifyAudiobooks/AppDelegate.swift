@@ -1,10 +1,11 @@
 import UIKit
 
 @objc(AppDelegate)
-class AppDelegate: RCTAppDelegate {
+class AppDelegate: ExpoAppDelegate {
 
   override func application(_ application: UIApplication,
                            didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    registerPlugins()
 
     // Set these BEFORE super so RN 0.81 reads them
     self.turboModuleEnabled = true   // needed for RNTP v5
@@ -23,10 +24,5 @@ class AppDelegate: RCTAppDelegate {
 #else
     return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
 #endif
-  }
-
-  // Required for classic bridge code paths
-  override func sourceURL(for bridge: RCTBridge!) -> URL! {
-    return self.bundleURL()
   }
 }
