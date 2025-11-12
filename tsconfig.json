@@ -1,21 +1,17 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json",
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "types": ["node"],
-    "allowJs": true,
-    "checkJs": true,
     "strict": true,
-    // Path alias config
-    "baseUrl": ".",
-    "typeRoots": ["./src/types", "./node_modules/@types"],
     "paths": {
-      "@assets/*": [
-        "./assets/*"
-      ],
-      "*": [
-        "./src/*"
-      ],
-    },
+      "@/*": [
+        "./*"
+      ]
+    }
   },
-  "exclude": ["node_modules", "**/node_modules/*"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ]
 }
