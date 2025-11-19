@@ -4559,7 +4559,7 @@ expo-file-system@~18.0.12, expo-file-system@~18.0.7:
   dependencies:
     web-streams-polyfill "^3.3.2"
 
-expo-font@~13.0.4:
+expo-font@~13.0.1, expo-font@~13.0.4:
   version "13.0.4"
   resolved "https://registry.npmjs.org/expo-font/-/expo-font-13.0.4.tgz"
   integrity sha512-eAP5hyBgC8gafFtprsz0HMaB795qZfgJWqTmU0NfbSin1wUuVySFMEPMOrTkTgmazU73v4Cb4x7p86jY1XXYUw==
