@@ -2,7 +2,8 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParams } from "navigators/RootNavigator";
 import { createContext, ReactNode, useState } from "react";
-import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { MD3Theme, Text, useTheme } from "react-native-paper";
 import theme from "styler/theme";
 

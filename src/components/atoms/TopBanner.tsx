@@ -1,6 +1,7 @@
 import LayoutContext from "contexts/LayoutContext"
 import { useContext, useEffect, useLayoutEffect, useRef } from "react"
-import { Image, ImageBackground, Text, View, SafeAreaView, useWindowDimensions } from "react-native"
+import { Image, ImageBackground, Text, View, useWindowDimensions } from "react-native"
+import { SafeAreaView } from "react-native-safe-area-context"
 
 const logoHeight = 1255
 const logoWidth = 1526

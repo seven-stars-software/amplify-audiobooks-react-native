@@ -1,4 +1,4 @@
-import { SafeAreaView } from "react-native"
+import { SafeAreaView } from "react-native-safe-area-context"
 
 
 const styleSafeAreaView = (baseStyle?: React.ComponentProps<typeof SafeAreaView>['style']) => {
