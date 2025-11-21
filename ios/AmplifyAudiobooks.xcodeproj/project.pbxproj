@@ -28,6 +28,7 @@
 		825085CF00D54DEF971D1B03 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A7658F9B1F594F16B3D90750 /* Roboto-Regular.ttf */; };
 		840DD7BC34CD413C9066946B /* GlacialIndifference_Specimen.html in Resources */ = {isa = PBXBuildFile; fileRef = 436F5B8340994FC7A36132E3 /* GlacialIndifference_Specimen.html */; };
 		8507B0C38D1140FCBBCE83E6 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F11B3D1FB004C30B0B4C902 /* Roboto-Italic.ttf */; };
+		91BB6E2DEE904E27B3FD1006 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F99BE44D5D600A95F1D0D9FD /* PrivacyInfo.xcprivacy */; };
 		985D0CB52DCC13BD00DC7174 /* GlacialIndifference-Bold.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 985D0CB22DCC13BD00DC7174 /* GlacialIndifference-Bold.woff2 */; };
 		985D0CB62DCC13BD00DC7174 /* GlacialIndifference-Bold.woff in Resources */ = {isa = PBXBuildFile; fileRef = 985D0CB12DCC13BD00DC7174 /* GlacialIndifference-Bold.woff */; };
 		985D0CB72DCC13BD00DC7174 /* GlacialIndifference-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 985D0CAF2DCC13BD00DC7174 /* GlacialIndifference-Bold.otf */; };
@@ -139,6 +140,7 @@
 		E4D66296749A499BAA3BC8C5 /* RockSalt-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RockSalt-Regular.ttf"; path = "../assets/fonts/Rock-Salt/RockSalt-Regular.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F4818925339C49FF9131FF80 /* NanumPen-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NanumPen-Regular.ttf"; path = "../assets/fonts/Nanum-Pen-Script/NanumPen-Regular.ttf"; sourceTree = "<group>"; };
+		F99BE44D5D600A95F1D0D9FD /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = AmplifyAudiobooks/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		FBEFCD5FB7734A4B8A7C011A /* Roboto-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Black.ttf"; path = "../assets/fonts/Roboto/Roboto-Black.ttf"; sourceTree = "<group>"; };
 		FEC9EACBA7BA47C68C21058B /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BlackItalic.ttf"; path = "../assets/fonts/Roboto/Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -189,6 +191,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				F99BE44D5D600A95F1D0D9FD /* PrivacyInfo.xcprivacy */,
 			);
 			name = AmplifyAudiobooks;
 			sourceTree = "<group>";
@@ -535,6 +538,7 @@
 				5EF9987DE70041BB97FB1238 /* GloriaHallelujah-Regular.ttf in Resources */,
 				F37DA365DE7F4763B9428381 /* RockSalt-Regular.ttf in Resources */,
 				6596DC10CBB84F428A100964 /* NanumPen-Regular.ttf in Resources */,
+				91BB6E2DEE904E27B3FD1006 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -750,7 +754,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = AmplifyAudiobooksTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -780,7 +784,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = AmplifyAudiobooksTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -814,13 +818,13 @@
 				DEVELOPMENT_TEAM = UY4JPXJYBN;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = AmplifyAudiobooks/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Amplify Audiobooks";
+				INFOPLIST_KEY_CFBundleDisplayName = "AMPlify Audiobooks";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.5;
+				MARKETING_VERSION = 2.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -851,13 +855,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = UY4JPXJYBN;
 				INFOPLIST_FILE = AmplifyAudiobooks/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Amplify Audiobooks";
+				INFOPLIST_KEY_CFBundleDisplayName = "AMPlify Audiobooks";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.5;
+				MARKETING_VERSION = 2.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -926,7 +930,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -946,9 +950,13 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				USE_HERMES = true;
 			};
 			name = Debug;
@@ -995,7 +1003,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -1014,7 +1022,10 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

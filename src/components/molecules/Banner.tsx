@@ -1,6 +1,6 @@
 import styler from "styler/styler";
 
-import { SafeAreaView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import FancyBG from "components/atoms/FancyBG";
 
 type Props = {

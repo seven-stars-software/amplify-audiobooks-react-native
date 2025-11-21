@@ -1,7 +1,8 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import useWelcome from "hooks/useWelcome";
 import { WelcomeStackParams } from "navigators/WelcomeNavigator";
-import { Dimensions, Image, SafeAreaView, View } from "react-native";
+import { Dimensions, Image, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, Text, useTheme } from "react-native-paper";
 import Screen from "./Screen";
 import { useContext } from "react";

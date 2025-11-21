@@ -1,5 +1,6 @@
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Dimensions, Image, Linking, Pressable, SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import { Dimensions, Image, Linking, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, Surface, Text, useTheme } from 'react-native-paper';
 import BookTracks from "components/molecules/BookTracks";
 

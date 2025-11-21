@@ -1,6 +1,7 @@
 import LayoutContext from "contexts/LayoutContext"
-import { useContext, useLayoutEffect, useRef } from "react"
-import { Image, ImageBackground, Text, View, SafeAreaView, useWindowDimensions } from "react-native"
+import { useContext, useEffect, useLayoutEffect, useRef } from "react"
+import { Image, ImageBackground, Text, View, useWindowDimensions } from "react-native"
+import { SafeAreaView } from "react-native-safe-area-context"
 
 const logoHeight = 1255
 const logoWidth = 1526
@@ -10,10 +11,14 @@ const TopBanner = () => {
     const bannerRef = useRef<View>(null)
     const [layout, setLayout] = useContext(LayoutContext);
 
-    useLayoutEffect(() => {
-        bannerRef.current?.measure((x, y, width, height, pageX, pageY) => {
-            setLayout({topBannerHeight: height})
-        });
+    useEffect(() => {
+        setTimeout(() => {
+            bannerRef.current?.measure((x, y, width, height, pageX, pageY) => {
+                //console.log(`Setting topBannerHeight: ${height}`)
+                setLayout({ topBannerHeight: height })
+            });
+        }, 500)
+
     }, []);
 
     return (

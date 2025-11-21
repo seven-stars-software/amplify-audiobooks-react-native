@@ -2,7 +2,8 @@
 import Icon from 'react-native-vector-icons/Ionicons';
 import { BottomTabBarProps, BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { ReactNode, useContext } from "react";
-import { ImageBackground, Pressable, SafeAreaView, StyleSheet, View } from "react-native";
+import { ImageBackground, Pressable, StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Surface, Text, useTheme } from "react-native-paper";
 import NowPlayingCard, { nowPlayingCardHeight } from './NowPlayingCard';
 import { TabParamList } from 'navigators/CoreTabs';

@@ -66,6 +66,7 @@ const LoginForm = () => {
             const res = await APIClient.login({ username: fields.username, password: fields.password })
             if (!res?.success) {
                 setLoginFailed(true)
+                return
             }
             //Set Auth Seal
             const newAuthSeal = res?.seal || null
@@ -79,10 +80,11 @@ const LoginForm = () => {
                 (prevUser) =>
                     ({ ...prevUser, wpUser })
             )
-
-            setIsLoading(false)
         } catch (e) {
             handleThrown(e)
+            setLoginFailed(true)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -133,7 +135,7 @@ const LoginForm = () => {
             {
                 loginFailed ?
                     <View style={styles.LoginError}>
-                        <Text variant='labelMedium'>Login Failed. Try Again?</Text>
+                        <Text variant='labelMedium' style={styles.LoginErrorText}>Login Failed. Try Again?</Text>
                     </View>
                     : null
             }
@@ -192,7 +194,13 @@ const makeStyles = (paperTheme: MD3Theme) => {
             fontSize: width / 20,
         },
         LoginError: {
-            padding: 10
+            padding: 10,
+            minHeight: 40,
+            justifyContent: 'center',
+        },
+        LoginErrorText: {
+            fontSize: width / 22,
+            lineHeight: width / 18,
         },
         LoginButtonContainer: {
 
