@@ -1,3 +1,10 @@
+# v2.1.0
+- Upgraded to React Native 0.77 for Android 16KB page size support
+- Updated iOS deployment target to 15.1 for compatibility with latest dependencies
+- Fixed Android safe area handling (status bar, navigation bar, camera cutouts)
+- Fixed login form loading state bug that prevented retry after errors
+- Improved login error message visibility
+
 # v2.0.5
 - Dynamic banner sizing based on screen size
 - Loading screen quotes
