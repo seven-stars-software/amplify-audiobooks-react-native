@@ -46,7 +46,6 @@ export const PlaybackContextProvider = ({ children }: { children?: ReactNode }) 
     const checkpointRef = useRef<Checkpoint | null>(null)
 
     useEffect(() => {
-        console.log(`Playback State Changed: ${JSON.stringify(playerState, null, 4)}`)
         if(playbackProblemTimeout){
             clearTimeout(playbackProblemTimeout);
         }

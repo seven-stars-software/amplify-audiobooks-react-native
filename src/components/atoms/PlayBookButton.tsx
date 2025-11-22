@@ -1,6 +1,5 @@
 
 import Icon from 'react-native-vector-icons/AntDesign';
-import { useTracksCache } from 'caches/TracksCache';
 import PlaybackContext from 'contexts/PlaybackContext';
 import { useContext, useEffect, useState } from 'react';
 import { Dimensions, Pressable } from 'react-native';
@@ -10,6 +9,7 @@ import { Book } from 'types/types';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParams } from 'navigators/RootNavigator';
+import { useBookStore } from "stores/BookStore";
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -21,7 +21,7 @@ type Props = {
 const PlayBookButton = ({ book, size = 24 }: Props) => {
     const theme = useTheme();
     const {nowPlaying, playBook} = useContext(PlaybackContext);
-    const {loading, tracks} = useTracksCache(book)
+    const { loading: loadingBooks, books, } = useBookStore()
     
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>();
     const goToNowPlaying = () => {
@@ -39,17 +39,17 @@ const PlayBookButton = ({ book, size = 24 }: Props) => {
         && nowPlaying?.name === book.name
 
     useEffect(() => {
-        if (!loading) {
+        if (!loadingBooks) {
             setShowLoadingIndicator(false)
         }
         if (playOnLoad){
             togglePlay()
         }
-    }, [loading])
+    }, [loadingBooks])
 
     const pressIn = () => {
         setButtonColor(theme.colors.secondary)
-        if (loading) setShowLoadingIndicator(true)
+        if (loadingBooks) setShowLoadingIndicator(true)
     }
     const pressOut = () => {
         setButtonColor(theme.colors.primary)
@@ -58,17 +58,16 @@ const PlayBookButton = ({ book, size = 24 }: Props) => {
     const togglePlay = ()=>{
         if (thisBookIsPlaying){
             TrackPlayer.pause();
-        } else if(!loading){
-            playBook(book, tracks)
+        } else if(!loadingBooks){
+            playBook(book, book.tracks)
         }
     }
 
     const press = async () => {
-        if(loading){
+        if(loadingBooks){
             setPlayOnLoad(true)
         } else {
             togglePlay()
-            
         }
     }
 

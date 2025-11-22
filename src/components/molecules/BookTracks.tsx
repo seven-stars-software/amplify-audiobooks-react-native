@@ -2,7 +2,6 @@ import { ActivityIndicator } from 'react-native-paper';
 
 import { Dimensions, FlatList, Pressable, View } from "react-native";
 import TrackItem from "./TrackItem";
-import { useTracksCache } from "caches/TracksCache";
 import { useContext } from "react";
 import PlaybackContext from "contexts/PlaybackContext";
 import { Book } from 'types/types';
@@ -15,28 +14,34 @@ export type Props = {
     isbn: Book['isbn']
 }
 const BookTracks = ({ isbn }: Props) => {
-    const { loading: loadingBooks, books, loadBooks } = useBookStore()
+    const { loading: loadingBooks, books, trackFileExists } = useBookStore()
     const book = books[isbn]
+    let { tracks } = book;
+    if(tracks === undefined){
+        console.log('No tracks available for book:', book.name)
+        console.log(`Does user own book? ${book.purchased?'Yes':'No'}`)
+        tracks = [];
+    }
+    const tracksWithDownloadStatus = tracks.map(track => {
+        return {
+            ...track,
+            downloaded: trackFileExists(isbn, track.name)
+        }
+    })
 
-    const { loading: loadingTracks, tracks } = useTracksCache(book);
-    const tracksMinusSample = tracks ? tracks.filter((track) => {
-        if (track?.isSample) return
-        return track
-    }) : []
-    
     const { playBook } = useContext(PlaybackContext);
 
     const pressTrack = (trackNumber: number) => {
-        playBook(book, tracks, {trackNumber})
+        playBook(book, book.tracks, {trackNumber})
     }
 
     return (
         <View>
             {
-                loadingTracks ?
+                loadingBooks ?
                     (<ActivityIndicator animating={true} />)
                     :
-                    tracksMinusSample.map((track, index) => {
+                    tracksWithDownloadStatus.map((track, index) => {
                         return (
                             <Pressable key={index} onPress={()=>{pressTrack(index)}}>
                                 <TrackItem track={track} key={index} />
