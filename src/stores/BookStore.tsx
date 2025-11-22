@@ -1,11 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { ReactNode, createContext, use, useContext, useEffect, useRef, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
 import { addEventListener, useNetInfo } from "@react-native-community/netinfo";
 import { Book, DownloadStatus } from "types/types";
 import AuthContext from "contexts/AuthContext";
 import APIClient from "APIClient";
 import useCallbackState from "hooks/useCallbackState";
-import { Directory, Paths, File } from "expo-file-system";
+import * as FileSystem from 'expo-file-system';
 
 const BookStoreBucket = '@BookBucket'
 const saveToStorage = async (books: BookStoreState) => {
@@ -15,9 +15,9 @@ const saveToStorage = async (books: BookStoreState) => {
 interface BookStoreContextType {
     books: BookStoreState,
     loadBooks: () => Promise<void>,
-    downloadAudioFiles: (isbn: Book['isbn']) => Promise<(File | undefined)[]>,
+    downloadAudioFiles: (isbn: Book['isbn']) => Promise<void>,
     removeDownloads: (isbn: Book['isbn']) => Promise<void>,
-    trackFileExists: (isbn: Book['isbn'], trackName: string) => boolean,
+    trackFileExists: (isbn: Book['isbn'], trackName: string) => Promise<boolean>,
     loading: boolean
 }
 
@@ -65,15 +65,19 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
     //One time setup
     useEffect(() => {
         //Ensure downloads directory is created
-        try {
-            const booksDirectory: Directory = new Directory(Paths.document, 'books');
-            if (!booksDirectory.exists) {
-                console.log(`Creating books directory at ${booksDirectory.uri}`);
-                booksDirectory.create();
+        const setupDownloadDirectory = async () => {
+            try {
+                const booksDirectoryPath = `${FileSystem.documentDirectory}books`;
+                const dirInfo = await FileSystem.getInfoAsync(booksDirectoryPath);
+                if (!dirInfo.exists) {
+                    console.log(`Creating books directory at ${booksDirectoryPath}`);
+                    await FileSystem.makeDirectoryAsync(booksDirectoryPath, { intermediates: true });
+                }
+            } catch (e) {
+                console.error(`Error during download setup: ${e}`)
             }
-        } catch (e) {
-            console.error(`Error during download setup: ${e}`)
-        }
+        };
+        setupDownloadDirectory();
     }, [])
 
     //Destructive overwrite of 'books' state
@@ -150,33 +154,41 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
         } else if (isInternetReachable === false) {
             await loadFromStorage()
         }
-        initAllBookTracksDownloadStatus();
+        await initAllBookTracksDownloadStatus();
     }
 
-    const initAllBookTracksDownloadStatus = () => {
-        setBooks(prevBooks => {
-            const updatedBooks: BookStoreState = {}
-            Object.entries(prevBooks).forEach(([isbn, book]) => {
-                const updatedTracks = book.tracks?.map(track => {
-                    return {
-                        ...track,
-                        downloadStatus: trackFileExists(book.isbn, track.name) ? DownloadStatus.DOWNLOADED : DownloadStatus.NOT_DOWNLOADED
-                    }
-                });
+    const initAllBookTracksDownloadStatus = async () => {
+        const currentBooks = books;
+        const updatedBooks: BookStoreState = {}
+
+        for (const [isbn, book] of Object.entries(currentBooks)) {
+            if (book.tracks) {
+                const updatedTracks = await Promise.all(
+                    book.tracks.map(async (track) => {
+                        const exists = await trackFileExists(book.isbn, track.name);
+                        return {
+                            ...track,
+                            downloadStatus: exists ? DownloadStatus.DOWNLOADED : DownloadStatus.NOT_DOWNLOADED
+                        };
+                    })
+                );
                 updatedBooks[isbn] = { ...book, tracks: updatedTracks };
-            })
-            return updatedBooks;
-        });
+            } else {
+                updatedBooks[isbn] = book;
+            }
+        }
+
+        setBooks(updatedBooks);
     }
 
-    const getTrackFile = (isbn: Book['isbn'], trackName: string) => {
-        const file = new File(Paths.document, 'books', isbn, 'tracks', trackName + '.mp3');
-        return file;
+    const getTrackFilePath = (isbn: Book['isbn'], trackName: string) => {
+        return `${FileSystem.documentDirectory}books/${isbn}/tracks/${trackName}.mp3`;
     }
 
-    const trackFileExists = (isbn: Book['isbn'], trackName: string) => {
-        const trackFile = getTrackFile(isbn, trackName);
-        return trackFile.exists;
+    const trackFileExists = async (isbn: Book['isbn'], trackName: string) => {
+        const trackFilePath = getTrackFilePath(isbn, trackName);
+        const fileInfo = await FileSystem.getInfoAsync(trackFilePath);
+        return fileInfo.exists;
     };
 
     const setTrackDownloadStatus = (isbn: Book['isbn'], trackName: string, status: DownloadStatus) => {
@@ -207,34 +219,36 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
             throw new Error(`Book with ISBN [${isbn}] has no tracks to download`)
         }
 
-        const bookTracksDirectory = new Directory(Paths.document, 'books', isbn, 'tracks');
-        if (!bookTracksDirectory.exists) {
-            console.log(`Creating tracks directory at ${bookTracksDirectory.uri}`);
-            bookTracksDirectory.create({ intermediates: true });
+        // Ensure the tracks directory exists
+        const bookTracksDirectoryPath = `${FileSystem.documentDirectory}books/${isbn}/tracks`;
+        const dirInfo = await FileSystem.getInfoAsync(bookTracksDirectoryPath);
+        if (!dirInfo.exists) {
+            console.log(`Creating tracks directory at ${bookTracksDirectoryPath}`);
+            await FileSystem.makeDirectoryAsync(bookTracksDirectoryPath, { intermediates: true });
         }
 
-        const audioFiles = await Promise.all(tracks.map(async (track) => {
-            const fileToBeCreated = getTrackFile(isbn, track.name);
-            console.log(`Downloading track [${track.name}] to [${fileToBeCreated.uri}]`)
-            let createdFile;
+        // Download all tracks
+        await Promise.all(tracks.map(async (track) => {
+            const fileToBeCreated = getTrackFilePath(isbn, track.name);
+            console.log(`Downloading track [${track.name}] to [${fileToBeCreated}]`)
             try {
                 //Update track download status in state
                 setTrackDownloadStatus(isbn, track.name, DownloadStatus.DOWNLOADING);
-                createdFile = await File.downloadFileAsync(track.uri, fileToBeCreated, { idempotent: true }) as File;
+                await FileSystem.downloadAsync(track.uri, fileToBeCreated);
                 setTrackDownloadStatus(isbn, track.name, DownloadStatus.DOWNLOADED);
             } catch (error) {
-                console.error(error);
+                console.error(`Error downloading track ${track.name}:`, error);
+                setTrackDownloadStatus(isbn, track.name, DownloadStatus.NOT_DOWNLOADED);
             }
-            return createdFile;
         }));
-        return audioFiles;
     }
 
     const removeDownloads = async (isbn: Book['isbn']) => {
-        const bookDirectory = new Directory(Paths.document, 'books', isbn);
-        if (bookDirectory.exists) {
-            console.log(`Deleting book directory at ${bookDirectory.uri}`);
-            bookDirectory.delete();
+        const bookDirectoryPath = `${FileSystem.documentDirectory}books/${isbn}`;
+        const dirInfo = await FileSystem.getInfoAsync(bookDirectoryPath);
+        if (dirInfo.exists) {
+            console.log(`Deleting book directory at ${bookDirectoryPath}`);
+            await FileSystem.deleteAsync(bookDirectoryPath);
         }
 
         // Update all tracks to NOT_DOWNLOADED status

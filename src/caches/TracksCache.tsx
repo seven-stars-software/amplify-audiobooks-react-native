@@ -1,7 +1,7 @@
 import APIClient from "APIClient";
 import AuthContext from "contexts/AuthContext";
 import { useContext, useEffect, useRef, useState } from "react";
-import { Book, Track } from "types/types";
+import { Book, Track, DownloadStatus } from "types/types";
 import { createCacheContext, getCacheProvider } from "./GenericCache";
 import * as FileSystem from 'expo-file-system';
 
@@ -91,7 +91,7 @@ const useTracksLoader = (book: Book) => {
                         const isDownloaded = await isTrackDownloaded(book.isbn, track)
                         let localURI = undefined
                         if (isDownloaded) localURI = getTrackURI(book.isbn, track)
-                        return { ...track, downloadStatus: isDownloaded ? 'downloaded' : 'not_downloaded', localURI }
+                        return { ...track, downloadStatus: isDownloaded ? DownloadStatus.DOWNLOADED : DownloadStatus.NOT_DOWNLOADED, localURI }
                     }
                 )
             )
@@ -148,7 +148,7 @@ const useTracksLoader = (book: Book) => {
 
                 //Set track download status to 'downloading'
                 let updatedTrack = targetTrack;
-                updatedTrack.downloadStatus = 'downloading'
+                updatedTrack.downloadStatus = DownloadStatus.DOWNLOADING
                 updateTrack(book.isbn, updatedTrack)
 
                 //Start track download
@@ -156,7 +156,7 @@ const useTracksLoader = (book: Book) => {
                 console.log(`   [${trackDownloadable.s3Key}] finished downloading`)
 
                 //update tracks cache with new localURI
-                updatedTrack.downloadStatus = 'downloaded'
+                updatedTrack.downloadStatus = DownloadStatus.DOWNLOADED
                 updatedTrack.localURI = getTrackURI(book.isbn, updatedTrack)
                 updateTrack(book.isbn, updatedTrack)
             })
@@ -170,7 +170,7 @@ const useTracksLoader = (book: Book) => {
 
     const markAllTracksNotDownloaded = (isbn: Book['isbn']) => {
         const bookTracks = data[isbn];
-        const downloadStatus: Track['downloadStatus'] = 'not_downloaded';
+        const downloadStatus: Track['downloadStatus'] = DownloadStatus.NOT_DOWNLOADED;
         const updatedBookTracks = bookTracks.map((track) => {
             return {
                 ...track,

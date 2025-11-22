@@ -14,20 +14,19 @@ export type Props = {
     isbn: Book['isbn']
 }
 const BookTracks = ({ isbn }: Props) => {
-    const { loading: loadingBooks, books, trackFileExists } = useBookStore()
+    const { loading: loadingBooks, books } = useBookStore()
     const book = books[isbn]
+
+    if (!book) {
+        return null;
+    }
+
     let { tracks } = book;
     if(tracks === undefined){
         console.log('No tracks available for book:', book.name)
         console.log(`Does user own book? ${book.purchased?'Yes':'No'}`)
         tracks = [];
     }
-    const tracksWithDownloadStatus = tracks.map(track => {
-        return {
-            ...track,
-            downloaded: trackFileExists(isbn, track.name)
-        }
-    })
 
     const { playBook } = useContext(PlaybackContext);
 
@@ -41,7 +40,7 @@ const BookTracks = ({ isbn }: Props) => {
                 loadingBooks ?
                     (<ActivityIndicator animating={true} />)
                     :
-                    tracksWithDownloadStatus.map((track, index) => {
+                    tracks.map((track, index) => {
                         return (
                             <Pressable key={index} onPress={()=>{pressTrack(index)}}>
                                 <TrackItem track={track} key={index} />
