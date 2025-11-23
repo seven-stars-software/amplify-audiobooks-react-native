@@ -6,6 +6,9 @@ import AuthContext from "contexts/AuthContext";
 import APIClient from "APIClient";
 import useCallbackState from "hooks/useCallbackState";
 import * as FileSystem from 'expo-file-system';
+import useDevSettings from "hooks/useDevSettings";
+import { ActivityIndicator, Text } from "react-native-paper";
+import { View } from "react-native";
 
 const BookStoreBucket = '@BookBucket'
 const saveToStorage = async (books: BookStoreState) => {
@@ -80,12 +83,20 @@ const BookStoreContext = createContext<BookStoreContextType | null>(null);
 const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
     const [books, setBooks] = useCallbackState<BookStoreState>({})
     const [loading, setLoading] = useState(false)
-    const { isInternetReachable } = useNetInfo();
+    const { isInternetReachable: rawIsInternetReachable } = useNetInfo();
+    const { devSettings, loaded: devSettingsLoaded } = useDevSettings();
     const [authSeal] = useContext(AuthContext);
+
+    // Override network state with dev settings if simulate offline is enabled (dev only)
+    const isInternetReachable = (__DEV__ && devSettings.simulateOffline) ? false : rawIsInternetReachable;
+    console.log(`__DEV__ [${__DEV__}] , Simulate Offline [${devSettings.simulateOffline}] --> isInternetReachable = [${isInternetReachable}]`)
 
     //Monitor internet reachability changes to attempt reload of books when connectivity is regained
     const internetReachableRef = useRef(isInternetReachable);
     useEffect(() => {
+        // Don't attempt to load until dev settings are ready
+        if (!devSettingsLoaded) return;
+
         const prevInternetReachable = internetReachableRef.current;
 
         if (prevInternetReachable !== isInternetReachable &&
@@ -96,15 +107,18 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
             loadBooks();
         }
         internetReachableRef.current = isInternetReachable;
-    }, [isInternetReachable])
+    }, [isInternetReachable, devSettingsLoaded])
 
     //Load books on initial mount if we have an auth seal
     //And whenever the auth seal changes
+    //Wait for dev settings to load before loading books
     useEffect(() => {
+        if (!devSettingsLoaded) return;
+
         if (authSeal !== null) {
             loadBooks()
         }
-    }, [authSeal])
+    }, [authSeal, devSettingsLoaded])
 
     //One time setup
     useEffect(() => {
@@ -197,6 +211,7 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
         console.log(`Loading Books...`)
         console.log(`Internet Reachable...? [${isInternetReachable}]`)
         if (isInternetReachable === true || isInternetReachable === null) {
+            console.log(`Internet might be reachable, attempting to load from API...`)
             try {
                 await loadFromAPI()
             } catch (e) {
@@ -204,6 +219,7 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
                 await loadFromStorage()
             }
         } else if (isInternetReachable === false) {
+            console.log(`Internet not reachable, loading from local storage...`)
             await loadFromStorage()
         }
     }
@@ -288,6 +304,17 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
             saveToStorage(newBooks);
             return newBooks;
         });
+    }
+
+    // Wait for dev settings to load before rendering children
+    // In production, devSettingsLoaded is immediately true
+    if (!devSettingsLoaded) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator animating={true} size="large" />
+                <Text style={{ marginTop: 10 }}>Loading dev settings...</Text>
+            </View>
+        );
     }
 
     return (
