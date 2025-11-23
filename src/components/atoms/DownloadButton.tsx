@@ -23,29 +23,11 @@ const DownloadBookButton = ({ book, size = 24, isOffline = false, onOfflineDownl
 
     const [removalDialogVisible, setRemovalDialogVisible] = useState(false);
 
-    const {downloadAudioFiles, removeDownloads, trackFileExists} = useBookStore()
+    const {downloadAudioFiles, removeDownloads} = useBookStore()
 
-    //State to check if all tracks are downloaded
-    const [bookDownloaded, setBookDownloaded] = useState<boolean>(false);
-    useEffect(() => {
-        const checkAllTracksDownloaded = async () => {
-            if(!book.tracks){
-                console.log(`Book [${book.name}] has no tracks.`)
-                setBookDownloaded(false);
-                return;
-            }
-            const trackDownloadStatuses = await Promise.all(
-                book.tracks.map(async (track) => {
-                    return trackFileExists(book.isbn, track.name)
-                })
-            );
-            const allTracksDownloaded = trackDownloadStatuses.every(status => status === true);
-            setBookDownloaded(allTracksDownloaded || false);
-        }
-        checkAllTracksDownloaded();
-    }, [book]);
-
-    const allTracksDownloaded = bookDownloaded
+    // Check if all tracks are downloaded by looking at their download status
+    // This reacts to real-time status updates during downloads
+    const allTracksDownloaded = book.tracks?.every(track => track.downloadStatus === 'downloaded') ?? false;
 
     const pressIn = () => {
         setButtonColor(theme.colors.secondary)

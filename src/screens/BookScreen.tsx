@@ -17,6 +17,7 @@ import DownloadButton from "components/atoms/DownloadButton";
 import { tabBarPlusNowPlayingHeight } from 'components/molecules/CoreTabBar';
 import useNetworkStatus from 'hooks/useNetworkStatus';
 import { useState } from "react";
+import { useBookStore } from "stores/BookStore";
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -27,7 +28,11 @@ type Props = NativeStackScreenProps<{ 'Book': BookScreenParams }, 'Book'>
 const BookScreen = ({ route }: Props) => {
     const globalStyles = useStyles()
     const theme = useTheme();
-    const { book } = route.params;
+    const { book: routeBook } = route.params;
+
+    // Get fresh book data from BookStore to react to download status changes
+    const { books } = useBookStore();
+    const book = books[routeBook.isbn] || routeBook;
 
     const navigation = useNavigation<NativeStackNavigationProp<HomeStackParams | LibraryStackParams | SettingsStackParams>>();
 
