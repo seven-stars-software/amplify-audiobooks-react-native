@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
 import { addEventListener, useNetInfo } from "@react-native-community/netinfo";
-import { Book, DownloadStatus } from "types/types";
+import { Book, DownloadStatus, Track } from "types/types";
 import AuthContext from "contexts/AuthContext";
 import APIClient from "APIClient";
 import useCallbackState from "hooks/useCallbackState";
@@ -10,6 +10,46 @@ import * as FileSystem from 'expo-file-system';
 const BookStoreBucket = '@BookBucket'
 const saveToStorage = async (books: BookStoreState) => {
     await AsyncStorage.setItem(`${BookStoreBucket}`, JSON.stringify(books))
+}
+
+export const getTrackFilePath = (isbn: Book['isbn'], trackName: string) => {
+    return `${FileSystem.documentDirectory}books/${isbn}/tracks/${trackName}.mp3`;
+}
+
+export const trackFileExists = async (isbn: Book['isbn'], trackName: string) => {
+    const trackFilePath = getTrackFilePath(isbn, trackName);
+    const fileInfo = await FileSystem.getInfoAsync(trackFilePath);
+    return fileInfo.exists;
+};
+
+export const getTrackDownloadStatus = async (isbn: Book['isbn'], track: Track) => {
+    const exists = await trackFileExists(isbn, track.name);
+    return exists ? DownloadStatus.DOWNLOADED : DownloadStatus.NOT_DOWNLOADED
+}
+
+const cleanupFailedDownload = async (filePath: string, trackName: string) => {
+    try {
+        const fileInfo = await FileSystem.getInfoAsync(filePath);
+        if (fileInfo.exists) {
+            await FileSystem.deleteAsync(filePath);
+            console.log(`Deleted partial file for failed download: ${trackName}`);
+        }
+    } catch (error) {
+        console.error(`Error cleaning up failed download ${trackName}:`, error);
+    }
+}
+
+const augmentBookWithDownloadStatuses = async (book: Book): Promise<Book> => {
+    if (!book.tracks) return book;
+
+    const updatedTracks = await Promise.all(
+        book.tracks.map(async (track) => {
+            const downloadStatus = await getTrackDownloadStatus(book.isbn, track);
+            return { ...track, downloadStatus };
+        })
+    );
+
+    return { ...book, tracks: updatedTracks };
 }
 
 interface BookStoreContextType {
@@ -47,15 +87,19 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
     const internetReachableRef = useRef(isInternetReachable);
     useEffect(() => {
         const prevInternetReachable = internetReachableRef.current;
+
         if (prevInternetReachable !== isInternetReachable &&
             (isInternetReachable === true || isInternetReachable === null)) {
             console.log(`Internet Reachability changed: ${internetReachableRef.current} --> ${isInternetReachable}`);
             //We may have regained internet connectivity
+            //Attempt to reload books
             loadBooks();
         }
         internetReachableRef.current = isInternetReachable;
     }, [isInternetReachable])
 
+    //Load books on initial mount if we have an auth seal
+    //And whenever the auth seal changes
     useEffect(() => {
         if (authSeal !== null) {
             loadBooks()
@@ -88,15 +132,12 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
             const booksFromStorageJSON = await AsyncStorage.getItem(`${BookStoreBucket}`)
             if (booksFromStorageJSON != null) {
                 const booksFromStorage = JSON.parse(booksFromStorageJSON)
-
-                const sampleBookISBN = Object.keys(booksFromStorage).find((isbn) => { return booksFromStorage[isbn].purchased }) || ''
-
                 setBooks(booksFromStorage, () => setLoading(false))
                 console.log(`Books loaded from Storage!`)
             } else {
                 console.log(`No books found in local storage`)
             }
-        } catch(e){
+        } catch (e) {
             console.error(`Error loading books from storage: ${e}`)
             throw e
         } finally {
@@ -116,29 +157,40 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
             if (!response) throw new Error("Could not fetch home books")
 
             const { library, featured, newReleases, onSale } = response;
-
-            //In case a user owns a book that is also in another category, ignore the book data in the other category in favor of the version in the user's library
-            const booksFromAPI: { [key: Book['isbn']]: Book } = {}
-            const unownedBooks = [featured, newReleases, onSale].flat()
-            unownedBooks.forEach((book) => {
-                booksFromAPI[book.isbn] = book
-            })
-            library.forEach((book) => {
-                booksFromAPI[book.isbn] = book
-            })
+            const organizedBooks = await prepBooks(library, [featured, newReleases, onSale].flat());
 
             //Update local storage any time we fetch fresh data from the API
-            saveToStorage(booksFromAPI)
+            saveToStorage(organizedBooks)
             //Update state
-            setBooks(booksFromAPI, () => setLoading(false))
+            setBooks(organizedBooks, () => setLoading(false))
             console.log(`Books loaded from API!`)
-        } catch(e){
+        } catch (e) {
             console.error(`Error loading books from API: ${e}`)
             throw e
         } finally {
             //Ensure loading is reset to false even in case of errors
             setLoading(false)
         }
+    }
+
+    //Merge ownedBooks and unownedBooks, giving precedence to ownedBooks in case of duplicates
+    //Also augment ownedBooks with download statuses
+    const prepBooks = async (ownedBooks: Book[], unownedBooks: Book[]): Promise<BookStoreState> => {
+        //In case a user owns a book that is also in another category,
+        //ignore the book data in the other category in favor of the version in the user's library
+        const organizedBooks: { [key: Book['isbn']]: Book } = {}
+        unownedBooks.forEach((book) => {
+            organizedBooks[book.isbn] = book
+        })
+        const augmentedOwnedBooks = await Promise.all(
+            ownedBooks.map(async (book) => {
+                return await augmentBookWithDownloadStatuses(book)
+            })
+        )
+        augmentedOwnedBooks.forEach(book => {
+            organizedBooks[book.isbn] = book
+        })
+        return organizedBooks;
     }
 
     const loadBooks = async () => {
@@ -154,42 +206,9 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
         } else if (isInternetReachable === false) {
             await loadFromStorage()
         }
-        await initAllBookTracksDownloadStatus();
     }
 
-    const initAllBookTracksDownloadStatus = async () => {
-        const currentBooks = books;
-        const updatedBooks: BookStoreState = {}
 
-        for (const [isbn, book] of Object.entries(currentBooks)) {
-            if (book.tracks) {
-                const updatedTracks = await Promise.all(
-                    book.tracks.map(async (track) => {
-                        const exists = await trackFileExists(book.isbn, track.name);
-                        return {
-                            ...track,
-                            downloadStatus: exists ? DownloadStatus.DOWNLOADED : DownloadStatus.NOT_DOWNLOADED
-                        };
-                    })
-                );
-                updatedBooks[isbn] = { ...book, tracks: updatedTracks };
-            } else {
-                updatedBooks[isbn] = book;
-            }
-        }
-
-        setBooks(updatedBooks);
-    }
-
-    const getTrackFilePath = (isbn: Book['isbn'], trackName: string) => {
-        return `${FileSystem.documentDirectory}books/${isbn}/tracks/${trackName}.mp3`;
-    }
-
-    const trackFileExists = async (isbn: Book['isbn'], trackName: string) => {
-        const trackFilePath = getTrackFilePath(isbn, trackName);
-        const fileInfo = await FileSystem.getInfoAsync(trackFilePath);
-        return fileInfo.exists;
-    };
 
     const setTrackDownloadStatus = (isbn: Book['isbn'], trackName: string, status: DownloadStatus) => {
         setBooks(prevBooks => {
@@ -205,7 +224,9 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
             });
             updatedBook.tracks = updatedTracks;
 
-            return { ...prevBooks, [isbn]: updatedBook };
+            const newBooks = { ...prevBooks, [isbn]: updatedBook };
+            saveToStorage(newBooks);
+            return newBooks;
         });
     }
 
@@ -238,7 +259,8 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
                 setTrackDownloadStatus(isbn, track.name, DownloadStatus.DOWNLOADED);
             } catch (error) {
                 console.error(`Error downloading track ${track.name}:`, error);
-                setTrackDownloadStatus(isbn, track.name, DownloadStatus.NOT_DOWNLOADED);
+                setTrackDownloadStatus(isbn, track.name, DownloadStatus.FAILED);
+                await cleanupFailedDownload(fileToBeCreated, track.name);
             }
         }));
     }
@@ -262,7 +284,9 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
             }));
             updatedBook.tracks = updatedTracks;
 
-            return { ...prevBooks, [isbn]: updatedBook };
+            const newBooks = { ...prevBooks, [isbn]: updatedBook };
+            saveToStorage(newBooks);
+            return newBooks;
         });
     }
 

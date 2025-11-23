@@ -3,6 +3,7 @@ import { createContext, ReactNode, useContext, useEffect, useRef, useState } fro
 import { Book, Track } from 'types/types';
 import useCheckpoints, { Checkpoint } from 'hooks/useCheckpoints';
 import ErrorContext from './ErrorContext';
+import { getTrackFilePath } from 'stores/BookStore';
 
 type PlaybackController = {
     nowPlaying?: Book,
@@ -24,8 +25,12 @@ const PlaybackContext = createContext<PlaybackController>({
 });
 
 const playerTrackFromTrack = (book: Book, track: Track): PlayerTrack => {
+    let trackURL = track.uri;
+    if(track.downloadStatus === 'downloaded'){
+        trackURL = getTrackFilePath(book.isbn, track.name);
+    }
     return {
-        url: track.localURI || track.uri,
+        url: trackURL, // Use local URI if available, otherwise use remote URI
         title: track.name,
         artist: book.author,
         album: book.name,

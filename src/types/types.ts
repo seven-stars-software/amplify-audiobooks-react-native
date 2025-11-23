@@ -24,17 +24,16 @@ export type Book = {
 export const enum DownloadStatus {
     DOWNLOADING = 'downloading',
     DOWNLOADED = 'downloaded',
-    NOT_DOWNLOADED = 'not_downloaded'
+    NOT_DOWNLOADED = 'not_downloaded',
+    FAILED = 'failed'
 }
 
 export type Track = {
     isSample: boolean,
-    number?: number,
     name: string,
     s3Key: string,
     uri: string,
     downloadStatus: DownloadStatus
-    localURI?: string
 }
 
 export type DefinedReactState<T> = [T, React.Dispatch<React.SetStateAction<T>>]

@@ -1,10 +1,9 @@
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dimensions, Pressable } from 'react-native';
 import { ActivityIndicator, Tooltip, useTheme } from 'react-native-paper';
-import { Book, Track } from 'types/types';
-import * as FileSystem from 'expo-file-system';
+import { Book } from 'types/types';
 import RemoveDownloadsDialog from './RemoveDownloadsDialog';
 import { useBookStore } from 'stores/BookStore';
 

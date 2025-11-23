@@ -1,6 +1,6 @@
 import { ActivityIndicator } from 'react-native-paper';
 
-import { Dimensions, FlatList, Pressable, View } from "react-native";
+import { Dimensions, Pressable, View } from "react-native";
 import TrackItem from "./TrackItem";
 import { useContext } from "react";
 import PlaybackContext from "contexts/PlaybackContext";
@@ -14,7 +14,7 @@ export type Props = {
     isbn: Book['isbn']
 }
 const BookTracks = ({ isbn }: Props) => {
-    const { loading: loadingBooks, books } = useBookStore()
+    const { loading, books } = useBookStore()
     const book = books[isbn]
 
     if (!book) {
@@ -37,7 +37,7 @@ const BookTracks = ({ isbn }: Props) => {
     return (
         <View>
             {
-                loadingBooks ?
+                loading ?
                     (<ActivityIndicator animating={true} />)
                     :
                     tracks.map((track, index) => {
