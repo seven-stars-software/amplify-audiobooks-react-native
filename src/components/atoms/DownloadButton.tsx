@@ -12,9 +12,11 @@ const height = Dimensions.get('window').height; //full height
 
 type Props = {
     book: Book,
-    size: React.ComponentProps<typeof Icon>['size']
+    size: React.ComponentProps<typeof Icon>['size'],
+    isOffline?: boolean,
+    onOfflineDownloadAttempt?: () => void
 }
-const DownloadBookButton = ({ book, size = 24 }: Props) => {
+const DownloadBookButton = ({ book, size = 24, isOffline = false, onOfflineDownloadAttempt }: Props) => {
     const theme = useTheme();
     const [buttonColor, setButtonColor] = useState(theme.colors.primary);
     const [showDownloadIndicator, setShowDownloadIndicator] = useState(false);
@@ -56,6 +58,12 @@ const DownloadBookButton = ({ book, size = 24 }: Props) => {
         //If tracks are already downloaded, button will open download removal dialog
         if (allTracksDownloaded) {
             setRemovalDialogVisible(true)
+            return;
+        }
+
+        //If offline, show the offline modal instead of attempting download
+        if (isOffline && onOfflineDownloadAttempt) {
+            onOfflineDownloadAttempt();
             return;
         }
 

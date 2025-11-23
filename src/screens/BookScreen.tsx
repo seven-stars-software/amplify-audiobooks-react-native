@@ -75,7 +75,7 @@ const BookScreen = ({ route }: Props) => {
                             Write a Review
                         </Button>
                         <View style={{ paddingLeft: 5,  }}>
-                            <DownloadButton book={book} size={width / 10} />
+                            <DownloadButton book={book} size={width / 10} isOffline={isOffline} onOfflineDownloadAttempt={showOfflineModal} />
                         </View>
 
                     </View>
@@ -90,10 +90,10 @@ const BookScreen = ({ route }: Props) => {
                     <Dialog.Title style={{ textAlign: 'center' }}>It Appears You're Offline</Dialog.Title>
                     <Dialog.Content>
                         <Text variant="bodyLarge" style={{ marginBottom: 10, textAlign: 'center' }}>
-                            Sorry, we can't play this book offline because it hasn't been downloaded to your device yet.
+                            Sorry, we can't access this book offline because it hasn't been downloaded to your device yet.
                         </Text>
                         <Text variant="bodyLarge" style={{ textAlign: 'center' }}>
-                        You can listen when you reconnect to the internet, or download the book for offline listening.
+                        When you reconnect to the internet, you can listen to this book or download if for offline listening.
                         </Text>
                     </Dialog.Content>
                     <Dialog.Actions>
