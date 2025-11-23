@@ -11,9 +11,11 @@ const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
 
 export type Props = {
-    isbn: Book['isbn']
+    isbn: Book['isbn'],
+    isOffline?: boolean,
+    onOfflinePlayAttempt?: () => void
 }
-const BookTracks = ({ isbn }: Props) => {
+const BookTracks = ({ isbn, isOffline = false, onOfflinePlayAttempt }: Props) => {
     const { loading, books } = useBookStore()
     const book = books[isbn]
 
@@ -30,7 +32,14 @@ const BookTracks = ({ isbn }: Props) => {
 
     const { playBook } = useContext(PlaybackContext);
 
-    const pressTrack = (trackNumber: number) => {
+    const pressTrack = (trackNumber: number, track: typeof tracks[0]) => {
+        // Don't allow playing undownloaded tracks while offline
+        if (isOffline && track.downloadStatus !== 'downloaded') {
+            if (onOfflinePlayAttempt) {
+                onOfflinePlayAttempt();
+            }
+            return;
+        }
         playBook(book, book.tracks, {trackNumber})
     }
 
@@ -42,8 +51,10 @@ const BookTracks = ({ isbn }: Props) => {
                     :
                     tracks.map((track, index) => {
                         return (
-                            <Pressable key={index} onPress={()=>{pressTrack(index)}}>
-                                <TrackItem track={track} key={index} />
+                            <Pressable
+                                key={index}
+                                onPress={() => { pressTrack(index, track) }}>
+                                <TrackItem track={track} />
                             </Pressable>
                         )
                     })

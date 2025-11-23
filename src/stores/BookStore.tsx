@@ -1,12 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
-import { addEventListener, useNetInfo } from "@react-native-community/netinfo";
 import { Book, DownloadStatus, Track } from "types/types";
 import AuthContext from "contexts/AuthContext";
 import APIClient from "APIClient";
 import useCallbackState from "hooks/useCallbackState";
 import * as FileSystem from 'expo-file-system';
 import useDevSettings from "hooks/useDevSettings";
+import useNetworkStatus from "hooks/useNetworkStatus";
 import { ActivityIndicator, Text } from "react-native-paper";
 import { View } from "react-native";
 
@@ -83,13 +83,9 @@ const BookStoreContext = createContext<BookStoreContextType | null>(null);
 const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
     const [books, setBooks] = useCallbackState<BookStoreState>({})
     const [loading, setLoading] = useState(false)
-    const { isInternetReachable: rawIsInternetReachable } = useNetInfo();
+    const { isInternetReachable } = useNetworkStatus();
     const { devSettings, loaded: devSettingsLoaded } = useDevSettings();
     const [authSeal] = useContext(AuthContext);
-
-    // Override network state with dev settings if simulate offline is enabled (dev only)
-    const isInternetReachable = (__DEV__ && devSettings.simulateOffline) ? false : rawIsInternetReachable;
-    console.log(`__DEV__ [${__DEV__}] , Simulate Offline [${devSettings.simulateOffline}] --> isInternetReachable = [${isInternetReachable}]`)
 
     //Monitor internet reachability changes to attempt reload of books when connectivity is regained
     const internetReachableRef = useRef(isInternetReachable);

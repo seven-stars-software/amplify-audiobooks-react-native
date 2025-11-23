@@ -1,7 +1,7 @@
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Dimensions, Image, Linking, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button, Surface, Text, useTheme } from 'react-native-paper';
+import { Button, Dialog, Portal, Surface, Text, useTheme } from 'react-native-paper';
 import BookTracks from "components/molecules/BookTracks";
 
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -15,6 +15,8 @@ import { SettingsStackParams } from "navigators/SettingsNavigator";
 import useStyles from "hooks/useStyles";
 import DownloadButton from "components/atoms/DownloadButton";
 import { tabBarPlusNowPlayingHeight } from 'components/molecules/CoreTabBar';
+import useNetworkStatus from 'hooks/useNetworkStatus';
+import { useState } from "react";
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -28,6 +30,12 @@ const BookScreen = ({ route }: Props) => {
     const { book } = route.params;
 
     const navigation = useNavigation<NativeStackNavigationProp<HomeStackParams | LibraryStackParams | SettingsStackParams>>();
+
+    const { isOffline } = useNetworkStatus();
+    const [offlineModalVisible, setOfflineModalVisible] = useState(false);
+
+    const showOfflineModal = () => setOfflineModalVisible(true);
+    const hideOfflineModal = () => setOfflineModalVisible(false);
 
     const openProductPage = () => {
         Linking.openURL(book.permalink);
@@ -53,7 +61,7 @@ const BookScreen = ({ route }: Props) => {
                             <Text variant="headlineMedium">{book.name}</Text>
                             <Text variant="titleLarge">{book.author}</Text>
                         </View>
-                        <PlayBookButton book={book} size={width / 6} />
+                        <PlayBookButton book={book} size={width / 6} isOffline={isOffline} onOfflinePlayAttempt={showOfflineModal} />
                     </View>
                     <View style={{
                         flexDirection: 'row',
@@ -73,9 +81,26 @@ const BookScreen = ({ route }: Props) => {
                     </View>
                 </View>
                 <Surface elevation={2} style={styles.ChaptersContainer}>
-                    <BookTracks isbn={book.isbn} />
+                    <BookTracks isbn={book.isbn} isOffline={isOffline} onOfflinePlayAttempt={showOfflineModal} />
                 </Surface>
             </ScrollView>
+            <Portal>
+                <Dialog visible={offlineModalVisible} onDismiss={hideOfflineModal}>
+                    <Dialog.Icon icon="wifi-off" size={width/10} />
+                    <Dialog.Title style={{ textAlign: 'center' }}>It Appears You're Offline</Dialog.Title>
+                    <Dialog.Content>
+                        <Text variant="bodyLarge" style={{ marginBottom: 10, textAlign: 'center' }}>
+                            Sorry, we can't play this book offline because it hasn't been downloaded to your device yet.
+                        </Text>
+                        <Text variant="bodyLarge" style={{ textAlign: 'center' }}>
+                        You can listen when you reconnect to the internet, or download the book for offline listening.
+                        </Text>
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button onPress={hideOfflineModal}>OK</Button>
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>
         </SafeAreaView>
     )
 }

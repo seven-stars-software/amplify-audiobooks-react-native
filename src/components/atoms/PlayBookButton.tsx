@@ -16,13 +16,15 @@ const height = Dimensions.get('window').height; //full height
 
 type Props = {
     book: Book,
-    size: React.ComponentProps<typeof Icon>['size']
+    size: React.ComponentProps<typeof Icon>['size'],
+    isOffline?: boolean,
+    onOfflinePlayAttempt?: () => void
 }
-const PlayBookButton = ({ book, size = 24 }: Props) => {
+const PlayBookButton = ({ book, size = 24, isOffline = false, onOfflinePlayAttempt }: Props) => {
     const theme = useTheme();
     const {nowPlaying, playBook} = useContext(PlaybackContext);
     const { loading: loadingBooks, books, } = useBookStore()
-    
+
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>();
     const goToNowPlaying = () => {
         navigation.navigate('NowPlaying')
@@ -37,6 +39,10 @@ const PlayBookButton = ({ book, size = 24 }: Props) => {
     const thisBookIsPlaying =
         playerState.state === PlayerState.Playing
         && nowPlaying?.name === book.name
+
+    // Check if all tracks are downloaded (for offline mode)
+    const allTracksDownloaded = book.tracks?.every(track => track.downloadStatus === 'downloaded') ?? false;
+    const canPlayOffline = !isOffline || allTracksDownloaded;
 
     useEffect(() => {
         if (!loadingBooks) {
@@ -59,6 +65,11 @@ const PlayBookButton = ({ book, size = 24 }: Props) => {
         if (thisBookIsPlaying){
             TrackPlayer.pause();
         } else if(!loadingBooks){
+            // Check if we can play offline before attempting
+            if (!canPlayOffline && onOfflinePlayAttempt) {
+                onOfflinePlayAttempt();
+                return;
+            }
             playBook(book, book.tracks)
         }
     }
