@@ -9,7 +9,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ActivityIndicator, Button, Divider, List, Modal, Portal, Text, useTheme } from "react-native-paper"
 import APIClient from 'APIClient';
 import UserContext from 'contexts/UserContext';
-import useHomeCache from 'caches/HomeCache';
 import MainScreenContainer from 'components/atoms/MainScreenContainer';
 import { tabBarPlusNowPlayingHeight } from 'components/molecules/CoreTabBar';
 import LayoutContext from 'contexts/LayoutContext';
@@ -31,7 +30,6 @@ const SettingsScreen = ({ navigation }: Props) => {
     const theme = useTheme()
     const [user, setUser] = useContext(UserContext)
     const [authSeal, setAuthSeal, deleteAuthSeal] = useContext(AuthContext)
-    const { clear: clearHomeCaches } = useHomeCache();
     const [loggingOut, setLoggingOut] = useState(false)
     const [modalVisible, setModalVisible] = useState(false)
     const [deleteLoading, setDeleteLoading] = useState(false)
@@ -41,7 +39,6 @@ const SettingsScreen = ({ navigation }: Props) => {
         setLoggingOut(true)
         await deleteAuthSeal()
         await setUser(null)
-        await clearHomeCaches();
         hideModal()
         setLoggingOut(false)
     }
