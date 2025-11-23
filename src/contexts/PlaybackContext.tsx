@@ -13,7 +13,8 @@ type PlaybackController = {
         tracks?: Track[],
         options?: {
             trackNumber?: number,
-            playFromCheckpoint?: boolean
+            playFromCheckpoint?: boolean,
+            reset: boolean
         }
     ) => any
 }
@@ -92,7 +93,7 @@ export const PlaybackContextProvider = ({ children }: { children?: ReactNode }) 
     })
 
     useTrackPlayerEvents([Event.PlaybackError], async (event) => {
-        console.log(`Event.PlaybackError: ${event}`)
+        console.log(`Event.PlaybackError: ${JSON.stringify(event, null, 4)}`)
         handlePlaybackError(event);
     })
 
@@ -116,7 +117,7 @@ export const PlaybackContextProvider = ({ children }: { children?: ReactNode }) 
                 ({ trackNumber, playFromCheckpoint=true } = options)
             }
             // If another book is already playing, clear the queue and add the new book's tracks
-            if (book.isbn !== nowPlaying?.isbn) {
+            if (book.isbn !== nowPlaying?.isbn || options?.reset===true) {
                 if (!tracks) {
                     return handleThrown(new Error(`Cannot play a new book without providing tracks`))
                 }
