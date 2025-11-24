@@ -22,7 +22,7 @@ const PlaybackProblemScreen = () => {
     const { nowPlaying, playBook, pauseBook } = useContext(PlaybackContext)
 
     const attemptReset = () => {
-        if (nowPlaying) {
+        if (nowPlaying && nowPlaying.tracks) {
             console.log(`Resetting playback for book: ${nowPlaying.name}`)
             playBook(nowPlaying, nowPlaying.tracks, { reset: true })
         }
