@@ -115,8 +115,8 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
 
     //Load books on initial mount if we have an auth seal
     //And whenever the auth seal changes
-    //Wait for dev settings to load before loading books
     useEffect(() => {
+        //Wait for dev settings to load before loading books
         if (!devSettingsLoaded) return;
 
         if (authSeal !== null) {
