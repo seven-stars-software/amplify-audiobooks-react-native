@@ -82,7 +82,15 @@ const BookStoreContext = createContext<BookStoreContextType | null>(null);
 
 const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
     const [books, setBooks] = useCallbackState<BookStoreState>({})
+
+    // UI loading state - triggers re-renders to show/hide loading indicators
     const [loading, setLoading] = useState(false)
+
+    // Race condition guard - synchronously prevents concurrent loadBooks() calls
+    // Using a ref instead of state because refs update immediately (synchronous),
+    // while setState() is asynchronous and wouldn't prevent race conditions
+    const loadingGuard = useRef(false);
+
     const { isInternetReachable } = useNetworkStatus();
     const { devSettings, loaded: devSettingsLoaded } = useDevSettings();
     const [authSeal] = useContext(AuthContext);
@@ -204,19 +212,29 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
     }
 
     const loadBooks = async () => {
+        // Guard against race conditions: multiple useEffects can trigger loadBooks() simultaneously
+        // Check the guard synchronously before proceeding
+        if (loadingGuard.current) {
+            console.log(`Books are already loading, skipping redundant load request.`)
+            return;
+        }
         console.log(`Loading Books...`)
-        console.log(`Internet Reachable...? [${isInternetReachable}]`)
-        if (isInternetReachable === true || isInternetReachable === null) {
-            console.log(`Internet might be reachable, attempting to load from API...`)
-            try {
-                await loadFromAPI()
-            } catch (e) {
-                console.error(`Error loading books from API: ${e}. Falling back to local storage.`)
+        loadingGuard.current = true; // Set guard synchronously to block concurrent calls
+        try {
+            if (isInternetReachable === true || isInternetReachable === null) {
+                console.log(`Internet might be reachable, attempting to load from API...`)
+                try {
+                    await loadFromAPI()
+                } catch (e) {
+                    console.error(`Error loading books from API: ${e}. Falling back to local storage.`)
+                    await loadFromStorage()
+                }
+            } else if (isInternetReachable === false) {
+                console.log(`Internet not reachable, loading from local storage...`)
                 await loadFromStorage()
             }
-        } else if (isInternetReachable === false) {
-            console.log(`Internet not reachable, loading from local storage...`)
-            await loadFromStorage()
+        } finally {
+            loadingGuard.current = false; // Always release the guard when done
         }
     }
 
