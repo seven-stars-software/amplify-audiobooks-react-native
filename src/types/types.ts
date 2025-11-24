@@ -28,6 +28,12 @@ export const enum DownloadStatus {
     FAILED = 'failed'
 }
 
+export const enum NetworkStatus {
+    ONLINE = 'online',
+    OFFLINE = 'offline',
+    UNKNOWN = 'unknown'
+}
+
 export type Track = {
     isSample: boolean,
     name: string,

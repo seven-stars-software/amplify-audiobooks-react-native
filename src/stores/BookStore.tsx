@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
-import { Book, DownloadStatus, Track } from "types/types";
+import { Book, DownloadStatus, NetworkStatus, Track } from "types/types";
 import AuthContext from "contexts/AuthContext";
 import APIClient from "APIClient";
 import useCallbackState from "hooks/useCallbackState";
@@ -91,27 +91,28 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
     // while setState() is asynchronous and wouldn't prevent race conditions
     const loadingGuard = useRef(false);
 
-    const { isInternetReachable } = useNetworkStatus();
+    const networkStatus = useNetworkStatus();
     const { devSettings, loaded: devSettingsLoaded } = useDevSettings();
     const [authSeal] = useContext(AuthContext);
 
-    //Monitor internet reachability changes to attempt reload of books when connectivity is regained
-    const internetReachableRef = useRef(isInternetReachable);
+    //Monitor network status changes to attempt reload of books when connectivity is regained
+    const networkStatusRef = useRef(networkStatus);
     useEffect(() => {
         // Don't attempt to load until dev settings are ready
         if (!devSettingsLoaded) return;
 
-        const prevInternetReachable = internetReachableRef.current;
+        const prevNetworkStatus = networkStatusRef.current;
 
-        if (prevInternetReachable !== isInternetReachable &&
-            (isInternetReachable === true || isInternetReachable === null)) {
-            console.log(`Internet Reachability changed: ${internetReachableRef.current} --> ${isInternetReachable}`);
+        // Reload when network becomes available or detectable (ONLINE or UNKNOWN)
+        if (prevNetworkStatus !== networkStatus &&
+            (networkStatus === NetworkStatus.ONLINE || networkStatus === NetworkStatus.UNKNOWN)) {
+            console.log(`Network status changed: ${prevNetworkStatus} --> ${networkStatus}`);
             //We may have regained internet connectivity
             //Attempt to reload books
             loadBooks();
         }
-        internetReachableRef.current = isInternetReachable;
-    }, [isInternetReachable, devSettingsLoaded])
+        networkStatusRef.current = networkStatus;
+    }, [networkStatus, devSettingsLoaded])
 
     //Load books on initial mount if we have an auth seal
     //And whenever the auth seal changes
@@ -221,17 +222,34 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
         console.log(`Loading Books...`)
         loadingGuard.current = true; // Set guard synchronously to block concurrent calls
         try {
-            if (isInternetReachable === true || isInternetReachable === null) {
-                console.log(`Internet might be reachable, attempting to load from API...`)
-                try {
+            switch (networkStatus) {
+                case NetworkStatus.ONLINE:
+                    // Network is definitely available
+                    console.log(`Network is online, loading from API...`)
                     await loadFromAPI()
-                } catch (e) {
-                    console.error(`Error loading books from API: ${e}. Falling back to local storage.`)
+                    break;
+
+                case NetworkStatus.UNKNOWN:
+                    // Network state is unknown - optimistically attempt API, fall back to storage
+                    console.log(`Network state unknown, optimistically attempting API...`)
+                    try {
+                        await loadFromAPI()
+                    } catch (e) {
+                        console.error(`API failed during unknown network state: ${e}. Falling back to local storage.`)
+                        await loadFromStorage()
+                    }
+                    break;
+
+                case NetworkStatus.OFFLINE:
+                    // Network is definitely offline
+                    console.log(`Network is offline, loading from local storage...`)
                     await loadFromStorage()
-                }
-            } else if (isInternetReachable === false) {
-                console.log(`Internet not reachable, loading from local storage...`)
-                await loadFromStorage()
+                    break;
+
+                default:
+                    console.error(`Unexpected network status: ${networkStatus}. Falling back to local storage.`)
+                    await loadFromStorage()
+                    break;
             }
         } finally {
             loadingGuard.current = false; // Always release the guard when done

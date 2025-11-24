@@ -1,4 +1,5 @@
 import { useNetInfo } from '@react-native-community/netinfo';
+import { NetworkStatus } from 'types/types';
 import useDevSettings from './useDevSettings';
 
 /**
@@ -7,9 +8,9 @@ import useDevSettings from './useDevSettings';
  * In development mode, the "Simulate Offline Mode" dev setting can override
  * the actual network state to facilitate testing offline functionality.
  *
- * @returns Object with isInternetReachable (boolean | null) and isOffline (boolean)
+ * @returns NetworkStatus enum value (ONLINE, OFFLINE, or UNKNOWN)
  */
-const useNetworkStatus = () => {
+const useNetworkStatus = (): NetworkStatus => {
     const { isInternetReachable: rawIsInternetReachable } = useNetInfo();
     const { devSettings } = useDevSettings();
 
@@ -18,13 +19,14 @@ const useNetworkStatus = () => {
         ? false
         : rawIsInternetReachable;
 
-    // Convenience flag for offline state (explicitly false)
-    const isOffline = isInternetReachable === false;
-
-    return {
-        isInternetReachable,
-        isOffline
-    };
+    // Map to NetworkStatus enum
+    if (isInternetReachable === true) {
+        return NetworkStatus.ONLINE;
+    } else if (isInternetReachable === false) {
+        return NetworkStatus.OFFLINE;
+    } else {
+        return NetworkStatus.UNKNOWN;
+    }
 };
 
 export default useNetworkStatus;

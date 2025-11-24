@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 import { useNavigation } from "@react-navigation/native";
 import PlayBookButton from "components/atoms/PlayBookButton";
-import { Book } from "types/types";
+import { Book, NetworkStatus } from "types/types";
 import { HomeStackParams } from "navigators/HomeNavigator";
 import { LibraryStackParams } from "navigators/LibraryNavigator";
 import { SettingsStackParams } from "navigators/SettingsNavigator";
@@ -36,7 +36,8 @@ const BookScreen = ({ route }: Props) => {
 
     const navigation = useNavigation<NativeStackNavigationProp<HomeStackParams | LibraryStackParams | SettingsStackParams>>();
 
-    const { isOffline } = useNetworkStatus();
+    const networkStatus = useNetworkStatus();
+    const isOffline = networkStatus === NetworkStatus.OFFLINE;
     const [offlineModalVisible, setOfflineModalVisible] = useState(false);
 
     const showOfflineModal = () => setOfflineModalVisible(true);
