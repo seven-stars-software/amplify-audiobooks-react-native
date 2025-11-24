@@ -4,6 +4,7 @@ import { Book, Track } from 'types/types';
 import useCheckpoints, { Checkpoint } from 'hooks/useCheckpoints';
 import ErrorContext from './ErrorContext';
 import { getTrackFilePath } from 'stores/BookStore';
+import * as FileSystem from 'expo-file-system';
 
 type PlaybackController = {
     nowPlaying?: Book,
@@ -25,10 +26,17 @@ const PlaybackContext = createContext<PlaybackController>({
     playBook: async (book, tracks?) => { }
 });
 
-const playerTrackFromTrack = (book: Book, track: Track): PlayerTrack => {
+const playerTrackFromTrack = async (book: Book, track: Track): Promise<PlayerTrack> => {
     let trackURL = track.uri;
     if(track.downloadStatus === 'downloaded'){
-        trackURL = getTrackFilePath(book.isbn, track.name);
+        const localPath = getTrackFilePath(book.isbn, track.name);
+        const fileInfo = await FileSystem.getInfoAsync(localPath);
+        if(fileInfo.exists){
+            trackURL = localPath;
+        } else {
+            console.error(`Expected downloaded track file to exist at ${localPath}, but it does not. Falling back to remote URI.`)
+            trackURL = track.uri;
+        }
     }
     return {
         url: trackURL, // Use local URI if available, otherwise use remote URI
@@ -124,7 +132,7 @@ export const PlaybackContextProvider = ({ children }: { children?: ReactNode }) 
                 await TrackPlayer.reset()
                 console.log(`Queueing tracks...`)
                 await TrackPlayer.add(tracks.map((track) => {
-                    const playerTrack = playerTrackFromTrack(book, track)
+                    const playerTrack = await playerTrackFromTrack(book, track)
                     return playerTrack
                 }))
             }
