@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useEffect, useState } from 'react';
 import { Dimensions, Pressable } from 'react-native';
 import { ActivityIndicator, Tooltip, useTheme } from 'react-native-paper';
-import { Book } from 'types/types';
+import { Book, DownloadStatus } from 'types/types';
 import RemoveDownloadsDialog from './RemoveDownloadsDialog';
 import { useBookStore } from 'stores/BookStore';
 
@@ -27,7 +27,7 @@ const DownloadBookButton = ({ book, size = 24, isOffline = false, onOfflineDownl
 
     // Check if all tracks are downloaded by looking at their download status
     // This reacts to real-time status updates during downloads
-    const allTracksDownloaded = book.tracks?.every(track => track.downloadStatus === 'downloaded') ?? false;
+    const allTracksDownloaded = book.tracks?.every(track => track.downloadStatus === DownloadStatus.DOWNLOADED) ?? false;
 
     const pressIn = () => {
         setButtonColor(theme.colors.secondary)

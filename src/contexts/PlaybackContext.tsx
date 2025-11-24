@@ -1,6 +1,6 @@
 import TrackPlayer, { Event, usePlaybackState, Track as PlayerTrack, useTrackPlayerEvents, State, } from 'react-native-track-player';
 import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
-import { Book, Track } from 'types/types';
+import { Book, DownloadStatus, Track } from 'types/types';
 import useCheckpoints, { Checkpoint } from 'hooks/useCheckpoints';
 import ErrorContext from './ErrorContext';
 import { getTrackFilePath } from 'stores/BookStore';
@@ -28,7 +28,7 @@ const PlaybackContext = createContext<PlaybackController>({
 
 const playerTrackFromTrack = async (book: Book, track: Track): Promise<PlayerTrack> => {
     let trackURL = track.uri;
-    if(track.downloadStatus === 'downloaded'){
+    if(track.downloadStatus === DownloadStatus.DOWNLOADED){
         const localPath = getTrackFilePath(book.isbn, track.name);
         const fileInfo = await FileSystem.getInfoAsync(localPath);
         if(fileInfo.exists){
@@ -131,10 +131,9 @@ export const PlaybackContextProvider = ({ children }: { children?: ReactNode }) 
                 }
                 await TrackPlayer.reset()
                 console.log(`Queueing tracks...`)
-                await TrackPlayer.add(tracks.map((track) => {
-                    const playerTrack = await playerTrackFromTrack(book, track)
-                    return playerTrack
-                }))
+                await TrackPlayer.add(await Promise.all(tracks.map(async (track) => {
+                    return playerTrackFromTrack(book, track)
+                })))
             }
             // If a trackumber is provided, skip ahead to that track
             if (trackNumber !== undefined) {

@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Dimensions, Pressable } from 'react-native';
 import { ActivityIndicator, useTheme } from 'react-native-paper';
 import TrackPlayer, { State as PlayerState, usePlaybackState,} from 'react-native-track-player';
-import { Book } from 'types/types';
+import { Book, DownloadStatus } from 'types/types';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParams } from 'navigators/RootNavigator';
@@ -41,7 +41,7 @@ const PlayBookButton = ({ book, size = 24, isOffline = false, onOfflinePlayAttem
         && nowPlaying?.name === book.name
 
     // Check if all tracks are downloaded (for offline mode)
-    const allTracksDownloaded = book.tracks?.every(track => track.downloadStatus === 'downloaded') ?? false;
+    const allTracksDownloaded = book.tracks?.every(track => track.downloadStatus === DownloadStatus.DOWNLOADED) ?? false;
     const canPlayOffline = !isOffline || allTracksDownloaded;
 
     useEffect(() => {
