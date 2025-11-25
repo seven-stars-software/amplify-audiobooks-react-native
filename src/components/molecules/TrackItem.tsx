@@ -1,23 +1,23 @@
 import { Dimensions, View } from "react-native";
 import { Text, useTheme, ActivityIndicator } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Track } from "types/types";
+import { DownloadStatus, Track } from "types/types";
 
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
 
 
-type DownloadStatusProps = {
+type DownloadStatusIndicatorProps = {
     track: Track
 }
-const DownloadStatus = ({ track }: DownloadStatusProps) => {
+const DownloadStatusIndicator = ({ track }: DownloadStatusIndicatorProps) => {
     const theme = useTheme();
     const size = 24;
 
-    if (track.downloadStatus === 'downloaded') {
+    if (track.downloadStatus === DownloadStatus.DOWNLOADED) {
         return <Icon name="checkmark-circle" size={size} color={theme.colors.primary} />
-    } else if (track.downloadStatus === 'downloading') {
+    } else if (track.downloadStatus === DownloadStatus.DOWNLOADING) {
         return (
             <View>
                 <Icon name="arrow-down-circle-outline" size={size} color={theme.colors.primary} />
@@ -25,7 +25,7 @@ const DownloadStatus = ({ track }: DownloadStatusProps) => {
             </View>
         )
     } else {
-        //Download status is "not_downloaded"
+        // Download status is DownloadStatus.NOT_DOWNLOADED or DownloadStatus.FAILED
         return null;
     }
 }
@@ -46,7 +46,7 @@ const TrackItem = ({ track }: Props) => {
             borderTopColor: "rgba(0,0,0,0.2)"
         }}>
             <Text variant="bodyLarge">{track.name}</Text>
-            <DownloadStatus track={track} />
+            <DownloadStatusIndicator track={track} />
         </View>
     )
 }

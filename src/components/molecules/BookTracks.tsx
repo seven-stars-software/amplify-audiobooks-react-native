@@ -1,8 +1,7 @@
 import { ActivityIndicator } from 'react-native-paper';
 
-import { Dimensions, FlatList, Pressable, View } from "react-native";
+import { Dimensions, Pressable, View } from "react-native";
 import TrackItem from "./TrackItem";
-import { useTracksCache } from "caches/TracksCache";
 import { useContext } from "react";
 import PlaybackContext from "contexts/PlaybackContext";
 import { Book } from 'types/types';
@@ -12,34 +11,50 @@ const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
 
 export type Props = {
-    isbn: Book['isbn']
+    isbn: Book['isbn'],
+    isOffline?: boolean,
+    onOfflinePlayAttempt?: () => void
 }
-const BookTracks = ({ isbn }: Props) => {
-    const { loading: loadingBooks, books, loadBooks } = useBookStore()
+const BookTracks = ({ isbn, isOffline = false, onOfflinePlayAttempt }: Props) => {
+    const { loading, books } = useBookStore()
     const book = books[isbn]
 
-    const { loading: loadingTracks, tracks } = useTracksCache(book);
-    const tracksMinusSample = tracks ? tracks.filter((track) => {
-        if (track?.isSample) return
-        return track
-    }) : []
-    
+    if (!book) {
+        return null;
+    }
+
+    let { tracks } = book;
+    if(tracks === undefined){
+        console.log('No tracks available for book:', book.name)
+        console.log(`Does user own book? ${book.purchased?'Yes':'No'}`)
+        tracks = [];
+    }
+
     const { playBook } = useContext(PlaybackContext);
 
-    const pressTrack = (trackNumber: number) => {
-        playBook(book, tracks, {trackNumber})
+    const pressTrack = (trackNumber: number, track: typeof tracks[0]) => {
+        // Don't allow playing undownloaded tracks while offline
+        if (isOffline && track.downloadStatus !== 'downloaded') {
+            if (onOfflinePlayAttempt) {
+                onOfflinePlayAttempt();
+            }
+            return;
+        }
+        playBook(book, book.tracks, {trackNumber})
     }
 
     return (
         <View>
             {
-                loadingTracks ?
+                loading ?
                     (<ActivityIndicator animating={true} />)
                     :
-                    tracksMinusSample.map((track, index) => {
+                    tracks.map((track, index) => {
                         return (
-                            <Pressable key={index} onPress={()=>{pressTrack(index)}}>
-                                <TrackItem track={track} key={index} />
+                            <Pressable
+                                key={index}
+                                onPress={() => { pressTrack(index, track) }}>
+                                <TrackItem track={track} />
                             </Pressable>
                         )
                     })

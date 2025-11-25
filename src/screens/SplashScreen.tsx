@@ -1,5 +1,4 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import useHomeCache from "caches/HomeCache"
 import SplashLogo from "components/atoms/SplashLogo"
 import AuthContext from "contexts/AuthContext"
 import useWelcome, { WelcomeStatus } from "hooks/useWelcome"
@@ -40,10 +39,6 @@ const SplashScreen = ({ navigation }: Props) => {
 
     const ready = useRef(isPlayerReady && welcomeStatus !== undefined);
     ready.current = isPlayerReady && welcomeStatus !== undefined;
-
-    // Warm up caches
-    useHomeCache()
-
 
     const navigateToFirstScreen = () => {
         if (welcomeStatus === WelcomeStatus.incomplete) navigation.navigate('Welcome')

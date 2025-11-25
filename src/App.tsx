@@ -5,7 +5,6 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { AuthContextProvider } from 'contexts/AuthContext';
 import { UserContextProvider } from 'contexts/UserContext';
 import React, { useEffect, useRef } from 'react';
-import { CachesProvider } from 'contexts/CachesProvider';
 import { PlaybackContextProvider } from 'contexts/PlaybackContext';
 import { ErrorContextProvider } from 'contexts/ErrorContext';
 import RootNavigator from 'navigators/RootNavigator';
@@ -35,19 +34,15 @@ const App = () => {
           <SafeAreaProvider>
           <LayoutContextProvider>
             <BookStoreProvider>
-              <CachesProvider>
-
-                <UserContextProvider>
-                  <PlaybackContextProvider>
-                    <PaperProvider theme={theme}>
-                      <GestureHandlerRootView style={{ flex: 1 }}>
-                        <RootNavigator />
-                      </GestureHandlerRootView>
-                    </PaperProvider>
-                  </PlaybackContextProvider>
-                </UserContextProvider>
-
-              </CachesProvider>
+              <UserContextProvider>
+                <PlaybackContextProvider>
+                  <PaperProvider theme={theme}>
+                    <GestureHandlerRootView style={{ flex: 1 }}>
+                      <RootNavigator />
+                    </GestureHandlerRootView>
+                  </PaperProvider>
+                </PlaybackContextProvider>
+              </UserContextProvider>
             </BookStoreProvider>
           </LayoutContextProvider>
           </SafeAreaProvider>

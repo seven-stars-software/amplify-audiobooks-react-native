@@ -1,20 +1,23 @@
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Dimensions, Image, Linking, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button, Surface, Text, useTheme } from 'react-native-paper';
+import { Button, Dialog, Portal, Surface, Text, useTheme } from 'react-native-paper';
 import BookTracks from "components/molecules/BookTracks";
 
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import { useNavigation } from "@react-navigation/native";
 import PlayBookButton from "components/atoms/PlayBookButton";
-import { Book } from "types/types";
+import { Book, NetworkStatus } from "types/types";
 import { HomeStackParams } from "navigators/HomeNavigator";
 import { LibraryStackParams } from "navigators/LibraryNavigator";
 import { SettingsStackParams } from "navigators/SettingsNavigator";
 import useStyles from "hooks/useStyles";
 import DownloadButton from "components/atoms/DownloadButton";
 import { tabBarPlusNowPlayingHeight } from 'components/molecules/CoreTabBar';
+import useNetworkStatus from 'hooks/useNetworkStatus';
+import { useState } from "react";
+import { useBookStore } from "stores/BookStore";
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -25,9 +28,20 @@ type Props = NativeStackScreenProps<{ 'Book': BookScreenParams }, 'Book'>
 const BookScreen = ({ route }: Props) => {
     const globalStyles = useStyles()
     const theme = useTheme();
-    const { book } = route.params;
+    const { book: routeBook } = route.params;
+
+    // Get fresh book data from BookStore to react to download status changes
+    const { books } = useBookStore();
+    const book = books[routeBook.isbn] || routeBook;
 
     const navigation = useNavigation<NativeStackNavigationProp<HomeStackParams | LibraryStackParams | SettingsStackParams>>();
+
+    const networkStatus = useNetworkStatus();
+    const isOffline = networkStatus === NetworkStatus.OFFLINE;
+    const [offlineModalVisible, setOfflineModalVisible] = useState(false);
+
+    const showOfflineModal = () => setOfflineModalVisible(true);
+    const hideOfflineModal = () => setOfflineModalVisible(false);
 
     const openProductPage = () => {
         Linking.openURL(book.permalink);
@@ -53,7 +67,7 @@ const BookScreen = ({ route }: Props) => {
                             <Text variant="headlineMedium">{book.name}</Text>
                             <Text variant="titleLarge">{book.author}</Text>
                         </View>
-                        <PlayBookButton book={book} size={width / 6} />
+                        <PlayBookButton book={book} size={width / 6} isOffline={isOffline} onOfflinePlayAttempt={showOfflineModal} />
                     </View>
                     <View style={{
                         flexDirection: 'row',
@@ -67,15 +81,32 @@ const BookScreen = ({ route }: Props) => {
                             Write a Review
                         </Button>
                         <View style={{ paddingLeft: 5,  }}>
-                            <DownloadButton book={book} size={width / 10} />
+                            <DownloadButton book={book} size={width / 10} isOffline={isOffline} onOfflineDownloadAttempt={showOfflineModal} />
                         </View>
 
                     </View>
                 </View>
                 <Surface elevation={2} style={styles.ChaptersContainer}>
-                    <BookTracks isbn={book.isbn} />
+                    <BookTracks isbn={book.isbn} isOffline={isOffline} onOfflinePlayAttempt={showOfflineModal} />
                 </Surface>
             </ScrollView>
+            <Portal>
+                <Dialog visible={offlineModalVisible} onDismiss={hideOfflineModal}>
+                    <Dialog.Icon icon="wifi-off" size={width/10} />
+                    <Dialog.Title style={{ textAlign: 'center' }}>It Appears You're Offline</Dialog.Title>
+                    <Dialog.Content>
+                        <Text variant="bodyLarge" style={{ marginBottom: 10, textAlign: 'center' }}>
+                            Sorry, we can't access this book offline because it hasn't been downloaded to your device yet.
+                        </Text>
+                        <Text variant="bodyLarge" style={{ textAlign: 'center' }}>
+                        When you reconnect to the internet, you can listen to this book or download if for offline listening.
+                        </Text>
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button onPress={hideOfflineModal}>OK</Button>
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>
         </SafeAreaView>
     )
 }

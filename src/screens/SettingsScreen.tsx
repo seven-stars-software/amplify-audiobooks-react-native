@@ -4,15 +4,15 @@ import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-naviga
 import AuthContext from "contexts/AuthContext";
 import { RootStackParams } from "navigators/RootNavigator";
 import { useContext, useEffect, useRef, useState } from "react";
-import { Animated, Linking, View } from "react-native";
+import { Animated, Linking, Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ActivityIndicator, Button, Divider, List, Modal, Portal, Text, useTheme } from "react-native-paper"
 import APIClient from 'APIClient';
 import UserContext from 'contexts/UserContext';
-import useHomeCache from 'caches/HomeCache';
 import MainScreenContainer from 'components/atoms/MainScreenContainer';
 import { tabBarPlusNowPlayingHeight } from 'components/molecules/CoreTabBar';
 import LayoutContext from 'contexts/LayoutContext';
+import useDevSettings from 'hooks/useDevSettings';
 
 const BugReportFormURL = 'https://form.asana.com/?k=aL3z-9pBJ-WVl37kGN9CkQ&d=234782228840442'
 const PrivacyPolicyURL = 'https://proaudiovoices.com/privacy-policy/'
@@ -31,17 +31,16 @@ const SettingsScreen = ({ navigation }: Props) => {
     const theme = useTheme()
     const [user, setUser] = useContext(UserContext)
     const [authSeal, setAuthSeal, deleteAuthSeal] = useContext(AuthContext)
-    const { clear: clearHomeCaches } = useHomeCache();
     const [loggingOut, setLoggingOut] = useState(false)
     const [modalVisible, setModalVisible] = useState(false)
     const [deleteLoading, setDeleteLoading] = useState(false)
     const [accountDeleted, setAccountDeleted] = useState(false)
+    const { devSettings, updateDevSettings, isDev } = useDevSettings()
 
     const logout = async () => {
         setLoggingOut(true)
         await deleteAuthSeal()
         await setUser(null)
-        await clearHomeCaches();
         hideModal()
         setLoggingOut(false)
     }
@@ -119,6 +118,25 @@ const SettingsScreen = ({ navigation }: Props) => {
                     <Divider />
                     <List.Item title="Delete Account" onPress={promptForAccountDeletion} right={ArrowIcon} />
                 </List.Section>
+                {isDev && (
+                    <>
+                        <Text style={{
+                            fontWeight: "900",
+                            marginTop: 20
+                        }} variant="headlineMedium">Dev Settings</Text>
+                        <List.Section>
+                            <List.Item
+                                title="Simulate Offline Mode"
+                                description="Override network state to test offline functionality"
+                                right={() => (
+                                    <Pressable onPress={() => updateDevSettings({ simulateOffline: !devSettings.simulateOffline })}>
+                                        <Text>{devSettings.simulateOffline ? 'ON' : 'OFF'}</Text>
+                                    </Pressable>
+                                )}
+                            />
+                        </List.Section>
+                    </>
+                )}
                 <Button mode='contained' onPress={handleLogout} loading={loggingOut}>Logout</Button>
             </View>
             <Portal>

@@ -1,30 +1,33 @@
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dimensions, Pressable } from 'react-native';
 import { ActivityIndicator, Tooltip, useTheme } from 'react-native-paper';
-import { Book, Track } from 'types/types';
-import { useTracksCache } from 'caches/TracksCache';
-import * as FileSystem from 'expo-file-system';
+import { Book, DownloadStatus } from 'types/types';
 import RemoveDownloadsDialog from './RemoveDownloadsDialog';
+import { useBookStore } from 'stores/BookStore';
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
 
 type Props = {
     book: Book,
-    size: React.ComponentProps<typeof Icon>['size']
+    size: React.ComponentProps<typeof Icon>['size'],
+    isOffline?: boolean,
+    onOfflineDownloadAttempt?: () => void
 }
-const DownloadBookButton = ({ book, size = 24 }: Props) => {
+const DownloadBookButton = ({ book, size = 24, isOffline = false, onOfflineDownloadAttempt }: Props) => {
     const theme = useTheme();
     const [buttonColor, setButtonColor] = useState(theme.colors.primary);
     const [showDownloadIndicator, setShowDownloadIndicator] = useState(false);
 
     const [removalDialogVisible, setRemovalDialogVisible] = useState(false);
 
-    const { loading, tracks, downloadTracks, removeDownloads } = useTracksCache(book)
+    const {downloadAudioFiles, removeDownloads} = useBookStore()
 
-    const allTracksDownloaded = tracks?.every((track) => track.downloadStatus === 'downloaded')
+    // Check if all tracks are downloaded by looking at their download status
+    // This reacts to real-time status updates during downloads
+    const allTracksDownloaded = book.tracks?.every(track => track.downloadStatus === DownloadStatus.DOWNLOADED) ?? false;
 
     const pressIn = () => {
         setButtonColor(theme.colors.secondary)
@@ -40,16 +43,18 @@ const DownloadBookButton = ({ book, size = 24 }: Props) => {
             return;
         }
 
+        //If offline, show the offline modal instead of attempting download
+        if (isOffline && onOfflineDownloadAttempt) {
+            onOfflineDownloadAttempt();
+            return;
+        }
+
         //Otherwise, start book download
         setShowDownloadIndicator(true)
         console.log(`INITIATE BOOK DOWNLOAD`)
-        await downloadTracks()
+        const audioFiles = await downloadAudioFiles(book.isbn)
         console.log(`BOOK DOWNLOAD COMPLETED`)
         setShowDownloadIndicator(false)
-
-        //Log download directory
-        const dir = await FileSystem.readDirectoryAsync(`${FileSystem.documentDirectory}books/${book.isbn}/tracks/`)
-        console.log(`LS: ${JSON.stringify(dir, null, 4)}`)
     }
 
     return (
@@ -73,7 +78,7 @@ const DownloadBookButton = ({ book, size = 24 }: Props) => {
                 visible={removalDialogVisible}
                 setVisible={setRemovalDialogVisible}
                 removeDownloads={async ()=>{
-                    await removeDownloads()
+                    await removeDownloads(book.isbn)
                     setRemovalDialogVisible(false)
                 }}
             />

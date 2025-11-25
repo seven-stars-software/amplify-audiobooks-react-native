@@ -1,3 +1,22 @@
+# v2.2.0
+
+## What's New for Users
+- Fixed offline playback and download functionality to work reliably
+- Clear feedback when attempting to play or download content while offline
+- Real-time download progress indicators showing download status for books and individual tracks
+- Improved error handling when playback issues occur
+
+## Technical Changes
+- Implemented robust offline data management using expo-file-system API
+- Added network connectivity detection with useNetworkStatus hook
+- Introduced real-time download status tracking (not_downloaded, downloading, downloaded)
+- Added offline simulation mode in developer settings for testing
+- Created offline warning modals to inform users when network is required
+- Improved playback error handling with user-friendly error messages
+- Removed legacy cache system in favor of new download management
+- Fixed download button UI to properly reflect download status
+- Enhanced BookStore state management for real-time updates during downloads
+
 # v2.1.0
 
 ## ⚠️ BREAKING CHANGES

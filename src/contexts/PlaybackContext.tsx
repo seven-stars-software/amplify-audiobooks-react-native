@@ -1,8 +1,10 @@
 import TrackPlayer, { Event, usePlaybackState, Track as PlayerTrack, useTrackPlayerEvents, State, } from 'react-native-track-player';
 import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
-import { Book, Track } from 'types/types';
+import { Book, DownloadStatus, Track } from 'types/types';
 import useCheckpoints, { Checkpoint } from 'hooks/useCheckpoints';
 import ErrorContext from './ErrorContext';
+import { getTrackFilePath } from 'stores/BookStore';
+import * as FileSystem from 'expo-file-system';
 
 type PlaybackController = {
     nowPlaying?: Book,
@@ -12,7 +14,8 @@ type PlaybackController = {
         tracks?: Track[],
         options?: {
             trackNumber?: number,
-            playFromCheckpoint?: boolean
+            playFromCheckpoint?: boolean,
+            reset: boolean
         }
     ) => any
 }
@@ -23,9 +26,20 @@ const PlaybackContext = createContext<PlaybackController>({
     playBook: async (book, tracks?) => { }
 });
 
-const playerTrackFromTrack = (book: Book, track: Track): PlayerTrack => {
+const playerTrackFromTrack = async (book: Book, track: Track): Promise<PlayerTrack> => {
+    let trackURL = track.uri;
+    if(track.downloadStatus === DownloadStatus.DOWNLOADED){
+        const localPath = getTrackFilePath(book.isbn, track.name);
+        const fileInfo = await FileSystem.getInfoAsync(localPath);
+        if(fileInfo.exists){
+            trackURL = localPath;
+        } else {
+            console.error(`Expected downloaded track file to exist at ${localPath}, but it does not. Falling back to remote URI.`)
+            trackURL = track.uri;
+        }
+    }
     return {
-        url: track.localURI || track.uri,
+        url: trackURL, // Use local URI if available, otherwise use remote URI
         title: track.name,
         artist: book.author,
         album: book.name,
@@ -46,7 +60,6 @@ export const PlaybackContextProvider = ({ children }: { children?: ReactNode }) 
     const checkpointRef = useRef<Checkpoint | null>(null)
 
     useEffect(() => {
-        console.log(`Playback State Changed: ${JSON.stringify(playerState, null, 4)}`)
         if(playbackProblemTimeout){
             clearTimeout(playbackProblemTimeout);
         }
@@ -88,7 +101,7 @@ export const PlaybackContextProvider = ({ children }: { children?: ReactNode }) 
     })
 
     useTrackPlayerEvents([Event.PlaybackError], async (event) => {
-        console.log(`Event.PlaybackError: ${event}`)
+        console.log(`Event.PlaybackError: ${JSON.stringify(event, null, 4)}`)
         handlePlaybackError(event);
     })
 
@@ -112,16 +125,15 @@ export const PlaybackContextProvider = ({ children }: { children?: ReactNode }) 
                 ({ trackNumber, playFromCheckpoint=true } = options)
             }
             // If another book is already playing, clear the queue and add the new book's tracks
-            if (book.isbn !== nowPlaying?.isbn) {
+            if (book.isbn !== nowPlaying?.isbn || options?.reset===true) {
                 if (!tracks) {
                     return handleThrown(new Error(`Cannot play a new book without providing tracks`))
                 }
                 await TrackPlayer.reset()
                 console.log(`Queueing tracks...`)
-                await TrackPlayer.add(tracks.map((track) => {
-                    const playerTrack = playerTrackFromTrack(book, track)
-                    return playerTrack
-                }))
+                await TrackPlayer.add(await Promise.all(tracks.map(async (track) => {
+                    return playerTrackFromTrack(book, track)
+                })))
             }
             // If a trackumber is provided, skip ahead to that track
             if (trackNumber !== undefined) {
