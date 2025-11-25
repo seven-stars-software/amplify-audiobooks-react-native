@@ -37,6 +37,7 @@ keystore.properties
 !debug.keystore
 *.jks
 !debug.jks
+*.pem
 *.aab
 
 # node.js
