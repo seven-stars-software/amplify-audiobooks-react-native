@@ -34,6 +34,8 @@ local.properties
 .cxx/
 *.keystore
 !debug.keystore
+*.jks
+!debug.jks
 *.aab
 
 # node.js
