@@ -4,7 +4,7 @@ import { ReactNode, ReactPropTypes, useContext, useState } from "react";
 import { Dimensions, FlatList, RefreshControl, StyleSheet, View } from "react-native";
 import { MD3Theme, Text, useTheme } from "react-native-paper";
 import { Book } from "types/types";
-import { tabBarHeight, tabBarPlusNowPlayingHeight } from "./CoreTabBar";
+import { tabBarHeight, tabBarPlusNowPlayingHeight } from "components/organisms/CoreTabBar";
 import LayoutContext from "contexts/LayoutContext";
 
 const width = Dimensions.get('window').width; //full width

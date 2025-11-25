@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { View } from 'react-native';
-import TopBanner from './TopBanner';
+import TopBanner from 'components/organisms/TopBanner';
 import useStyles from 'hooks/useStyles';
 import { useTheme } from 'react-native-paper';
 

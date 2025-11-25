@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Dimensions, Pressable } from 'react-native';
 import { ActivityIndicator, Tooltip, useTheme } from 'react-native-paper';
 import { Book, DownloadStatus } from 'types/types';
-import RemoveDownloadsDialog from './RemoveDownloadsDialog';
+import RemoveDownloadsDialog from 'components/atoms/RemoveDownloadsDialog';
 import { useBookStore } from 'stores/BookStore';
 
 const width = Dimensions.get('window').width; //full width

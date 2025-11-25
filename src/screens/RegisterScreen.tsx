@@ -2,7 +2,7 @@ import LogoImageSource from '@assets/images/logo-bw.png'
 import styler from "styler/styler"
 import { Dimensions, StyleSheet, Text, View } from "react-native"
 import AnimatedBG from 'components/molecules/AnimatedBG'
-import RegisterForm from 'components/molecules/RegisterForm'
+import RegisterForm from 'components/organisms/RegisterForm'
 import { ScrollView } from 'react-native-gesture-handler'
 
 const width = Dimensions.get('window').width; //full width

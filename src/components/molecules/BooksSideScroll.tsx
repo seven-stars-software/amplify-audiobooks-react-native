@@ -1,4 +1,4 @@
-import BookTile from "components/atoms/BookTile";
+import BookTile from "components/molecules/BookTile";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Book } from "types/types";
 

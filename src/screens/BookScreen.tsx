@@ -7,14 +7,14 @@ import BookTracks from "components/molecules/BookTracks";
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import { useNavigation } from "@react-navigation/native";
-import PlayBookButton from "components/atoms/PlayBookButton";
+import PlayBookButton from "components/organisms/PlayBookButton";
 import { Book, NetworkStatus } from "types/types";
 import { HomeStackParams } from "navigators/HomeNavigator";
 import { LibraryStackParams } from "navigators/LibraryNavigator";
 import { SettingsStackParams } from "navigators/SettingsNavigator";
 import useStyles from "hooks/useStyles";
-import DownloadButton from "components/atoms/DownloadButton";
-import { tabBarPlusNowPlayingHeight } from 'components/molecules/CoreTabBar';
+import DownloadButton from "components/organisms/DownloadButton";
+import { tabBarPlusNowPlayingHeight } from 'components/organisms/CoreTabBar';
 import useNetworkStatus from 'hooks/useNetworkStatus';
 import { useState } from "react";
 import { useBookStore } from "stores/BookStore";

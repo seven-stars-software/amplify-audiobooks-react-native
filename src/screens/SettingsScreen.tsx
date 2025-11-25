@@ -9,8 +9,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ActivityIndicator, Button, Divider, List, Modal, Portal, Text, useTheme } from "react-native-paper"
 import APIClient from 'APIClient';
 import UserContext from 'contexts/UserContext';
-import MainScreenContainer from 'components/atoms/MainScreenContainer';
-import { tabBarPlusNowPlayingHeight } from 'components/molecules/CoreTabBar';
+import MainScreenContainer from 'components/molecules/MainScreenContainer';
+import { tabBarPlusNowPlayingHeight } from 'components/organisms/CoreTabBar';
 import LayoutContext from 'contexts/LayoutContext';
 import useDevSettings from 'hooks/useDevSettings';
 
