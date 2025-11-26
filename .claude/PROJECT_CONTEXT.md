@@ -138,61 +138,16 @@ src/components/
 
 See `docs/ATOMIC_DESIGN.md` for complete guidelines.
 
-### Data Flow
+### Key Features
+- **Network-aware loading:** ONLINE → API, OFFLINE → storage, UNKNOWN → optimistic with fallback
+- **Offline playback:** Local file URIs when tracks downloaded, remote URIs otherwise
+- **Download management:** Per-track status tracking, file system storage
+- **Playback resumption:** Checkpoint positions saved to AsyncStorage
 
-**Book Loading:**
-```
-APIClient.getHomeBooks()
-  ↓
-BookStore.loadFromAPI()
-  ↓
-prepBooks() (merge library + featured + newReleases + onSale)
-  ↓
-augmentBookWithDownloadStatuses() (check file system)
-  ↓
-AsyncStorage.setItem() (cache locally)
-  ↓
-State update
-  ↓
-Components re-render via useBookStore()
-```
-
-**Audio Playback:**
-```
-PlayBookButton.onPress()
-  ↓
-PlaybackContext.playBook(book, tracks)
-  ↓
-playerTrackFromTrack() (check if downloaded, use local or remote URI)
-  ↓
-TrackPlayer.reset() + add() + play()
-  ↓
-useTrackPlayerEvents (progress tracking)
-  ↓
-setCheckpoint() (save position to AsyncStorage)
-```
-
-**Downloads:**
-```
-DownloadButton.onPress()
-  ↓
-BookStore.downloadAudioFiles(isbn)
-  ↓
-FileSystem.makeDirectoryAsync() (ensure dirs exist)
-  ↓
-Promise.all(tracks.map(FileSystem.downloadAsync))
-  ↓
-setTrackDownloadStatus(DOWNLOADING → DOWNLOADED/FAILED)
-  ↓
-saveToStorage() (persist status)
-```
-
-### Network Awareness
-- `useNetworkStatus()` hook returns `NetworkStatus` enum
-- Three states: ONLINE, OFFLINE, UNKNOWN
-- Dev settings override available (`simulateOffline` flag)
-- BookStore reacts to network changes (auto-refetch when coming online)
-- Offline modals shown when attempting play/download without network
+### Network Status
+- `useNetworkStatus()` hook returns `NetworkStatus` enum (ONLINE, OFFLINE, UNKNOWN)
+- Dev settings override: `simulateOffline` flag for testing
+- BookStore auto-refetches when network becomes available
 
 ---
 
@@ -222,12 +177,6 @@ saveToStorage() (persist status)
 - Use absolute imports via Babel module resolver: `components/atoms/Button`
 - Never commit: `.env`, keystores (`.jks`, `.keystore`), certificates (`.pem`)
 - Keep sensitive credentials in `keystore.properties` (gitignored)
-
-### Communication Style
-- **No emojis** unless user explicitly requests
-- **Concise responses** for CLI display
-- **Professional tone** with objective technical accuracy
-- **No excessive praise** - focus on facts and problem-solving
 
 ---
 
@@ -352,78 +301,28 @@ saveToStorage() (persist status)
 
 ---
 
-## 🐛 Known Issues
+## 🎫 GitHub Issues & Technical Debt
 
-### High Priority
-1. **BookStore Complexity (373 lines)**
-   - Doing too much: API calls, file system, downloads, state management
-   - Needs decomposition into smaller hooks/services
-   - See comprehensive architecture review for details
+### Open Issues
+- **#8:** useEffect cleanup pattern needed across codebase
+- **#9:** Download management improvements (progress, cancellation, book-level UI)
+- **#10:** Automate release cycle with Fastlane
 
-2. **Error Handling Inconsistency**
-   - ErrorContext: Blocks entire app with error screen
-   - PlaybackContext: Navigates to PlaybackProblemScreen
-   - APIClient: Just throws errors
-   - No unified error strategy
-   - Proposed: Error boundaries by type (API, PLAYBACK, APP)
-
-3. **Type Safety Gaps**
-   - `PlaybackContext.playBook()` returns `any`
-   - `UserContext.wpUser` is `{ [key: string]: any }`
-   - Need proper return types and interfaces
+### High Priority Technical Debt
+- **BookStore decomposition:** 373 lines, needs split into smaller hooks
+- **Error handling standardization:** Inconsistent patterns across contexts
+- **Type safety:** Eliminate `any` types in PlaybackContext, UserContext
 
 ### Medium Priority
-4. **useEffect Cleanup Pattern (Issue #8)**
-   - Many components don't clean up subscriptions
-   - Could cause memory leaks
-   - Need systematic review
-
-5. **Request Deduplication**
-   - Multiple components can trigger same API call simultaneously
-   - No caching or request deduplication
-   - Could improve with request map
-
-6. **No App Resume Handling**
-   - Data doesn't refresh when app returns from background
-   - Should listen to AppState and reload
-
-7. **Download Progress Not Persisted**
-   - If app crashes during download, progress lost
-   - Should track partial downloads in storage
-
-8. **No Retry Mechanism**
-   - Failed operations (downloads, API calls) don't auto-retry
-   - User must manually retry
+- Request deduplication for API calls
+- App resume handling (refresh data when returning from background)
+- Download progress persistence
+- Retry mechanisms for failed operations
 
 ### Low Priority
-9. **UserContext Not Persisted**
-   - User profile data only in memory
-   - Lost on app restart
-   - Should persist to AsyncStorage like AuthContext
-
-10. **Component Memoization**
-    - Few components use React.memo
-    - Could improve performance for expensive renders
-
-11. **useCallbackState Hook Complexity**
-    - Custom hook mimics class componentDidUpdate
-    - Could simplify with standard useEffect patterns
-
----
-
-## 🎫 Open Issues & Tasks
-
-### GitHub Issues
-- **#8:** useEffect cleanup pattern needed across codebase (medium priority, tech-debt)
-- **#9:** Download management improvements (progress indication, cancellation, book-level UI) (enhancement, ux)
-- **#10:** Automate release cycle with Fastlane (enhancement)
-
-### Untracked Technical Debt
-- BookStore decomposition (see architecture review)
-- Error handling standardization
-- Type safety improvements (eliminate `any` types)
-- Request deduplication
-- Component memoization
+- UserContext persistence to AsyncStorage
+- Component memoization with React.memo
+- Simplify useCallbackState hook
 
 ---
 
@@ -508,28 +407,6 @@ saveToStorage() (persist status)
 3. **Account owner permissions matter** - Only owners can reset upload keys
 4. **Atomic Design needs discipline** - Easy to misclassify components as they grow
 5. **File-based memory helps Claude** - PROJECT_CONTEXT.md maintains continuity
-
----
-
-## 💡 Tips for Working with Claude Code
-
-### Starting a New Session
-1. Say: "Read `.claude/PROJECT_CONTEXT.md` to get up to speed"
-2. I'll understand project context immediately
-3. Reference specific sections as needed: "Check unclosed loops"
-
-### When to Update This File
-- Major decisions made
-- Architecture changes
-- New blockers or blockers resolved
-- Releases completed
-- Important context discovered
-- Client team changes
-
-### What Not to Worry About
-- Keeping it perfect - good enough is fine
-- Updating after every tiny change
-- Over-documenting obvious things
 
 ---
 
