@@ -1,6 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParams } from 'navigators/RootNavigator';
 import { Dimensions, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Text as PaperText, useTheme } from 'react-native-paper';
 import { Surface } from 'react-native-paper';
@@ -11,17 +8,13 @@ const height = Dimensions.get('window').height; //full height
 
 type Props = {
     book: Book
+    onPress?: () => void
 }
-const BookCard = ({ book }: Props) => {
+const BookCard = ({ book, onPress }: Props) => {
     const theme = useTheme();
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>();
-
-    const goToBook = () => {
-        navigation.navigate('Book', { book })
-    }
 
     return (
-        <Pressable onPress={goToBook}>
+        <Pressable onPress={onPress}>
             <Surface elevation={2} style={styles.CardSurface}>
 
                 <View style={styles.Cover} >
@@ -29,7 +22,7 @@ const BookCard = ({ book }: Props) => {
                 </View>
                 <View style={styles.Details}>
                     <View style={styles.TitleAndAuthor}>
-                        <Pressable onPress={goToBook}>
+                        <Pressable onPress={onPress}>
                             <PaperText variant="titleMedium" ellipsizeMode='tail' numberOfLines={1}>{book.name}</PaperText>
                         </Pressable>
                         <Text style={{...styles.Author, color: theme.colors.primary}}>by {book.author}</Text>

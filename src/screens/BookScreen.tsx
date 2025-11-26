@@ -7,17 +7,18 @@ import BookTracks from "components/molecules/BookTracks";
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import { useNavigation } from "@react-navigation/native";
-import PlayBookButton from "components/atoms/PlayBookButton";
-import { Book, NetworkStatus } from "types/types";
+import PlayBookButton from "components/organisms/PlayBookButton";
+import { Book, NetworkStatus, DownloadStatus } from "types/types";
 import { HomeStackParams } from "navigators/HomeNavigator";
 import { LibraryStackParams } from "navigators/LibraryNavigator";
 import { SettingsStackParams } from "navigators/SettingsNavigator";
 import useStyles from "hooks/useStyles";
-import DownloadButton from "components/atoms/DownloadButton";
-import { tabBarPlusNowPlayingHeight } from 'components/molecules/CoreTabBar';
+import DownloadButton from "components/organisms/DownloadButton";
+import { tabBarPlusNowPlayingHeight } from 'components/organisms/CoreTabBar';
 import useNetworkStatus from 'hooks/useNetworkStatus';
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useBookStore } from "stores/BookStore";
+import PlaybackContext from "contexts/PlaybackContext";
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -31,10 +32,11 @@ const BookScreen = ({ route }: Props) => {
     const { book: routeBook } = route.params;
 
     // Get fresh book data from BookStore to react to download status changes
-    const { books } = useBookStore();
+    const { books, loading } = useBookStore();
     const book = books[routeBook.isbn] || routeBook;
 
     const navigation = useNavigation<NativeStackNavigationProp<HomeStackParams | LibraryStackParams | SettingsStackParams>>();
+    const { playBook } = useContext(PlaybackContext);
 
     const networkStatus = useNetworkStatus();
     const isOffline = networkStatus === NetworkStatus.OFFLINE;
@@ -45,6 +47,23 @@ const BookScreen = ({ route }: Props) => {
 
     const openProductPage = () => {
         Linking.openURL(book.permalink);
+    };
+
+    // Handle track press with offline logic
+    const handleTrackPress = (trackNumber: number, track: Book['tracks'][0]) => {
+        // Don't allow playing undownloaded tracks while offline
+        if (isOffline && track.downloadStatus !== DownloadStatus.DOWNLOADED) {
+            showOfflineModal();
+            return;
+        }
+        playBook(book, book.tracks, { trackNumber });
+    };
+
+    // Prepare tracks array, handling undefined case
+    const tracks = book.tracks || [];
+    if (book.tracks === undefined) {
+        console.log('No tracks available for book:', book.name);
+        console.log(`Does user own book? ${book.purchased ? 'Yes' : 'No'}`);
     }
 
     return (
@@ -87,7 +106,7 @@ const BookScreen = ({ route }: Props) => {
                     </View>
                 </View>
                 <Surface elevation={2} style={styles.ChaptersContainer}>
-                    <BookTracks isbn={book.isbn} isOffline={isOffline} onOfflinePlayAttempt={showOfflineModal} />
+                    <BookTracks tracks={tracks} loading={loading} onTrackPress={handleTrackPress} />
                 </Surface>
             </ScrollView>
             <Portal>
