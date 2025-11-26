@@ -2,6 +2,11 @@
 
 **READ THIS BEFORE STARTING WORK.** These rules prevent common mistakes that waste time.
 
+## Project Context File
+To aid memory storage between Claude sessions and to avoid the degradation of context that comes with auto-compaction, this project maintains a file called PROJECT_CONTEXT.md inside the .claude directory. 
+
+If you are reading this and you're an AI agent, you should go read .claude/PROJECT_CONTEXT.md after you finish reading this file.
+
 ## Working Directory Management
 
 **CRITICAL:** After running `cd`, your shell session stays in that directory. This causes subsequent commands to fail in confusing ways.
