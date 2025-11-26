@@ -1,6 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Dimensions, Image, Linking, Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { Dimensions, Image, Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { Text as PaperText, useTheme } from 'react-native-paper';
 import { Book } from 'types/types';
 
@@ -9,32 +7,21 @@ const height = Dimensions.get('window').height; //full height
 
 type Props = {
     book: Book,
-    inLibrary?: boolean,
+    onPress?: () => void,
     style?: ViewStyle
 }
-const BookTile = ({ book, inLibrary, style }: Props) => {
+const BookTile = ({ book, onPress, style }: Props) => {
     const theme = useTheme();
-    const navigation = useNavigation();
-
-    const handlePress = () => {
-        if (inLibrary) {
-            // Navigator type is unknowable
-            // @ts-ignore
-            navigation.navigate('Book', { book })
-        } else {
-            Linking.openURL(book.permalink)
-        }
-    }
 
     return (
-        <Pressable onPress={handlePress} style={{ ...styles.Container, ...style }}>
+        <Pressable onPress={onPress} style={{ ...styles.Container, ...style }}>
 
             <View style={styles.Cover} >
                 <Image style={styles.CoverImage} source={{ uri: book.images[0] }} />
             </View>
             <View style={styles.Details}>
                 <View>
-                    <Pressable onPress={handlePress}>
+                    <Pressable onPress={onPress}>
                         <PaperText variant="titleMedium" numberOfLines={1}>{book.name}</PaperText>
                     </Pressable>
                     <Text style={{color: theme.colors.secondary, ...styles.Author}} numberOfLines={1}>{book.author}</Text>

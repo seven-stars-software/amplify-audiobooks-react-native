@@ -1,20 +1,18 @@
 import { Button, MD3Theme, useTheme } from "react-native-paper"
-import { Linking, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
-import URLs from "URLs"
+type Props = {
+    onPress?: () => void
+}
 
-const CatalogLinkListItem = () => {
+const CatalogLinkListItem = ({ onPress }: Props) => {
     const theme = useTheme();
     const styles = makeStyles(theme)
-
-    const openCatalog = () => {
-        Linking.openURL(URLs.CatalogURL)
-    }
 
     return (
         <Button
             mode="contained"
-            onPress={openCatalog}
+            onPress={onPress}
             style={styles.Button}
             labelStyle={[styles.ButtonText]}
         >
