@@ -57,7 +57,7 @@ See `docs/FASTLANE_SETUP.md` for detailed setup instructions, configuration, and
 **Never commit:**
 - `.env.development` (already gitignored)
 - `android/google-play-key.json`
-- `AuthKey_*.p8`
+- `ios/AuthKey_*.p8`
 - Keystore files (`*.jks`, `*.keystore`)
 
 All sensitive files are protected in `.gitignore`.

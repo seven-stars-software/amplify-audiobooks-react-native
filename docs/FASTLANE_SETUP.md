@@ -152,7 +152,7 @@ FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=your-app-specific-password
 # OR use App Store Connect API Key (more reliable for metadata operations)
 APP_STORE_CONNECT_API_KEY_ID=ABC123
 APP_STORE_CONNECT_API_ISSUER_ID=xyz-123-abc
-APP_STORE_CONNECT_API_KEY_FILEPATH=./AuthKey_ABC123.p8
+APP_STORE_CONNECT_API_KEY_FILEPATH=ios/AuthKey_ABC123.p8
 ```
 
 **Important Note about App-Specific Passwords:**
@@ -279,7 +279,7 @@ bundle exec fastlane android deploy
 
 **For Team Collaboration:**
 - Use 1Password shared vault for credential sharing
-- Never commit `.env`, `android/google-play-key.json`, or `AuthKey_*.p8` files
+- Never commit `.env`, `android/google-play-key.json`, or `ios/AuthKey_*.p8` files
 - All sensitive files are already in `.gitignore`
 
 ## Release Process Workflow
