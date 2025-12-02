@@ -50,27 +50,76 @@ keyPassword=YOUR_KEY_PASSWORD
 ```
 
 #### 2. Google Play Service Account (for automated upload)
-To enable automated uploads to Google Play Console:
+To enable automated uploads to Google Play Console, you need to set up a service account. This requires configuration in both Google Cloud Console and Google Play Console.
 
-1. Go to [Google Play Console](https://play.google.com/console/)
-2. Navigate to **Settings → API access**
-3. Create a new service account or use existing
-4. Download the JSON key file
-5. Save as `google-play-key.json` in the project root (gitignored)
-6. Grant the service account permissions in Play Console:
-   - Release Manager (or Admin)
+**⚠️ Note:** Service accounts can take up to 24 hours to activate after creation.
+
+**Part 1: Google Cloud Console**
+
+1. **Create/Select Google Cloud Project**
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project (or select existing one)
+   - Click the project dropdown at the top → "New Project"
+   - Name it something like "AmplifyAudiobooks API"
+
+2. **Enable Google Play Developer API**
+   - Go to [Google Play Developer API](https://console.cloud.google.com/apis/library/androidpublisher.googleapis.com)
+   - Make sure your project is selected
+   - Click **"Enable"**
+
+3. **Create Service Account**
+   - Go to [Service Accounts](https://console.cloud.google.com/iam-admin/serviceaccounts)
+   - Click **"+ CREATE SERVICE ACCOUNT"**
+   - Fill in:
+     - Service account name: `fastlane-release`
+     - Service account ID: (auto-fills)
+     - Description: "Fastlane automated uploads"
+   - Click **"CREATE AND CONTINUE"**
+   - Skip the optional steps (click "CONTINUE" then "DONE")
+
+4. **Create JSON Key**
+   - Find your new service account in the list
+   - Click on it
+   - Go to the **"KEYS"** tab
+   - Click **"ADD KEY"** → **"Create new key"**
+   - Select **"JSON"**
+   - Click **"CREATE"**
+   - The JSON file downloads automatically - save it securely!
+
+**Part 2: Google Play Console**
+
+5. **Invite Service Account in Play Console**
+   - Go to [Google Play Console](https://play.google.com/console/)
+   - Navigate to **Users and permissions** (in left sidebar, usually under "Settings")
+   - Click **"Invite new users"**
+   - Enter the service account email (looks like `fastlane-release@your-project.iam.gserviceaccount.com`)
+   - Under **"App permissions"**:
+     - Click "Add app" and select your app
+     - Grant at least "Release" permissions
+   - Under **"Account permissions"** (optional):
+     - Check "View financial data..." if you want to access reports
+   - Click **"Invite user"**
+
+6. **Save the JSON Key**
+   - Rename the downloaded JSON file to `google-play-key.json`
+   - Save it in the project root (it's already in `.gitignore`)
+
+**References:**
+- [Google Play Developer API - Getting Started](https://developers.google.com/android-publisher/getting_started)
 
 #### 3. Environment Variables
-Create a `.env` file in the project root (gitignored):
+Add the following to your `.env.development` file (already gitignored):
 
 ```bash
 # Android
 ANDROID_KEYSTORE_FILE=android/app/amplify-audiobooks-release.jks
 ANDROID_KEYSTORE_PASSWORD=your_keystore_password
-ANDROID_KEY_ALIAS=upload
+ANDROID_KEY_ALIAS=your_key_alias
 ANDROID_KEY_PASSWORD=your_key_password
 GOOGLE_PLAY_JSON_KEY=google-play-key.json
 ```
+
+**Note:** This project uses `.env.development` for local configuration. A template is available in `.env.development.default`. The key alias should match what's in your `android/keystore.properties` file.
 
 ### iOS Configuration
 
@@ -94,7 +143,7 @@ bundle exec fastlane match init
 ```
 
 #### 3. Environment Variables
-Add to your `.env` file:
+Add to your `.env.development` file:
 
 ```bash
 # iOS
