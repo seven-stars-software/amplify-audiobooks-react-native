@@ -148,12 +148,15 @@ Add to your `.env.development` file:
 ```bash
 # iOS
 FASTLANE_USER=your-apple-id@example.com
-FASTLANE_PASSWORD=your-app-specific-password
-# OR use App Store Connect API Key
+FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=your-app-specific-password
+# OR use App Store Connect API Key (more reliable for metadata operations)
 APP_STORE_CONNECT_API_KEY_ID=ABC123
 APP_STORE_CONNECT_API_ISSUER_ID=xyz-123-abc
 APP_STORE_CONNECT_API_KEY_FILEPATH=./AuthKey_ABC123.p8
 ```
+
+**Important Note about App-Specific Passwords:**
+App-specific passwords ONLY work for uploading binaries (`upload_to_testflight`, `upload_to_app_store`). They do NOT work for other operations like updating metadata, managing testers, or reading build information. For full functionality, use the App Store Connect API Key instead.
 
 ## Usage
 
@@ -263,7 +266,7 @@ Add to your shell profile (`~/.zshrc` or `~/.bashrc`):
 export ANDROID_KEYSTORE_PASSWORD="your_password"
 export ANDROID_KEY_PASSWORD="your_password"
 export FASTLANE_USER="your@email.com"
-export FASTLANE_PASSWORD="app-specific-password"
+export FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD="app-specific-password"
 ```
 
 **Option 3: 1Password or Other Password Manager**
