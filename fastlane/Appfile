@@ -5,7 +5,7 @@
 package_name("com.amplifyaudiobooks")
 
 # iOS configuration
-app_identifier("org.reactjs.native.example.AmplifyAudiobooks")
+app_identifier("com.sevenstar.amplify")
 
 # Uncomment and set these when you're ready to configure credentials:
 # apple_id("your-apple-id@example.com") # Apple ID for App Store Connect
