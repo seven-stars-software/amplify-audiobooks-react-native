@@ -7,7 +7,13 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "release:version": "bundle exec fastlane bump_version",
+    "release:build-android": "bundle exec fastlane android build",
+    "release:build-ios": "bundle exec fastlane ios build",
+    "release:deploy-android": "bundle exec fastlane android deploy",
+    "release:deploy-ios": "bundle exec fastlane ios deploy",
+    "release": "bundle exec fastlane release"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.24.0",

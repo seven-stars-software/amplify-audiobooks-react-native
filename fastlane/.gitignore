@@ -1,0 +1,29 @@
+# Fastlane specific
+*.cer
+*.p12
+*.mobileprovision
+*.dSYM.zip
+
+# Fastlane reports
+report.xml
+test_output/
+
+# Fastlane credentials
+*.env.default
+*.env.secret
+
+# Deliver temporary files
+*.itmsp
+
+# Snapshot generated screenshots
+screenshots/
+fastlane/screenshots/
+
+# Scan temporary files
+fastlane/test_output
+
+# Fastlane.swift runner binary
+fastlane_runner
+
+# App Store Connect API Key
+AuthKey_*.p8

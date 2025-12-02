@@ -1,0 +1,15 @@
+# Appfile for AmplifyAudiobooks
+# More info: https://docs.fastlane.tools/advanced/#appfile
+
+# Android configuration
+package_name("com.amplifyaudiobooks")
+
+# iOS configuration
+app_identifier("org.reactjs.native.example.AmplifyAudiobooks")
+
+# Uncomment and set these when you're ready to configure credentials:
+# apple_id("your-apple-id@example.com") # Apple ID for App Store Connect
+# itc_team_id("123456789") # App Store Connect Team ID
+# team_id("ABCD123456") # Developer Portal Team ID
+
+# For Android, credentials will be loaded from environment variables or keystore.properties
