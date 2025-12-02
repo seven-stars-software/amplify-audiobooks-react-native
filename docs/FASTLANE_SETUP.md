@@ -102,7 +102,7 @@ To enable automated uploads to Google Play Console, you need to set up a service
 
 6. **Save the JSON Key**
    - Rename the downloaded JSON file to `google-play-key.json`
-   - Save it in the project root (it's already in `.gitignore`)
+   - Save it in the `android/` directory (it's already in `.gitignore`)
 
 **References:**
 - [Google Play Developer API - Getting Started](https://developers.google.com/android-publisher/getting_started)
@@ -116,7 +116,7 @@ ANDROID_KEYSTORE_FILE=android/app/amplify-audiobooks-release.jks
 ANDROID_KEYSTORE_PASSWORD=your_keystore_password
 ANDROID_KEY_ALIAS=your_key_alias
 ANDROID_KEY_PASSWORD=your_key_password
-GOOGLE_PLAY_JSON_KEY=google-play-key.json
+GOOGLE_PLAY_JSON_KEY=android/google-play-key.json
 ```
 
 **Note:** This project uses `.env.development` for local configuration. A template is available in `.env.development.default`. The key alias should match what's in your `android/keystore.properties` file.
@@ -276,7 +276,7 @@ bundle exec fastlane android deploy
 
 **For Team Collaboration:**
 - Use 1Password shared vault for credential sharing
-- Never commit `.env`, `google-play-key.json`, or `AuthKey_*.p8` files
+- Never commit `.env`, `android/google-play-key.json`, or `AuthKey_*.p8` files
 - All sensitive files are already in `.gitignore`
 
 ## Release Process Workflow
@@ -336,7 +336,7 @@ Follow [Semantic Versioning](https://semver.org/):
 - Verify keystore file is in `android/app/` directory
 
 **Error: Failed to upload to Play Console**
-- Check `google-play-key.json` has correct permissions
+- Check `android/google-play-key.json` has correct permissions
 - Verify service account has "Release Manager" role in Play Console
 - Ensure the app exists in Play Console
 
