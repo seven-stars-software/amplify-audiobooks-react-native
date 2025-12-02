@@ -88,16 +88,12 @@ end
 platform :android do
   desc "Build Android release AAB"
   lane :build do
+    # Android signing is configured in android/keystore.properties
+    # No need to pass signing config here - gradle will use keystore.properties
     gradle(
       task: "bundle",
       build_type: "Release",
-      project_dir: "android/",
-      properties: {
-        "android.injected.signing.store.file" => ENV["ANDROID_KEYSTORE_FILE"],
-        "android.injected.signing.store.password" => ENV["ANDROID_KEYSTORE_PASSWORD"],
-        "android.injected.signing.key.alias" => ENV["ANDROID_KEY_ALIAS"],
-        "android.injected.signing.key.password" => ENV["ANDROID_KEY_PASSWORD"]
-      }
+      project_dir: "android/"
     )
 
     UI.success("✅ Android AAB built successfully")

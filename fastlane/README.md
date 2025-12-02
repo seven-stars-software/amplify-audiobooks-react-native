@@ -1,63 +1,104 @@
-# Fastlane Configuration
+fastlane documentation
+----
 
-This directory contains Fastlane configuration for automated releases of AmplifyAudiobooks.
+# Installation
 
-## Quick Start
+Make sure you have the latest version of the Xcode command line tools installed:
 
-```bash
-# Complete release workflow (version bump, build, tag)
-npm run release -- version:2.3.0 build:8
-
-# Or individual commands:
-npm run release:version -- version:2.3.0 build:8
-npm run release:build-android
-npm run release:build-ios
-npm run release:deploy-android
-npm run release:deploy-ios
+```sh
+xcode-select --install
 ```
 
-## Files
+For _fastlane_ installation instructions, see [Installing _fastlane_](https://docs.fastlane.tools/#installing-fastlane)
 
-- **Fastfile** - Main configuration with all lanes (tasks)
-- **Appfile** - App identifiers and configuration
-- **.gitignore** - Prevents committing sensitive files
+# Available Actions
 
-## Available Lanes
+### bump_version
 
-### Shared
-- `bump_version` - Update version across all platform files
-- `tag_version` - Create git commit and tag
+```sh
+[bundle exec] fastlane bump_version
+```
 
-### Android
-- `android build` - Build release AAB
-- `android deploy` - Build and upload to Play Console
-- `android upload` - Upload existing AAB
+Bump version across all platform files
 
-### iOS
-- `ios build` - Build release IPA
-- `ios deploy` - Build and upload to App Store Connect
-- `ios upload` - Upload existing IPA
+### tag_version
 
-### Full Release
-- `release` - Complete workflow for both platforms
+```sh
+[bundle exec] fastlane tag_version
+```
 
-## Documentation
+Tag and commit version bump
 
-See `docs/FASTLANE_SETUP.md` for detailed setup instructions, configuration, and troubleshooting.
+### release
 
-## Prerequisites
+```sh
+[bundle exec] fastlane release
+```
 
-1. Install dependencies: `bundle install`
-2. Configure credentials in `.env.development`
-3. Set up Google Play service account (for Android uploads)
-4. Set up Apple ID or App Store Connect API key (for iOS uploads)
+Complete release workflow for both platforms
 
-## Security
+----
 
-**Never commit:**
-- `.env.development` (already gitignored)
-- `android/google-play-key.json`
-- `ios/AuthKey_*.p8`
-- Keystore files (`*.jks`, `*.keystore`)
 
-All sensitive files are protected in `.gitignore`.
+## Android
+
+### android build
+
+```sh
+[bundle exec] fastlane android build
+```
+
+Build Android release AAB
+
+### android deploy
+
+```sh
+[bundle exec] fastlane android deploy
+```
+
+Build and upload to Google Play Console (Internal Testing)
+
+### android upload
+
+```sh
+[bundle exec] fastlane android upload
+```
+
+Upload existing AAB to Google Play Console
+
+----
+
+
+## iOS
+
+### ios build
+
+```sh
+[bundle exec] fastlane ios build
+```
+
+Build iOS release
+
+### ios deploy
+
+```sh
+[bundle exec] fastlane ios deploy
+```
+
+Build and upload to App Store Connect
+
+### ios upload
+
+```sh
+[bundle exec] fastlane ios upload
+```
+
+Upload existing IPA to App Store Connect
+
+----
+
+This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
+
+More information about _fastlane_ can be found on [fastlane.tools](https://fastlane.tools).
+
+The documentation of _fastlane_ can be found on [docs.fastlane.tools](https://docs.fastlane.tools).
