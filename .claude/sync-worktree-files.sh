@@ -4,9 +4,16 @@
 
 set -e
 
+# Get the directory where this script lives, then go to project root
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# Change to project root to ensure all relative paths work
+cd "$PROJECT_ROOT"
+
 # Determine if we're in a worktree
 MAIN_REPO="/Users/verinaut/Projects/amplify/amplify-react-native/AmplifyAudiobooks"
-CURRENT_DIR="$(pwd)"
+CURRENT_DIR="$PROJECT_ROOT"
 
 # If we're in the main repo, no sync needed
 if [ "$CURRENT_DIR" = "$MAIN_REPO" ]; then
