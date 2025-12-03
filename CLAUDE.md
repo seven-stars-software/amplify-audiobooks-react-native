@@ -41,6 +41,26 @@ pytest /Users/verinaut/Projects/amplify/amplify-react-native/AmplifyAudiobooks/t
 cd ios && pod install
 ```
 
+### Git Worktrees & Gitignored Files
+
+**AUTOMATIC SYNC CONFIGURED:** A SessionStart hook automatically syncs critical gitignored files from the main repo to worktrees.
+
+**What gets synced:**
+- `.env.development` (API URLs, Fastlane config)
+- `android/keystore.properties` (signing credentials)
+- `android/app/amplify-audiobooks-release.jks` (release keystore)
+- `android/app/upload_certificate.pem` (upload certificate)
+
+**How it works:**
+- `.claude/sync-worktree-files.sh` runs on every Claude Code session start
+- Only runs when in a worktree (detects via `git worktree list`)
+- Skips if in main repo (no sync needed)
+- Creates necessary directories automatically
+
+**Manual sync:** Run `./.claude/sync-worktree-files.sh` anytime to re-sync files.
+
+**Note:** `.claude/settings.local.json` is NOT synced (worktree-specific permissions may differ). The committed `.claude/settings.json` provides PATH configuration for all sessions.
+
 ### GitHub CLI (`gh`) Bug - Projects (classic) Deprecation
 
 **CRITICAL BUG:** Many `gh` commands fail with exit code 1 due to a known bug in the GitHub CLI.
