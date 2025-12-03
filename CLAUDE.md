@@ -52,12 +52,20 @@ cd ios && pod install
 - `android/app/upload_certificate.pem` (upload certificate)
 
 **How it works:**
-- `.claude/sync-worktree-files.sh` runs on every Claude Code session start
+- `.claude/sync-worktree-files.sh` runs on every Claude Code session start via SessionStart hook
 - Only runs when in a worktree (detects via `git worktree list`)
 - Skips if in main repo (no sync needed)
 - Creates necessary directories automatically
+- Script determines its own location and changes to project root (SessionStart hooks don't guarantee working directory)
 
 **Manual sync:** Run `./.claude/sync-worktree-files.sh` anytime to re-sync files.
+
+**Important notes about SessionStart hooks:**
+- Hook output is added as context for Claude, NOT displayed to user
+- Hooks run before session starts, but working directory is not guaranteed
+- Scripts should use `BASH_SOURCE` to find their location and cd to project root
+- Exit code 0 = success (output becomes available context)
+- Non-zero exit codes only appear in verbose mode
 
 **Note:** `.claude/settings.local.json` is NOT synced (worktree-specific permissions may differ). The committed `.claude/settings.json` provides PATH configuration for all sessions.
 
