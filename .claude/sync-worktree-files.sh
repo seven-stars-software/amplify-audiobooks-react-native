@@ -11,28 +11,18 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 # Change to project root to ensure all relative paths work
 cd "$PROJECT_ROOT"
 
-# Determine if we're in a worktree
-MAIN_REPO="/Users/verinaut/Projects/amplify/amplify-react-native/AmplifyAudiobooks"
-CURRENT_DIR="$PROJECT_ROOT"
-
-# If we're in the main repo, no sync needed
-if [ "$CURRENT_DIR" = "$MAIN_REPO" ]; then
-  echo "✓ In main repo - no sync needed"
-  exit 0
-fi
-
 # Check if this is actually a worktree by checking git rev-parse
 if ! git rev-parse --is-inside-work-tree &>/dev/null; then
   echo "✗ Not in a git repository"
   exit 1
 fi
 
-# Get the main worktree path
-MAIN_WORKTREE=$(git worktree list | head -1 | awk '{print $1}')
+# Get the main worktree path (first entry in git worktree list)
+MAIN_REPO=$(git worktree list | head -1 | awk '{print $1}')
 
-# If main worktree doesn't match our expected main repo, we're not in a worktree of this repo
-if [ "$MAIN_WORKTREE" != "$MAIN_REPO" ]; then
-  echo "✓ Not in an AmplifyAudiobooks worktree - no sync needed"
+# If we're in the main repo, no sync needed
+if [ "$PROJECT_ROOT" = "$MAIN_REPO" ]; then
+  echo "✓ In main repo - no sync needed"
   exit 0
 fi
 
