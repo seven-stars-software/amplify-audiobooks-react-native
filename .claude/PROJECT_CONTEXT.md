@@ -3,75 +3,19 @@
 **Last Updated:** 2025-12-02
 **Current Version:** 2.2.0
 
----
+**NOTE:** The primary startup file for Claude Code is `CLAUDE.md` at the project root. This file contains detailed reference information that supplements the critical rules and active work in CLAUDE.md.
 
-## 🚨 UNCLOSED LOOPS & IN-PROGRESS WORK
+**What's in CLAUDE.md (read on startup):**
+- Critical rules (working directory, GitHub CLI workarounds)
+- Active work and unclosed loops
+- Quick project overview and conventions
+- Team & security notes
 
-### Active Blockers
-- **iOS Release Testing:** Waiting for TestFlight beta tester feedback from Pro Audio Voices team
-  - Build already distributed to App Store Connect
-  - Version 2.2.0 live in TestFlight
-
-### In Review
-- **PR #12 - Fastlane Automation (Issue #10):** Complete release automation for iOS and Android
-  - Branch: `feature/fastlane-automation`
-  - URL: https://github.com/seven-stars-software/amplify-audiobooks-react-native/pull/12
-  - ✅ Fastlane installed and configured
-  - ✅ Google Play service account created (`fastlane-release@amplifyaudiobooks-api.iam.gserviceaccount.com`)
-  - ✅ App Store Connect API Key configured (Key ID: 6ZN29XPT4Z)
-  - ✅ Bundle identifier consistency fixed (`com.sevenstar.amplify`)
-  - ✅ Version bumping tested across all platforms
-  - ✅ Android AAB build tested (41MB output)
-  - ✅ iOS IPA build tested (21MB output)
-  - ⏳ **Not yet tested:** Deployment to Play Console/App Store Connect (planned for next patch version)
-  - Critical fix: Android signing now uses `keystore.properties` instead of failing ENV variables
-
-### Ready to Merge
-- **Branch `refactor/atomic-design-compliance`:** Complete Atomic Design refactoring
-  - 10 components reorganized (atoms → molecules → organisms)
-  - 21 files updated with corrected imports
-  - Comprehensive `docs/ATOMIC_DESIGN.md` documentation added
-  - All tests passing, ready for PR when convenient
-
-### Known Technical Debt
-- **BookStore.tsx (373 lines):** Too complex, needs decomposition
-  - Should split into: useBookData, useDownloadManager, useNetworkAwareness hooks
-  - Tracked in architectural review
-
-- **Error Handling Inconsistency:** Multiple patterns across codebase
-  - ErrorContext blocks entire app
-  - PlaybackContext navigates to error screen
-  - APIClient just throws
-  - Need unified strategy
-
-- **useEffect Cleanup Pattern (Issue #8):** Missing cleanup in several components
-  - Need systematic review and fixes
-
-- **Type Safety Gaps:** Several `any` types need proper typing
-  - PlaybackContext.playBook() returns `any`
-  - UserContext.wpUser is `any`
-
----
-
-## 📱 Project Overview
-
-### What It Is
-React Native audiobook application for AMPlify Audiobooks (Pro Audio Voices). Provides book discovery, library management, offline downloads, and audio playback with resume functionality.
-
-### Tech Stack
-- **Framework:** React Native 0.77.3, Expo 52.0.27
-- **Language:** TypeScript 5.6.3
-- **Navigation:** React Navigation 6.x (stack + bottom tabs)
-- **UI:** React Native Paper 5.14.5 (Material Design 3)
-- **Audio:** react-native-track-player 4.1.2
-- **Storage:** AsyncStorage, expo-file-system 18.0.12
-- **Network:** @react-native-community/netinfo 11.4.1
-- **Platforms:** iOS 15.1+, Android API 24+ (7.0)
-
-### Repository
-- **Location:** `~/Projects/amplify/amplify-react-native/AmplifyAudiobooks`
-- **Main Branch:** `main`
-- **Remote:** github.com:seven-stars-software/amplify-audiobooks-react-native
+**What's in this file (reference material):**
+- Detailed architecture
+- Full release process
+- Android signing crisis history
+- Complete component organization
 
 ---
 
@@ -158,99 +102,25 @@ See `docs/ATOMIC_DESIGN.md` for complete guidelines.
 
 ---
 
-## 🎯 Key Decisions & Conventions
-
-### Code Conventions
-- **Always use enums, never string literals** for status values
-  - ✅ `DownloadStatus.DOWNLOADED`
-  - ❌ `'downloaded'`
-- **Atomic Design methodology** for component organization
-- **Custom hooks** for complex logic extraction
-- **Context over prop drilling** for cross-cutting concerns
-- **Avoid over-engineering:** Only add what's needed, no premature abstraction
-
-### Git Workflow
-- **Main branch:** `main` (protected)
-- **Feature branches:** `feature/` prefix
-- **Refactor branches:** `refactor/` prefix
-- **Commits:** Always include Claude Code footer:
-  ```
-  🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-  Co-Authored-By: Claude <noreply@anthropic.com>
-  ```
-
-### File Organization
-- Use absolute imports via Babel module resolver: `components/atoms/Button`
-- Never commit: `.env`, keystores (`.jks`, `.keystore`), certificates (`.pem`)
-- Keep sensitive credentials in `keystore.properties` (gitignored)
-
----
-
-## 👥 Client & Team
-
-### Client Company: Pro Audio Voices
-
-**Company Owner:**
-- **Becky Geist** - Google Play Console account owner, decision maker
-  - Non-technical, needs step-by-step instructions
-  - Comfortable sharing credentials with developer
-
-**Project Team:**
-- **Emily Busbee** - Project Manager, main contact
-  - Coordinates releases and feature requests
-
-- **Jerrilee Geist** - Android tester
-  - Tests Android releases before production
-  - Cannot test iOS (Android only)
-
-- **Marcus Mulenga** - Customer Support
-  - Provides field feedback from customers
-  - Reports bugs and UX issues from real-world usage
-
-**Developer Relationship:**
-- Friends with owner, close working relationship
-- Communication primarily via WhatsApp
-- Years of collaboration, trusted partnership
-
-### Credential Sharing
-- Client comfortable sharing credentials (Google Play, AWS, WordPress)
-- **Preferred method:** 1Password shared vault (both use 1Password)
-- **Alternative:** OneTimeSecret.com for one-off sharing
-- **Never use:** Plain email, SMS, Slack DMs
-
-### Permissions
-- **Google Play Console:** Developer account has most permissions
-- **Account owner actions required for:** Upload key resets, account-level settings
-  - Becky (owner) must initiate these requests
-
----
 
 ## 📋 Version History & Release Process
 
-### Current Release: v2.2.0 (In Progress)
+### v2.2.0 (Current - December 2025)
 
-**Status:**
-- ✅ Code complete & merged (PR #7)
-- ✅ Tagged `v2.2.0` on main branch
-- ✅ iOS build uploaded to App Store Connect & TestFlight
-- ⏳ Android blocked on Google Play upload key reset approval
-- 📝 CHANGELOG.md updated
-
-**Features (v2.2.0):**
+**Features:**
 - Fixed offline playback and download functionality
 - Clear feedback when attempting to play/download while offline
 - Real-time download progress indicators
 - Improved error handling for playback issues
 - Network connectivity detection with offline simulation mode
 
-**Known Issues This Release:**
+**Known Issues:**
 - No download progress percentage (just downloading/downloaded binary state)
 - No download cancellation
 - Per-track download UI misleading (can only download whole books)
 - See Issue #9 for future improvements
 
-### Previous Release: v2.1.0 (Feb 27, 2024)
+### v2.1.0 (Feb 27, 2024)
 
 **Breaking Changes:**
 - Android: Minimum API 24 (Android 7.0+)
@@ -308,25 +178,27 @@ See `docs/ATOMIC_DESIGN.md` for complete guidelines.
 
 ---
 
-## 🎫 GitHub Issues & Technical Debt
+## 🎫 GitHub Issues
 
 ### Open Issues
 - **#8:** useEffect cleanup pattern needed across codebase
 - **#9:** Download management improvements (progress, cancellation, book-level UI)
-- **#10:** Automate release cycle with Fastlane
+- **#10:** Automate release cycle with Fastlane (PR #12 in review)
 
-### High Priority Technical Debt
-- **BookStore decomposition:** 373 lines, needs split into smaller hooks
-- **Error handling standardization:** Inconsistent patterns across contexts
-- **Type safety:** Eliminate `any` types in PlaybackContext, UserContext
+### Prioritized Technical Debt
 
-### Medium Priority
+**High Priority:**
+- BookStore decomposition (373 lines, needs split into smaller hooks)
+- Error handling standardization (inconsistent patterns across contexts)
+- Type safety (eliminate `any` types in PlaybackContext, UserContext)
+
+**Medium Priority:**
 - Request deduplication for API calls
 - App resume handling (refresh data when returning from background)
 - Download progress persistence
 - Retry mechanisms for failed operations
 
-### Low Priority
+**Low Priority:**
 - UserContext persistence to AsyncStorage
 - Component memoization with React.memo
 - Simplify useCallbackState hook
@@ -363,29 +235,3 @@ See `docs/ATOMIC_DESIGN.md` for complete guidelines.
 - `android/app/amplify-audiobooks-release.jks` - Release keystore (gitignored)
 - `ios/AmplifyAudiobooks.xcworkspace` - iOS build workspace
 
----
-
-## 🔄 Work Journals
-
-Detailed session history and work logs are maintained in individual work journals:
-
-- **Jackson Callaway (@jcksncllwy):** `docs/work_journals/jcksncllwy/`
-  - [2025-11-25: v2.2.0 Release Day & Atomic Design Refactoring](../docs/work_journals/jcksncllwy/2025-11-25.md)
-  - [2025-12-02: Fastlane Release Automation](../docs/work_journals/jcksncllwy/2025-12-02.md)
-
----
-
-## 🎯 Next Steps
-
-### Immediate Priorities
-1. **Review PR #12 (Fastlane Automation)**
-   - Test deployment to app stores with next patch version
-
-2. **Check for iOS TestFlight feedback**
-   - iOS 2.2.0 currently in TestFlight
-   - Address any critical issues before production
-
-### Future Enhancements
-- Merge `refactor/atomic-design-compliance` branch (ready when convenient)
-- Review issue #9 for download management improvements
-- Consider BookStore refactoring (break into smaller hooks)
