@@ -58,6 +58,11 @@ yarn-error.log
 **/fastlane/screenshots
 **/fastlane/test_output
 
+# Fastlane credentials
+android/google-play-key.json
+AuthKey_*.p8
+ios/AuthKey_*.p8
+
 # Bundle artifact
 *.jsbundle
 

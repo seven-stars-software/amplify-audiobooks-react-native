@@ -10,7 +10,7 @@
       "android"
     ],
     "ios": {
-      "bundleIdentifier": "org.reactjs.native.example.AmplifyAudiobooks"
+      "bundleIdentifier": "com.sevenstar.amplify"
     },
     "android": {
       "package": "com.amplifyaudiobooks"

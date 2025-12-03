@@ -1,0 +1,228 @@
+# Fastfile for AmplifyAudiobooks
+# This file contains the fastlane.tools configuration
+
+default_platform(:ios)
+
+# ===========================
+# SHARED LANES
+# ===========================
+
+desc "Bump version across all platform files"
+lane :bump_version do |options|
+  version = options[:version]
+  build = options[:build]
+
+  unless version
+    UI.user_error!("Version number is required. Use version:X.Y.Z")
+  end
+
+  unless build
+    UI.user_error!("Build number is required. Use build:N")
+  end
+
+  UI.message("🔢 Bumping version to #{version} (build #{build})")
+
+  # Update package.json
+  package_json = File.read("../package.json")
+  updated_package = package_json.gsub(/"version":\s*"[^"]+"/, "\"version\": \"#{version}\"")
+  File.write("../package.json", updated_package)
+  UI.success("✅ Updated package.json")
+
+  # Update app.json (Expo config)
+  app_json = File.read("../app.json")
+  updated_app = app_json.gsub(/"version":\s*"[^"]+"/, "\"version\": \"#{version}\"")
+  File.write("../app.json", updated_app)
+  UI.success("✅ Updated app.json")
+
+  # Update Android build.gradle
+  gradle_file = File.read("../android/app/build.gradle")
+  updated_gradle = gradle_file
+    .gsub(/versionCode\s+\d+/, "versionCode #{build}")
+    .gsub(/versionName\s+"[^"]+"/, "versionName \"#{version}\"")
+  File.write("../android/app/build.gradle", updated_gradle)
+  UI.success("✅ Updated android/app/build.gradle")
+
+  # Update iOS project (using agvtool)
+  Dir.chdir("../ios") do
+    sh("xcrun agvtool new-marketing-version #{version}")
+    sh("xcrun agvtool new-version -all #{build}")
+  end
+  UI.success("✅ Updated iOS project files")
+
+  UI.success("🎉 Version bumped to #{version} (build #{build}) across all platforms!")
+end
+
+desc "Tag and commit version bump"
+lane :tag_version do |options|
+  version = options[:version]
+
+  unless version
+    UI.user_error!("Version number is required. Use version:X.Y.Z")
+  end
+
+  # Commit the version changes
+  git_add(path: [
+    "../package.json",
+    "../app.json",
+    "../android/app/build.gradle",
+    "../ios/AmplifyAudiobooks.xcodeproj/project.pbxproj",
+    "../CHANGELOG.md"
+  ])
+
+  git_commit(
+    path: ".",
+    message: "Bump version to #{version}\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>"
+  )
+
+  # Create tag
+  add_git_tag(tag: "v#{version}")
+
+  UI.success("✅ Created git commit and tag v#{version}")
+  UI.message("Don't forget to push: git push && git push --tags")
+end
+
+# ===========================
+# ANDROID LANES
+# ===========================
+
+platform :android do
+  desc "Build Android release AAB"
+  lane :build do
+    # Android signing is configured in android/keystore.properties
+    # No need to pass signing config here - gradle will use keystore.properties
+    gradle(
+      task: "bundle",
+      build_type: "Release",
+      project_dir: "android/"
+    )
+
+    UI.success("✅ Android AAB built successfully")
+    UI.message("📦 Output: android/app/build/outputs/bundle/release/app-release.aab")
+  end
+
+  desc "Build and upload to Google Play Console (Internal Testing)"
+  lane :deploy do
+    # Build the release
+    build
+
+    # Upload to Play Console
+    upload_to_play_store(
+      track: 'internal',
+      aab: 'android/app/build/outputs/bundle/release/app-release.aab',
+      skip_upload_screenshots: true,
+      skip_upload_images: true,
+      skip_upload_metadata: true
+    )
+
+    UI.success("🚀 Successfully deployed to Google Play Console (Internal Testing)")
+  end
+
+  desc "Upload existing AAB to Google Play Console"
+  lane :upload do
+    upload_to_play_store(
+      track: 'internal',
+      aab: 'android/app/build/outputs/bundle/release/app-release.aab',
+      skip_upload_screenshots: true,
+      skip_upload_images: true,
+      skip_upload_metadata: true
+    )
+
+    UI.success("🚀 Successfully uploaded to Google Play Console")
+  end
+end
+
+# ===========================
+# IOS LANES
+# ===========================
+
+platform :ios do
+  desc "Build iOS release"
+  lane :build do
+    gym(
+      workspace: "ios/AmplifyAudiobooks.xcworkspace",
+      scheme: "AmplifyAudiobooks",
+      clean: true,
+      export_method: "app-store",
+      output_directory: "./build"
+    )
+
+    UI.success("✅ iOS build completed successfully")
+  end
+
+  desc "Build and upload to App Store Connect"
+  lane :deploy do
+    # Build the app
+    build
+
+    # Upload to App Store Connect
+    upload_to_app_store(
+      skip_screenshots: true,
+      skip_metadata: true,
+      submit_for_review: false
+    )
+
+    UI.success("🚀 Successfully uploaded to App Store Connect")
+  end
+
+  desc "Upload existing IPA to App Store Connect"
+  lane :upload do
+    upload_to_app_store(
+      ipa: "./build/AmplifyAudiobooks.ipa",
+      skip_screenshots: true,
+      skip_metadata: true,
+      submit_for_review: false
+    )
+
+    UI.success("🚀 Successfully uploaded to App Store Connect")
+  end
+end
+
+# ===========================
+# RELEASE LANE
+# ===========================
+
+desc "Complete release workflow for both platforms"
+lane :release do |options|
+  version = options[:version]
+  build = options[:build]
+
+  unless version
+    UI.user_error!("Version number is required. Use version:X.Y.Z")
+  end
+
+  unless build
+    UI.user_error!("Build number is required. Use build:N")
+  end
+
+  UI.message("🚀 Starting release process for version #{version} (build #{build})")
+
+  # Step 1: Bump version
+  UI.header("Step 1: Bumping version")
+  bump_version(version: version, build: build)
+
+  # Step 2: Ask user to update CHANGELOG.md
+  UI.important("⏸️  Please update CHANGELOG.md with release notes for v#{version}")
+  UI.input("Press Enter when you've updated CHANGELOG.md...")
+
+  # Step 3: Commit and tag
+  UI.header("Step 2: Creating git commit and tag")
+  tag_version(version: version)
+
+  # Step 4: Build Android
+  UI.header("Step 3: Building Android")
+  android_build
+
+  # Step 5: Build iOS
+  UI.header("Step 4: Building iOS")
+  ios_build
+
+  UI.success("🎉 Release build completed for version #{version}!")
+  UI.message("📦 Android AAB: android/app/build/outputs/bundle/release/app-release.aab")
+  UI.message("📦 iOS IPA: ./build/AmplifyAudiobooks.ipa")
+  UI.message("")
+  UI.message("Next steps:")
+  UI.message("1. Push to remote: git push && git push --tags")
+  UI.message("2. Upload Android: fastlane android upload")
+  UI.message("3. Upload iOS: fastlane ios upload")
+  UI.message("   OR deploy both: fastlane android deploy && fastlane ios deploy")
+end
