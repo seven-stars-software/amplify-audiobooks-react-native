@@ -3,8 +3,8 @@
 A modern React Native audiobook player for iOS and Android, built for Pro Audio Voices. Features offline playback, seamless progress tracking, and a Material Design 3 interface.
 
 <div align="center">
-  <img src="docs/screenshots/home-screen.png" width="250" alt="Book Detail Screen" />
-  <img src="docs/screenshots/library-grid.png" width="250" alt="Library Screen" />
+  <img src="docs/screenshots/book-screen.png" width="250" alt="Book Detail Screen" />
+  <img src="docs/screenshots/home-grid.png" width="250" alt="Library Screen" />
   <img src="docs/screenshots/library-list.png" width="250" alt="Library List View" />
 </div>
 
@@ -12,23 +12,19 @@ A modern React Native audiobook player for iOS and Android, built for Pro Audio 
 
 ### Core Functionality
 - **Offline Playback** - Download audiobooks for listening without an internet connection
-- **Progress Tracking** - Automatically resume where you left off across devices
-- **Smart Downloads** - Per-track download management with real-time status updates
-- **Network Awareness** - Graceful offline mode with clear user feedback
+- **Progress Tracking** - Automatically resume where you left off
+- **Network Awareness** - Graceful offline mode
 - **Material Design 3** - Modern, accessible UI using React Native Paper
 
 ### Playback Features
 - Background audio playback with lock screen controls
-- Variable playback speed
 - Skip forward/backward (15-second increments)
 - Chapter navigation
-- Sleep timer
 - Progress scrubbing
 
 ### User Experience
 - Pull-to-refresh book library sync
 - Discover new releases from web catalog
-- Search and browse by author, genre, narrator
 - User authentication and account management
 - Persistent now-playing card for quick access
 
@@ -45,9 +41,7 @@ A modern React Native audiobook player for iOS and Android, built for Pro Audio 
 
 ### Development Tools
 - **Build Automation:** Fastlane (iOS + Android)
-- **CI/CD:** Automated version bumping and deployment
 - **Code Quality:** ESLint, Prettier, TypeScript strict mode
-- **Testing:** Jest + React Test Renderer
 
 ## Architecture
 
@@ -89,13 +83,7 @@ AmplifyAudiobooks/
 - **UserContext** - User profile and preferences
 - **ErrorContext** - Global error handling
 - **LayoutContext** - Dynamic layout measurements
-- **BookStore** - Zustand-style store for book library and downloads
-
-### Key Design Decisions
-- **Context over Redux** - Simpler state management for this use case
-- **Custom hooks for logic extraction** - Keep components focused and testable
-- **Offline-first architecture** - Local-first data with background sync
-- **Enums over string literals** - Type-safe status values throughout
+- **BookStore** - Data store for book library and downloads
 
 ## Getting Started
 
@@ -141,18 +129,47 @@ See the [React Native Environment Setup](https://reactnative.dev/docs/environmen
 
 **iOS:**
 ```bash
-npm run ios
+npm expo run:ios
 ```
 
 **Android:**
 ```bash
-npm run android
+npm expo run:android
 ```
 
 **Start Metro bundler separately:**
 ```bash
-npm start
+npm expo start
 ```
+
+## Development
+
+### Code Style
+
+- **TypeScript strict mode** enabled
+- **ESLint** for code quality
+- **Prettier** for formatting
+- Always use **enums** over string literals for status values
+- Follow **Atomic Design** principles for component organization
+
+### Git Workflow
+
+- **Main branch:** `main` (protected, requires PR)
+- **Feature branches:** `feature/feature-name`
+- **Refactor branches:** `refactor/refactor-name`
+- **Worktrees** recommended for parallel development
+
+## Deployment
+
+### iOS (App Store)
+- TestFlight beta testing configured
+- App Store Connect API integration
+- Automated IPA generation via Fastlane
+
+### Android (Google Play)
+- Google Play Console integration
+- Automated AAB generation via Fastlane
+- Google Play App Signing enabled
 
 #### Release Builds
 
@@ -173,51 +190,6 @@ npm run release:build-android
 npm run release
 ```
 
-## Development
-
-### Code Style
-
-- **TypeScript strict mode** enabled
-- **ESLint** for code quality
-- **Prettier** for formatting
-- Always use **enums** over string literals for status values
-- Follow **Atomic Design** principles for component organization
-
-### Git Workflow
-
-- **Main branch:** `main` (protected, requires PR)
-- **Feature branches:** `feature/feature-name`
-- **Refactor branches:** `refactor/refactor-name`
-- **Worktrees** recommended for parallel development
-
-### Commit Messages
-
-Include Claude Code attribution footer:
-
-```
-Your commit message here
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>
-```
-
-## Deployment
-
-### iOS (App Store)
-- TestFlight beta testing configured
-- App Store Connect API integration
-- Automated IPA generation via Fastlane
-- Current version: 2.2.0 (live in TestFlight)
-
-### Android (Google Play)
-- Google Play Console integration
-- Automated AAB generation via Fastlane
-- Google Play App Signing enabled
-- Service account: `fastlane-release@amplifyaudiobooks-api.iam.gserviceaccount.com`
-
-See [docs/FASTLANE_SETUP.md](docs/FASTLANE_SETUP.md) for detailed deployment workflows.
-
 ## Platform Support
 
 - **iOS:** 15.1+
@@ -225,22 +197,26 @@ See [docs/FASTLANE_SETUP.md](docs/FASTLANE_SETUP.md) for detailed deployment wor
 
 ## API Integration
 
-This app integrates with the Pro Audio Voices audiobook API for:
-- User authentication
-- Book catalog and metadata
-- Purchase verification
-- Progress syncing
-- Audio file URLs
+This app communicates with a custom Node.js/Express backend API gateway that handles authentication and proxies requests to Pro Audio Voices' infrastructure:
+
+**Backend Repository:** [seven-stars-software/amplify-backend](https://github.com/seven-stars-software/amplify-backend)
+
+### Architecture
+The backend acts as a secure API gateway that:
+- Authenticates mobile app requests using sealed session tokens (@hapi/iron)
+- Proxies authenticated requests to WordPress (WooCommerce) for catalog and purchase data
+- Proxies authenticated requests to AWS S3 for presigned audio file URLs
+- Stores API credentials server-side (WordPress API keys, AWS credentials)
+- Provides a thin, mobile-friendly REST API over WooCommerce and S3
+
+### API Features
+- User authentication and session management
+- Book catalog and metadata retrieval
+- Purchase verification and library access
+- Playback progress syncing across devices
+- Presigned S3 URLs for audio file streaming/download
 
 API endpoints are configured via environment variables in `.env.development`.
-
-## Known Issues & Limitations
-
-- **Android Keystore Recovery:** Google Play App Signing is enabled to prevent keystore loss issues
-- **Network Detection Edge Cases:** Brief connection interruptions may not trigger offline mode immediately
-- **Large Downloads:** Multi-hour audiobooks may take significant time on slower connections
-
-See [GitHub Issues](https://github.com/seven-stars-software/amplify-audiobooks-react-native/issues) for active bug reports and feature requests.
 
 ## Documentation
 
@@ -249,14 +225,6 @@ See [GitHub Issues](https://github.com/seven-stars-software/amplify-audiobooks-r
 - **[Fastlane Setup](docs/FASTLANE_SETUP.md)** - Build automation and deployment
 - **[Changelog](CHANGELOG.md)** - Version history and release notes
 - **[Project Context](.claude/PROJECT_CONTEXT.md)** - Complete project documentation for AI tools
-
-## Contributing
-
-This is a private commercial project. Future contractors should coordinate with the project maintainer before submitting changes.
-
-## License
-
-Proprietary - All rights reserved by Pro Audio Voices.
 
 ## Credits
 

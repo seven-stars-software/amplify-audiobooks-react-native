@@ -21,7 +21,37 @@
 
 ## 🏗️ Architecture
 
-### High-Level Pattern
+### System Overview
+
+This is a **client-server application** with two repositories:
+
+1. **Mobile App (this repo):** React Native audiobook player
+2. **Backend API:** Node.js/Express API gateway
+   - Repository: [seven-stars-software/amplify-backend](https://github.com/seven-stars-software/amplify-backend)
+   - Location: `/Users/verinaut/Projects/amplify/amplify-backend`
+
+### Backend Architecture
+
+The backend is a **thin API gateway** that:
+- Authenticates mobile app requests using sealed session tokens (@hapi/iron)
+- Proxies requests to Pro Audio Voices' WordPress (WooCommerce) for catalog/purchase data
+- Proxies requests to AWS S3 for presigned audio file URLs
+- Stores API credentials server-side (WordPress keys, AWS credentials)
+- Provides mobile-friendly REST endpoints over WooCommerce and S3
+
+**Key Controllers:**
+- `S3.ts` - Presigned URL generation for audio streaming/download
+- `WooCommerce.ts` - Product catalog, purchase verification
+- `Wordpress.ts` - User authentication, progress syncing
+
+**Tech Stack:**
+- Express.js REST API
+- @hapi/iron for sealed session tokens
+- @aws-sdk/client-s3 for S3 integration
+- @woocommerce/woocommerce-rest-api for catalog data
+
+### Mobile App Architecture
+
 Multi-context architecture using React Context API + custom hooks. No Redux/MobX.
 
 ### Context Providers (Nested Order)
