@@ -1,4 +1,4 @@
-import TopBanner from "components/atoms/TopBanner"
+import TopBanner from "components/organisms/TopBanner"
 import { ReactNode } from "react"
 import { View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"

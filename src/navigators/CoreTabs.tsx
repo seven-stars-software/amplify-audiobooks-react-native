@@ -1,5 +1,5 @@
 import { BottomTabBarProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import CoreTabBar from "components/molecules/CoreTabBar";
+import CoreTabBar from "components/organisms/CoreTabBar";
 import HomeNavigator from "./HomeNavigator";
 import LibraryNavigator from "./LibraryNavigator";
 import SettingsNavigator from "./SettingsNavigator";

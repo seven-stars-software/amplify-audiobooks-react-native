@@ -1,7 +1,7 @@
 import URLS from "URLs";
-import MainScreenContainer from "components/atoms/MainScreenContainer";
+import MainScreenContainer from "components/molecules/MainScreenContainer";
 import BooksSideScroll from "components/molecules/BooksSideScroll";
-import { tabBarPlusNowPlayingHeight } from "components/molecules/CoreTabBar";
+import { tabBarPlusNowPlayingHeight } from "components/organisms/CoreTabBar";
 import LayoutContext from "contexts/LayoutContext";
 import useStyles from "hooks/useStyles";
 import React, { useContext, useEffect, useState } from "react";

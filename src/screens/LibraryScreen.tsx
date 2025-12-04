@@ -1,4 +1,4 @@
-import MainScreenContainer from "components/atoms/MainScreenContainer";
+import MainScreenContainer from "components/molecules/MainScreenContainer";
 import BookList from "components/molecules/BookList";
 import LayoutContext from "contexts/LayoutContext";
 import { useContext } from "react";
