@@ -11,6 +11,10 @@ module.exports = {
     '^components/(.*)$': '<rootDir>/src/components/$1',
     '^navigators/(.*)$': '<rootDir>/src/navigators/$1',
     '^styler/(.*)$': '<rootDir>/src/styler/$1',
+    '^@env$': '<rootDir>/__mocks__/@env.js',
+    '^@assets/(.*)$': '<rootDir>/assets/$1',
+    '^APIClient$': '<rootDir>/src/APIClient',
+    '^URLs$': '<rootDir>/src/URLs',
   },
   transformIgnorePatterns: [
     'node_modules/(?!(react-native|@react-native|@react-native-community|@react-navigation|react-native-paper|react-native-vector-icons|react-native-safe-area-context|react-native-screens|expo.*|@expo.*)/)',

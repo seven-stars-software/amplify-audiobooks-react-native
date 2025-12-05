@@ -118,6 +118,7 @@ jest.mock('expo-file-system', () => ({
 // Mock react-native-paper
 jest.mock('react-native-paper', () => {
   const React = require('react');
+  const { Text: RNText, TouchableOpacity, View } = require('react-native');
   const mockColors = {
     primary: '#6200ee',
     background: '#ffffff',
@@ -138,15 +139,34 @@ jest.mock('react-native-paper', () => {
     Provider: ({ children }) => children,
     MD3LightTheme: { colors: mockColors },
     useTheme: () => ({ colors: mockColors }),
-    ActivityIndicator: 'ActivityIndicator',
-    Button: 'Button',
-    Text: 'Text',
-    Surface: 'Surface',
-    Card: 'Card',
-    IconButton: 'IconButton',
-    Divider: 'Divider',
-    List: { Item: 'ListItem', Section: 'ListSection' },
-    Modal: 'Modal',
+    ActivityIndicator: ({ testID }) => React.createElement(View, { testID }),
+    Button: ({ children, onPress, loading, testID, disabled }) =>
+      React.createElement(
+        TouchableOpacity,
+        { onPress, testID, disabled: disabled || loading, accessibilityRole: 'button' },
+        React.createElement(RNText, null, children),
+        loading && React.createElement(View, { testID: 'loading-indicator' })
+      ),
+    Text: ({ children, onPress, style, variant }) =>
+      React.createElement(RNText, { onPress, style }, children),
+    Surface: ({ children, style }) => React.createElement(View, { style }, children),
+    Card: ({ children, style }) => React.createElement(View, { style }, children),
+    IconButton: ({ onPress, icon, testID }) =>
+      React.createElement(TouchableOpacity, { onPress, testID }, icon),
+    Divider: () => React.createElement(View),
+    List: {
+      Item: ({ title, description, onPress }) =>
+        React.createElement(TouchableOpacity, { onPress },
+          React.createElement(RNText, null, title),
+          description && React.createElement(RNText, null, description)
+        ),
+      Section: ({ children, title }) =>
+        React.createElement(View, null,
+          title && React.createElement(RNText, null, title),
+          children
+        ),
+    },
+    Modal: ({ children, visible }) => visible ? children : null,
     Portal: ({ children }) => children,
   };
 });
@@ -181,3 +201,45 @@ beforeAll(() => {
 afterAll(() => {
   console.error = originalError;
 });
+
+// Mock react-native-vector-icons
+jest.mock('react-native-vector-icons/MaterialIcons', () => 'Icon');
+jest.mock('react-native-vector-icons/MaterialCommunityIcons', () => 'Icon');
+
+// Mock @react-navigation/native
+const mockNavigate = jest.fn();
+const mockGoBack = jest.fn();
+const mockReset = jest.fn();
+
+jest.mock('@react-navigation/native', () => ({
+  useNavigation: () => ({
+    navigate: mockNavigate,
+    goBack: mockGoBack,
+    reset: mockReset,
+  }),
+  useRoute: () => ({
+    params: {},
+  }),
+  useFocusEffect: jest.fn(),
+  useIsFocused: () => true,
+}));
+
+// Export navigation mocks for test assertions
+global.mockNavigate = mockNavigate;
+global.mockGoBack = mockGoBack;
+global.mockReset = mockReset;
+
+// Mock Linking
+jest.mock('react-native/Libraries/Linking/Linking', () => ({
+  openURL: jest.fn(() => Promise.resolve()),
+  canOpenURL: jest.fn(() => Promise.resolve(true)),
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
+}));
+
+// Mock Keyboard
+jest.mock('react-native/Libraries/Components/Keyboard/Keyboard', () => ({
+  dismiss: jest.fn(),
+  addListener: jest.fn(() => ({ remove: jest.fn() })),
+  removeListener: jest.fn(),
+}));
