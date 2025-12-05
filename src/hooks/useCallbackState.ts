@@ -1,5 +1,5 @@
 //Pulled from https://medium.com/geekculture/usecallbackstate-the-hook-that-let-you-run-code-after-a-setstate-operation-finished-25f40db56661
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
 type CallBackType<T> = (updatedValue: T) => void;
 
@@ -20,7 +20,7 @@ const useCallbackState: RetType = <T>(initialValue: T | (() => T)) => {
 
     const setState = (newValue: SetStateType<T>, callback?: CallBackType<T>) => {
         _setState(newValue);
-        if (callback && typeof callback === "function") {
+        if (callback && typeof callback === 'function') {
             callbackQueue.current.push(callback);
         }
     };

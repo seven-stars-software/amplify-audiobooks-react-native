@@ -1,6 +1,6 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import BookScreen, { BookScreenParams } from "screens/BookScreen";
-import HomeScreen from "screens/HomeScreen";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import BookScreen, { BookScreenParams } from 'screens/BookScreen';
+import HomeScreen from 'screens/HomeScreen';
 
 export type HomeStackParams = {
     'Home': undefined
@@ -15,7 +15,7 @@ const HomeNavigator = () => {
             <HomeStack.Screen name="Home" component={HomeScreen} />
             <HomeStack.Screen name="Book" component={BookScreen} />
         </HomeStack.Navigator>
-    )
-}
+    );
+};
 
-export default HomeNavigator
+export default HomeNavigator;

@@ -1,8 +1,7 @@
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { getCacheContextValues } from "caches/GenericCache"
-import ErrorContext from "contexts/ErrorContext"
-import { useContext } from "react"
-import { Book } from "types/types"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ErrorContext from 'contexts/ErrorContext';
+import { useContext } from 'react';
+import { Book } from 'types/types';
 
 export type Checkpoint = {
     trackNumber: number,
@@ -14,7 +13,7 @@ type UseCheckpointReturnType = {
     setCheckpoint: (isbn: Book['isbn'], checkpoint: Checkpoint) => Promise<void>
 }
 
-const CheckpointStorageBucket = '@CheckpointBucket'
+const CheckpointStorageBucket = '@CheckpointBucket';
 
 const useCheckpoints = (): UseCheckpointReturnType => {
     const { handleThrown } = useContext(ErrorContext);
@@ -22,24 +21,24 @@ const useCheckpoints = (): UseCheckpointReturnType => {
     return {
         getCheckpoint: async (isbn) => {
             try {
-                const value = await AsyncStorage.getItem(`${CheckpointStorageBucket}:${isbn}`)
+                const value = await AsyncStorage.getItem(`${CheckpointStorageBucket}:${isbn}`);
                 if (value !== null) {
-                    const checkpoint = JSON.parse(value)
+                    const checkpoint = JSON.parse(value);
                     return checkpoint;
                 }
                 return null;
             } catch (e) {
-                handleThrown(e)
+                handleThrown(e);
             }
         },
         setCheckpoint: async (isbn, checkpoint) => {
             try {
-                await AsyncStorage.setItem(`${CheckpointStorageBucket}:${isbn}`, JSON.stringify(checkpoint))
+                await AsyncStorage.setItem(`${CheckpointStorageBucket}:${isbn}`, JSON.stringify(checkpoint));
             } catch (e) {
-                handleThrown(e)
+                handleThrown(e);
             }
-        }
-    }
-}
+        },
+    };
+};
 
 export default useCheckpoints;

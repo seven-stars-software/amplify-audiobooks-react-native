@@ -1,6 +1,6 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import BookScreen, { BookScreenParams } from "screens/BookScreen";
-import LibraryScreen from "screens/LibraryScreen";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import BookScreen, { BookScreenParams } from 'screens/BookScreen';
+import LibraryScreen from 'screens/LibraryScreen';
 
 export type LibraryStackParams = {
     'Library': undefined
@@ -15,7 +15,7 @@ const LibraryNavigator = () => {
             <LibraryStack.Screen name="Library" component={LibraryScreen} />
             <LibraryStack.Screen name="Book" component={BookScreen} />
         </LibraryStack.Navigator>
-    )
-}
+    );
+};
 
-export default LibraryNavigator
+export default LibraryNavigator;

@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Button, Dialog, Portal, Text } from "react-native-paper"
+import { Button, Dialog, Portal, Text } from 'react-native-paper';
 
 export type Props = {
     visible: boolean,
@@ -8,7 +7,6 @@ export type Props = {
 }
 
 const RemoveDownloadsDialog = ({ visible, setVisible, removeDownloads }: Props) => {
-    const showDialog = () => setVisible(true);
     const hideDialog = () => setVisible(false);
 
     return (
@@ -24,7 +22,7 @@ const RemoveDownloadsDialog = ({ visible, setVisible, removeDownloads }: Props) 
                 </Dialog.Actions>
             </Dialog>
         </Portal>
-    )
-}
+    );
+};
 
-export default RemoveDownloadsDialog
+export default RemoveDownloadsDialog;

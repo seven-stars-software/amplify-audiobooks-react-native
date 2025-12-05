@@ -1,6 +1,6 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AuthSeal } from "types/types";
+import { AuthSeal } from 'types/types';
 
 type AuthContextType = [
     AuthSeal | null,
@@ -9,10 +9,10 @@ type AuthContextType = [
 ]
 
 const AuthContext = createContext<AuthContextType>([
-    null, () => null, () => null
+    null, () => null, () => null,
 ]);
 
-const storageKey = 'auth_seal'
+const storageKey = 'auth_seal';
 
 export const AuthContextProvider = ({ children }: { children?: ReactNode }) => {
     const [authSeal, setAuthSeal] = useState<AuthSeal | null>(null);
@@ -21,40 +21,41 @@ export const AuthContextProvider = ({ children }: { children?: ReactNode }) => {
         const loadAuthSealFromStorage = async () => {
             const fromStorage = await AsyncStorage.getItem(storageKey);
             if (fromStorage !== undefined) {
-                setAuthSeal(fromStorage)
+                setAuthSeal(fromStorage);
             }
-        }
+        };
         if (authSeal === null) {
-            loadAuthSealFromStorage()
+            loadAuthSealFromStorage();
         }
-    }, [])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const setAndStoreAuthSeal = async (seal: AuthSeal) => {
-        console.log(`::: Set Auth Seal : ${seal}`)
-        setAuthSeal(seal)
+        console.log(`::: Set Auth Seal : ${seal}`);
+        setAuthSeal(seal);
         if (seal !== null) {
             await AsyncStorage.setItem(
                 storageKey,
                 seal
             );
         }
-    }
+    };
 
     const deleteAuthSeal = async () => {
         try {
             await AsyncStorage.removeItem(storageKey);
-            setAuthSeal(null)
+            setAuthSeal(null);
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
-    }
+    };
 
     return (
         <AuthContext.Provider value={[authSeal, setAndStoreAuthSeal, deleteAuthSeal]}>
             {children}
         </AuthContext.Provider>
-    )
-}
+    );
+};
 
 export default AuthContext;
 

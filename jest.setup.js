@@ -93,6 +93,11 @@ jest.mock('react-native-track-player', () => ({
     Track: 1,
     Queue: 2,
   },
+  AppKilledPlaybackBehavior: {
+    ContinuePlayback: 'continue-playback',
+    PausePlayback: 'pause-playback',
+    StopPlaybackAndRemoveNotification: 'stop-playback-and-remove-notification',
+  },
 }));
 
 // Mock expo-file-system
@@ -113,31 +118,41 @@ jest.mock('expo-file-system', () => ({
 // Mock react-native-paper
 jest.mock('react-native-paper', () => {
   const React = require('react');
+  const mockColors = {
+    primary: '#6200ee',
+    background: '#ffffff',
+    surface: '#ffffff',
+    accent: '#03dac4',
+    error: '#b00020',
+    text: '#000000',
+    onSurface: '#000000',
+    onBackground: '#000000',
+    onPrimary: '#ffffff',
+    secondary: '#03dac6',
+    disabled: '#00000061',
+    placeholder: '#00000061',
+    backdrop: '#00000052',
+    notification: '#f50057',
+  };
   return {
     Provider: ({ children }) => children,
-    useTheme: () => ({
-      colors: {
-        primary: '#6200ee',
-        background: '#ffffff',
-        surface: '#ffffff',
-        accent: '#03dac4',
-        error: '#b00020',
-        text: '#000000',
-        onSurface: '#000000',
-        disabled: '#00000061',
-        placeholder: '#00000061',
-        backdrop: '#00000052',
-        notification: '#f50057',
-      },
-    }),
+    MD3LightTheme: { colors: mockColors },
+    useTheme: () => ({ colors: mockColors }),
     ActivityIndicator: 'ActivityIndicator',
     Button: 'Button',
     Text: 'Text',
     Surface: 'Surface',
     Card: 'Card',
     IconButton: 'IconButton',
+    Divider: 'Divider',
+    List: { Item: 'ListItem', Section: 'ListSection' },
+    Modal: 'Modal',
+    Portal: ({ children }) => children,
   };
 });
+
+// Mock react-native-scrubber
+jest.mock('react-native-scrubber', () => 'Scrubber');
 
 // Mock react-native-safe-area-context
 jest.mock('react-native-safe-area-context', () => ({

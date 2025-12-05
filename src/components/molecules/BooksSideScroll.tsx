@@ -1,9 +1,9 @@
-import BookTile from "components/molecules/BookTile";
-import { FlatList, Linking, StyleSheet, View } from "react-native";
-import { Book } from "types/types";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParams } from "navigators/RootNavigator";
+import BookTile from 'components/molecules/BookTile';
+import { FlatList, Linking, StyleSheet, View } from 'react-native';
+import { Book } from 'types/types';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParams } from 'navigators/RootNavigator';
 
 type Props = {
     books: Book[],
@@ -22,8 +22,8 @@ const BooksSideScroll = ({ books, booksAreInLibrary, FooterComponent }: Props) =
     };
 
     const BookItem = ({ item }: { item: Book }) => {
-        return <BookTile style={styles.Tile} book={item} onPress={() => handleBookPress(item)} key={item.isbn} />
-    }
+        return <BookTile style={styles.Tile} book={item} onPress={() => handleBookPress(item)} key={item.isbn} />;
+    };
 
     return (
         <FlatList
@@ -35,24 +35,24 @@ const BooksSideScroll = ({ books, booksAreInLibrary, FooterComponent }: Props) =
             ListFooterComponent={FooterComponent}
             ItemSeparatorComponent={Separator}
         />
-    )
-}
+    );
+};
 
 const MarginHeader = () => {
-    return <View style={{ marginLeft: 20 }}></View>
-}
+    return <View style={{ marginLeft: 20 }} />;
+};
 
 const Separator = () => {
-    return <View style={{ marginLeft: 5 }}></View>
-}
+    return <View style={{ marginLeft: 5 }} />;
+};
 
 const styles = StyleSheet.create({
     Container: {
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     Tile: {
-        marginRight: 20
-    }
-})
+        marginRight: 20,
+    },
+});
 
 export default BooksSideScroll;

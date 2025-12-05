@@ -25,7 +25,7 @@ export const metadataOptions = {
     Capability.Pause,
     Capability.SkipToNext,
   ],
-}
+};
 
 export const SetupService = async (): Promise<boolean> => {
   let isSetup = false;
@@ -39,7 +39,7 @@ export const SetupService = async (): Promise<boolean> => {
 
     isSetup = true;
   } finally {
-    // eslint-disable-next-line no-unsafe-finally
+
     return isSetup;
   }
 };

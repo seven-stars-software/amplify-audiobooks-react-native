@@ -1,14 +1,11 @@
-
 import Icon from 'react-native-vector-icons/Ionicons';
-import { BottomTabBarProps, BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { ReactNode, useContext } from "react";
-import { ImageBackground, Pressable, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Surface, Text, useTheme } from "react-native-paper";
+import { BottomTabBarProps, BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { ReactNode, useContext } from 'react';
+import { ImageBackground, Pressable, StyleSheet, View } from 'react-native';
+import { Text, useTheme } from 'react-native-paper';
 import NowPlayingCard, { nowPlayingCardHeight } from './NowPlayingCard';
 import { TabParamList } from 'navigators/CoreTabs';
 import PlaybackContext from 'contexts/PlaybackContext';
-import theme from 'styler/theme';
 
 type RouteName = BottomTabScreenProps<TabParamList>['route']['name']
 
@@ -21,33 +18,33 @@ const TabIcon = ({ focused, routeName, color }: args) => {
     const routeToIconMap: { [key in RouteName]: React.ComponentProps<typeof Icon>['name'] } = {
         'HomeTab': focused ? 'home' : 'home-outline',
         'LibraryTab': focused ? 'book' : 'book-outline',
-        'SettingsTab': focused ? 'settings' : 'settings-outline'
-    }
+        'SettingsTab': focused ? 'settings' : 'settings-outline',
+    };
     return (
         <Icon
             name={routeToIconMap[routeName]}
             size={24}
             color={color}
         />
-    )
-}
+    );
+};
 
 export const tabBarHeight = 90;
-const spaceBetweenNowPlayingAndTabBar = 10
+const spaceBetweenNowPlayingAndTabBar = 10;
 
 export const tabBarPlusNowPlayingHeight = tabBarHeight + spaceBetweenNowPlayingAndTabBar + nowPlayingCardHeight;
 
 const CoreTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
 
     const theme = useTheme();
-    const { nowPlaying } = useContext(PlaybackContext)
+    const { nowPlaying } = useContext(PlaybackContext);
 
     return (
         <View style={{
             position: 'absolute',
             bottom: 0,
             height: tabBarHeight,
-            width: "100%",
+            width: '100%',
 
             shadowOffset: { width: 1, height: 1 },
             shadowOpacity: 0.5,
@@ -64,27 +61,27 @@ const CoreTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
                     null
             }
             <ImageBackground
-                resizeMode='cover'
+                resizeMode="cover"
                 style={{
-                    width: "100%",
-                    height: "100%",
+                    width: '100%',
+                    height: '100%',
                     alignItems: 'center',
                     borderTopLeftRadius: 100,
                     borderTopRightRadius: 100,
-                    overflow: "hidden",
+                    overflow: 'hidden',
 
                 }}
                 source={require('@assets/images/fancy-bg.png')}
             >
                 <View style={{
                     height: '100%',
-                    width: "100%",
+                    width: '100%',
                     flexDirection: 'row',
                     justifyContent: 'space-evenly',
                     alignItems: 'flex-start',
 
                     paddingHorizontal: 20,
-                    paddingTop: 10
+                    paddingTop: 10,
                 }}>
                     {state.routes.map((route, index) => {
                         const { options } = descriptors[route.key];
@@ -147,18 +144,18 @@ const CoreTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
             </ImageBackground>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     NowPlayingContainer: {
         position: 'absolute',
         bottom: tabBarHeight + spaceBetweenNowPlayingAndTabBar,
-        width: "100%",
+        width: '100%',
         paddingHorizontal: 5,
     },
     TabItem: {
 
-    }
-})
+    },
+});
 
-export default CoreTabBar
+export default CoreTabBar;

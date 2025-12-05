@@ -1,9 +1,8 @@
 //@ts-nocheck
 
-import { useEffect, useState, useRef } from 'react';
-import { Button, StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import Video from 'react-native-video';
-import VideoSource from '@assets/video/abstract-neon-bg.mp4'
+import VideoSource from '@assets/video/abstract-neon-bg.mp4';
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -24,7 +23,7 @@ const AnimatedBG = () => {
             pictureInPicture={false}
         />
     );
-}
+};
 
 const styles = StyleSheet.create({
     video: {

@@ -1,6 +1,6 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import GetStartedScreen from "screens/Welcome/GetStartedScreen";
-import CreatorsScreen from "screens/Welcome/CreatorsScreen";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import GetStartedScreen from 'screens/Welcome/GetStartedScreen';
+import CreatorsScreen from 'screens/Welcome/CreatorsScreen';
 
 export type WelcomeStackParams = {
     CreatorsFirst: undefined,
@@ -15,7 +15,7 @@ const WelcomeNavigator = () => {
             <WelcomeStack.Screen name="CreatorsFirst" component={CreatorsScreen} />
             <WelcomeStack.Screen name="GetStarted" component={GetStartedScreen} />
         </WelcomeStack.Navigator>
-    )
-}
+    );
+};
 
-export default WelcomeNavigator
+export default WelcomeNavigator;

@@ -1,8 +1,8 @@
-import styleImage from "./stylers/styleImage";
-import stylePressable from "./stylers/stylePressable";
-import styleSafeAreaView from "./stylers/styleSafeAreaView";
-import styleText from "./stylers/styleText";
-import styleView from "./stylers/styleView";
+import styleImage from './stylers/styleImage';
+import stylePressable from './stylers/stylePressable';
+import styleSafeAreaView from './stylers/styleSafeAreaView';
+import styleText from './stylers/styleText';
+import styleView from './stylers/styleView';
 
 
 const styler = {
@@ -10,7 +10,7 @@ const styler = {
     View: styleView,
     Text: styleText,
     Image: styleImage,
-    Pressable: stylePressable
-}
+    Pressable: stylePressable,
+};
 
 export default styler;

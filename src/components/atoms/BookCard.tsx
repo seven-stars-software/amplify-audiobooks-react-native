@@ -4,7 +4,6 @@ import { Surface } from 'react-native-paper';
 import { Book } from 'types/types';
 
 const width = Dimensions.get('window').width; //full width
-const height = Dimensions.get('window').height; //full height
 
 type Props = {
     book: Book
@@ -23,7 +22,7 @@ const BookCard = ({ book, onPress }: Props) => {
                 <View style={styles.Details}>
                     <View style={styles.TitleAndAuthor}>
                         <Pressable onPress={onPress}>
-                            <PaperText variant="titleMedium" ellipsizeMode='tail' numberOfLines={1}>{book.name}</PaperText>
+                            <PaperText variant="titleMedium" ellipsizeMode="tail" numberOfLines={1}>{book.name}</PaperText>
                         </Pressable>
                         <Text style={{...styles.Author, color: theme.colors.primary}}>by {book.author}</Text>
                     </View>
@@ -31,32 +30,32 @@ const BookCard = ({ book, onPress }: Props) => {
                 </View>
             </Surface>
         </Pressable>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     CardSurface: {
         padding: 10,
-        flexDirection: "row",
+        flexDirection: 'row',
         justifyContent: 'flex-start',
         borderRadius: 5,
-        marginBottom: 20
+        marginBottom: 20,
     },
     Cover: {
-        width: width/4,
-        height: width/4,
+        width: width / 4,
+        height: width / 4,
         //flex: 2,
     },
     CoverImage: {
-        width: "100%",
-        height: "100%",
-        resizeMode: "cover",
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover',
         borderRadius: 10,
     },
     Details: {
         flex: 3,
         marginLeft: 10,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     TitleAndAuthor: {
 
@@ -64,6 +63,6 @@ const styles = StyleSheet.create({
     Author: {
         marginTop: 5,
     },
-})
+});
 
 export default BookCard;

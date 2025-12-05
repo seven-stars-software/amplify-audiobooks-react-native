@@ -1,11 +1,9 @@
 import { ActivityIndicator } from 'react-native-paper';
 
-import { Dimensions, Pressable, View } from "react-native";
-import TrackItem from "./TrackItem";
+import { Pressable, View } from 'react-native';
+import TrackItem from './TrackItem';
 import { Book } from 'types/types';
 
-const width = Dimensions.get('window').width; //full width
-const height = Dimensions.get('window').height; //full height
 
 export type Props = {
     tracks: Book['tracks']
@@ -26,12 +24,12 @@ const BookTracks = ({ tracks = [], loading = false, onTrackPress }: Props) => {
                                 onPress={() => onTrackPress(index, track)}>
                                 <TrackItem track={track} />
                             </Pressable>
-                        )
+                        );
                     })
 
             }
         </View>
-    )
-}
+    );
+};
 
 export default BookTracks;

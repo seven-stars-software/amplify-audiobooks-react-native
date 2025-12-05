@@ -3,7 +3,6 @@ import { Text as PaperText, useTheme } from 'react-native-paper';
 import { Book } from 'types/types';
 
 const width = Dimensions.get('window').width; //full width
-const height = Dimensions.get('window').height; //full height
 
 type Props = {
     book: Book,
@@ -28,32 +27,32 @@ const BookTile = ({ book, onPress, style }: Props) => {
                 </View>
             </View>
         </Pressable>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     Container: {
-        flexDirection: "column",
+        flexDirection: 'column',
         justifyContent: 'flex-start',
-        width: (width / 3)
+        width: (width / 3),
     },
     Cover: {
         width: width / 3,
         height: width / 3,
     },
     CoverImage: {
-        width: "100%",
-        height: "100%",
-        resizeMode: "cover",
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover',
         borderRadius: 10,
     },
     Details: {
         paddingTop: 10,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     Author: {
-        
+
     },
-})
+});
 
 export default BookTile;
