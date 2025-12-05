@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useState } from 'react';
 
 type User = {
     wpUser?:{
@@ -11,7 +11,7 @@ type UserContextType = [
 ]
 
 const UserContext = createContext<UserContextType>([
-    null, ()=>null
+    null, ()=>null,
 ]);
 
 export const UserContextProvider = ({ children }: { children?: ReactNode }) => {
@@ -20,8 +20,8 @@ export const UserContextProvider = ({ children }: { children?: ReactNode }) => {
         <UserContext.Provider value={[user, setUser]}>
             {children}
         </UserContext.Provider>
-    )
-}
+    );
+};
 
 export default UserContext;
 

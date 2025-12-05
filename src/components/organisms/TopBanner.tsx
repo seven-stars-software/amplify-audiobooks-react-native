@@ -1,25 +1,25 @@
-import LayoutContext from "contexts/LayoutContext"
-import { useContext, useEffect, useLayoutEffect, useRef } from "react"
-import { Image, ImageBackground, Text, View, useWindowDimensions } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
+import LayoutContext from 'contexts/LayoutContext';
+import { useCallback, useContext, useEffect, useRef } from 'react';
+import { Image, ImageBackground, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const logoHeight = 1255
-const logoWidth = 1526
-const ratio = logoWidth / logoHeight
+const logoHeight = 1255;
+const logoWidth = 1526;
+const ratio = logoWidth / logoHeight;
 
 const TopBanner = () => {
-    const bannerRef = useRef<View>(null)
-    const [layout, setLayout] = useContext(LayoutContext);
+    const bannerRef = useRef<View>(null);
+    const [_layout, setLayout] = useContext(LayoutContext);
+
+    const measureBanner = useCallback(() => {
+        bannerRef.current?.measure((_x, _y, _width, height, _pageX, _pageY) => {
+            setLayout({ topBannerHeight: height });
+        });
+    }, [setLayout]);
 
     useEffect(() => {
-        setTimeout(() => {
-            bannerRef.current?.measure((x, y, width, height, pageX, pageY) => {
-                //console.log(`Setting topBannerHeight: ${height}`)
-                setLayout({ topBannerHeight: height })
-            });
-        }, 500)
-
-    }, []);
+        setTimeout(measureBanner, 500);
+    }, [measureBanner]);
 
     return (
         <View ref={bannerRef} style={{
@@ -27,8 +27,8 @@ const TopBanner = () => {
             zIndex: 2,
             width: '100%',
 
-            display: "flex",
-            justifyContent: "center",
+            display: 'flex',
+            justifyContent: 'center',
             alignItems: 'center',
 
             shadowOffset: { width: 1, height: 1 },
@@ -39,14 +39,14 @@ const TopBanner = () => {
             backgroundColor: 'transparent',
         }}>
             <ImageBackground
-                resizeMode='cover'
+                resizeMode="cover"
                 style={{
-                    width: "100%",
-                    height: "100%",
+                    width: '100%',
+                    height: '100%',
                     alignItems: 'center',
                     borderBottomLeftRadius: 100,
                     borderBottomRightRadius: 100,
-                    overflow: "hidden",
+                    overflow: 'hidden',
                 }}
                 source={require('@assets/images/fancy-bg.png')}
             >
@@ -57,7 +57,7 @@ const TopBanner = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         paddingBottom: 10,
-                        height: "100%",
+                        height: '100%',
                     }}>
                         <Image style={{
                             width: 40 * ratio,
@@ -84,7 +84,7 @@ const TopBanner = () => {
                 </SafeAreaView>
             </ImageBackground>
         </View>
-    )
-}
+    );
+};
 
-export default TopBanner
+export default TopBanner;

@@ -1,6 +1,5 @@
 import {
     MD3LightTheme as DefaultTheme,
-    PaperProvider,
 } from 'react-native-paper';
 
 const theme = {
@@ -8,11 +7,11 @@ const theme = {
     colors: {
         ...DefaultTheme.colors,
         myOwnColor: '#BADA55',
-        violet: "#b200ff",
-        deepBlue: "#2c00ff",
-        cyan: "#00eaff",
-        background: "#efeaff",
-        defaultBackground: DefaultTheme.colors.background
+        violet: '#b200ff',
+        deepBlue: '#2c00ff',
+        cyan: '#00eaff',
+        background: '#efeaff',
+        defaultBackground: DefaultTheme.colors.background,
     },
 };
 

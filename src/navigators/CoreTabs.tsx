@@ -1,8 +1,8 @@
-import { BottomTabBarProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import CoreTabBar from "components/organisms/CoreTabBar";
-import HomeNavigator from "./HomeNavigator";
-import LibraryNavigator from "./LibraryNavigator";
-import SettingsNavigator from "./SettingsNavigator";
+import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import CoreTabBar from 'components/organisms/CoreTabBar';
+import HomeNavigator from './HomeNavigator';
+import LibraryNavigator from './LibraryNavigator';
+import SettingsNavigator from './SettingsNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,12 +20,12 @@ const CoreTabsNavigator = () => {
                     state={state}
                     descriptors={descriptors}
                     navigation={navigation}
-                    insets={insets} />
+                    insets={insets} />;
             }}
             screenOptions={{
                 headerShown: false,
             }}
-            backBehavior='history'
+            backBehavior="history"
         >
             <Tab.Screen
                 name="HomeTab"
@@ -43,7 +43,7 @@ const CoreTabsNavigator = () => {
                 options={{ tabBarLabel: 'Settings' }}
             />
         </Tab.Navigator >
-    )
-}
+    );
+};
 
 export default CoreTabsNavigator;

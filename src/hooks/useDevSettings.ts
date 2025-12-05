@@ -8,8 +8,8 @@ export type DevSettings = {
 }
 
 const defaultDevSettings: DevSettings = {
-    simulateOffline: false
-}
+    simulateOffline: false,
+};
 
 /**
  * Hook for managing development-only settings.
@@ -43,7 +43,7 @@ const useDevSettings = () => {
 
     // Save settings to AsyncStorage
     const updateDevSettings = async (updates: Partial<DevSettings>) => {
-        if (!__DEV__) return;
+        if (!__DEV__) {return;}
 
         const newSettings = { ...devSettings, ...updates };
         setDevSettings(newSettings);
@@ -59,7 +59,7 @@ const useDevSettings = () => {
         devSettings,
         updateDevSettings,
         loaded,
-        isDev: __DEV__
+        isDev: __DEV__,
     };
 };
 

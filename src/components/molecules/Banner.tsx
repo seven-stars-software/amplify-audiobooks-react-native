@@ -1,7 +1,7 @@
-import styler from "styler/styler";
+import styler from 'styler/styler';
 
-import { SafeAreaView } from "react-native-safe-area-context";
-import FancyBG from "components/atoms/FancyBG";
+import { SafeAreaView } from 'react-native-safe-area-context';
+import FancyBG from 'components/atoms/FancyBG';
 
 type Props = {
     children: React.ReactNode
@@ -14,19 +14,19 @@ const Banner = ({ children }: Props) => {
                 {children}
             </SafeAreaView>
         </Container>
-    )
-}
+    );
+};
 
 const Container = styler.View({
     height: 200,
     width: '120%',
 
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
 
     borderBottomLeftRadius: 200,
     borderBottomRightRadius: 200,
     overflow: 'hidden',
-})
+});
 
 export default Banner;

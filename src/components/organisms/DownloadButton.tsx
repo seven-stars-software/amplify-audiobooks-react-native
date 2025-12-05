@@ -1,14 +1,10 @@
-
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useEffect, useState } from 'react';
-import { Dimensions, Pressable } from 'react-native';
-import { ActivityIndicator, Tooltip, useTheme } from 'react-native-paper';
+import { useState } from 'react';
+import { Pressable } from 'react-native';
+import { ActivityIndicator, useTheme } from 'react-native-paper';
 import { Book, DownloadStatus } from 'types/types';
 import RemoveDownloadsDialog from 'components/atoms/RemoveDownloadsDialog';
 import { useBookStore } from 'stores/BookStore';
-
-const width = Dimensions.get('window').width; //full width
-const height = Dimensions.get('window').height; //full height
 
 type Props = {
     book: Book,
@@ -23,23 +19,23 @@ const DownloadBookButton = ({ book, size = 24, isOffline = false, onOfflineDownl
 
     const [removalDialogVisible, setRemovalDialogVisible] = useState(false);
 
-    const {downloadAudioFiles, removeDownloads} = useBookStore()
+    const {downloadAudioFiles, removeDownloads} = useBookStore();
 
     // Check if all tracks are downloaded by looking at their download status
     // This reacts to real-time status updates during downloads
     const allTracksDownloaded = book.tracks?.every(track => track.downloadStatus === DownloadStatus.DOWNLOADED) ?? false;
 
     const pressIn = () => {
-        setButtonColor(theme.colors.secondary)
-    }
+        setButtonColor(theme.colors.secondary);
+    };
     const pressOut = () => {
-        setButtonColor(theme.colors.primary)
-    }
+        setButtonColor(theme.colors.primary);
+    };
 
     const onPress = async () => {
         //If tracks are already downloaded, button will open download removal dialog
         if (allTracksDownloaded) {
-            setRemovalDialogVisible(true)
+            setRemovalDialogVisible(true);
             return;
         }
 
@@ -50,12 +46,12 @@ const DownloadBookButton = ({ book, size = 24, isOffline = false, onOfflineDownl
         }
 
         //Otherwise, start book download
-        setShowDownloadIndicator(true)
-        console.log(`INITIATE BOOK DOWNLOAD`)
-        const audioFiles = await downloadAudioFiles(book.isbn)
-        console.log(`BOOK DOWNLOAD COMPLETED`)
-        setShowDownloadIndicator(false)
-    }
+        setShowDownloadIndicator(true);
+        console.log('INITIATE BOOK DOWNLOAD');
+        await downloadAudioFiles(book.isbn);
+        console.log('BOOK DOWNLOAD COMPLETED');
+        setShowDownloadIndicator(false);
+    };
 
     return (
         <Pressable
@@ -71,19 +67,19 @@ const DownloadBookButton = ({ book, size = 24, isOffline = false, onOfflineDownl
             }
             {
                 showDownloadIndicator ?
-                    <ActivityIndicator color={theme.colors.primary} animating={true} size={size} style={{ position: "absolute" }} />
+                    <ActivityIndicator color={theme.colors.primary} animating={true} size={size} style={{ position: 'absolute' }} />
                     : null
             }
             <RemoveDownloadsDialog
                 visible={removalDialogVisible}
                 setVisible={setRemovalDialogVisible}
                 removeDownloads={async ()=>{
-                    await removeDownloads(book.isbn)
-                    setRemovalDialogVisible(false)
+                    await removeDownloads(book.isbn);
+                    setRemovalDialogVisible(false);
                 }}
             />
         </Pressable>
-    )
-}
+    );
+};
 
 export default DownloadBookButton;

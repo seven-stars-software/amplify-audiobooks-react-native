@@ -1,6 +1,6 @@
 
-import Icon from "react-native-vector-icons/AntDesign";
-import { Text, TransformsStyle, View } from "react-native";
+import Icon from 'react-native-vector-icons/AntDesign';
+import { Text, TransformsStyle, View } from 'react-native';
 
 type Props = {
     direction?: 'forward' | 'backward',
@@ -12,22 +12,22 @@ const JumpIcon = ({ direction = 'forward', increment = 15, iconProps }: Props) =
 
     // Icon component's size defaults to 12 if not specified
     // https://github.com/oblador/react-native-vector-icons#properties
-    let size = iconProps.size
-    if(size === undefined) size = 12
+    let size = iconProps.size;
+    if(size === undefined) {size = 12;}
 
     // We're adapting a non-ideal svg icon for our purposes with transforms
-    const transforms: TransformsStyle['transform'] = []
-    if (direction === 'backward') transforms.push({ rotateY: '180deg' })
-    transforms.push({ rotateZ: '40deg' }, {translateY: -(size/12)})
+    const transforms: TransformsStyle['transform'] = [];
+    if (direction === 'backward') {transforms.push({ rotateY: '180deg' });}
+    transforms.push({ rotateZ: '40deg' }, {translateY: -(size / 12)});
 
     return (
         <View style={{position: 'relative', justifyContent: 'center', alignItems:'center'}}>
             <Icon style={[{}, {
-                transform: transforms
+                transform: transforms,
             }]} name="reload1" {...iconProps} />
-            <Text style={{position: 'absolute', fontSize: size/3, color: String(iconProps.color), }}>{increment}</Text>
+            <Text style={{position: 'absolute', fontSize: size / 3, color: String(iconProps.color) }}>{increment}</Text>
         </View>
-    )
-}
+    );
+};
 
-export default JumpIcon
+export default JumpIcon;

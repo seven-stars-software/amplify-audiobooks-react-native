@@ -1,5 +1,5 @@
-import { Button, MD3Theme, useTheme } from "react-native-paper"
-import { StyleSheet } from "react-native";
+import { Button, MD3Theme, useTheme } from 'react-native-paper';
+import { StyleSheet } from 'react-native';
 
 type Props = {
     onPress?: () => void
@@ -7,7 +7,7 @@ type Props = {
 
 const CatalogLinkListItem = ({ onPress }: Props) => {
     const theme = useTheme();
-    const styles = makeStyles(theme)
+    const styles = makeStyles(theme);
 
     return (
         <Button
@@ -18,19 +18,19 @@ const CatalogLinkListItem = ({ onPress }: Props) => {
         >
             Discover Books
         </Button>
-    )
-}
+    );
+};
 
 const makeStyles = (paperTheme: MD3Theme) => {
     return StyleSheet.create({
         Button: {
             margin: 4,
-            backgroundColor: paperTheme.colors.primary
+            backgroundColor: paperTheme.colors.primary,
         },
         ButtonText: {
-            color: paperTheme.colors.onPrimary
-        }
-    })
-}
+            color: paperTheme.colors.onPrimary,
+        },
+    });
+};
 
-export default CatalogLinkListItem
+export default CatalogLinkListItem;

@@ -1,14 +1,13 @@
-import TopBanner from "components/organisms/TopBanner"
-import { ReactNode } from "react"
-import { View } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
-import { useTheme, DefaultTheme } from "react-native-paper"
+import TopBanner from 'components/organisms/TopBanner';
+import { ReactNode } from 'react';
+import { View } from 'react-native';
+import { useTheme } from 'react-native-paper';
 
 type Props = {
     children: ReactNode
 }
 const Screen = ({children}: Props) => {
-    const theme = useTheme()
+    const theme = useTheme();
 
     return (
         <View style={{
@@ -18,7 +17,7 @@ const Screen = ({children}: Props) => {
             <TopBanner />
             {children}
         </View>
-    )
-}
+    );
+};
 
-export default Screen
+export default Screen;

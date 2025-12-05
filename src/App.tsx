@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { AuthContextProvider } from 'contexts/AuthContext';
 import { UserContextProvider } from 'contexts/UserContext';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { PlaybackContextProvider } from 'contexts/PlaybackContext';
 import { ErrorContextProvider } from 'contexts/ErrorContext';
 import RootNavigator from 'navigators/RootNavigator';
@@ -20,7 +20,7 @@ const App = () => {
   //Setup App State Listener
   useEffect(() => {
     const subscription = AppState.addEventListener('change', nextAppState => {
-      console.log(`AppState:  ${nextAppState}`)
+      console.log(`AppState:  ${nextAppState}`);
     });
     return () => {
       subscription.remove();
@@ -49,7 +49,7 @@ const App = () => {
         </AuthContextProvider>
       </ErrorContextProvider>
     </NavigationContainer>
-  )
-}
+  );
+};
 
-export default App
+export default App;

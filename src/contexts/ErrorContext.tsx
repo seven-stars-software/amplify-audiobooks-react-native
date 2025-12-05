@@ -1,11 +1,10 @@
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParams } from "navigators/RootNavigator";
-import { createContext, ReactNode, useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { MD3Theme, Text, useTheme } from "react-native-paper";
-import theme from "styler/theme";
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParams } from 'navigators/RootNavigator';
+import { createContext, ReactNode, useState } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { MD3Theme, Text, useTheme } from 'react-native-paper';
 
 type ThrowContainer = {
     thrown: unknown,
@@ -17,8 +16,8 @@ type ErrorContextValue = {
     handlePlaybackError: (e: unknown) => void
 }
 const ErrorContext = createContext<ErrorContextValue>({
-    handleThrown: (e: unknown) => { },
-    handlePlaybackError: (e: unknown) => { }
+    handleThrown: (_e: unknown) => { },
+    handlePlaybackError: (_e: unknown) => { },
 });
 
 export const ErrorContextProvider = ({ children }: { children?: ReactNode }) => {
@@ -31,20 +30,20 @@ export const ErrorContextProvider = ({ children }: { children?: ReactNode }) => 
     const handleThrown = (thrown: unknown) => {
         setThrowContainer({
             thrown,
-            caught: true
+            caught: true,
         });
-    }
+    };
 
-    const handlePlaybackError = (e: unknown) => {
+    const handlePlaybackError = (_e: unknown) => {
         navigation.navigate('PlaybackProblem');
-    }
+    };
 
     let error;
     if (thrown instanceof Error) {
         error = thrown;
     } else if(caught) {
         // This can happen if some code throws something that's not an Error
-        // Yes, it's possible. You can `throw 'Flowers'`. IDK. 
+        // Yes, it's possible. You can `throw 'Flowers'`. IDK.
         error = new Error();
     }
 
@@ -63,20 +62,20 @@ export const ErrorContextProvider = ({ children }: { children?: ReactNode }) => 
                     : children
             }
         </ErrorContext.Provider>
-    )
-}
+    );
+};
 
 
-const makeStyles = (paperTheme: MD3Theme) => {
+const makeStyles = (_paperTheme: MD3Theme) => {
     return StyleSheet.create({
         Container:{
-            backgroundColor: 'black'
+            backgroundColor: 'black',
         },
         Text:{
-            color: 'white'
+            color: 'white',
         },
-    })
-}
+    });
+};
 
 
 export default ErrorContext;

@@ -1,23 +1,23 @@
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
-import { Book, DownloadStatus, NetworkStatus, Track } from "types/types";
-import AuthContext from "contexts/AuthContext";
-import APIClient from "APIClient";
-import useCallbackState from "hooks/useCallbackState";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
+import { Book, DownloadStatus, NetworkStatus, Track } from 'types/types';
+import AuthContext from 'contexts/AuthContext';
+import APIClient from 'APIClient';
+import useCallbackState from 'hooks/useCallbackState';
 import * as FileSystem from 'expo-file-system';
-import useDevSettings from "hooks/useDevSettings";
-import useNetworkStatus from "hooks/useNetworkStatus";
-import { ActivityIndicator, Text } from "react-native-paper";
-import { View } from "react-native";
+import useDevSettings from 'hooks/useDevSettings';
+import useNetworkStatus from 'hooks/useNetworkStatus';
+import { ActivityIndicator, Text } from 'react-native-paper';
+import { View } from 'react-native';
 
-const BookStoreBucket = '@BookBucket'
+const BookStoreBucket = '@BookBucket';
 const saveToStorage = async (books: BookStoreState) => {
-    await AsyncStorage.setItem(`${BookStoreBucket}`, JSON.stringify(books))
-}
+    await AsyncStorage.setItem(`${BookStoreBucket}`, JSON.stringify(books));
+};
 
 export const getTrackFilePath = (isbn: Book['isbn'], trackName: string) => {
     return `${FileSystem.documentDirectory}books/${isbn}/tracks/${trackName}.mp3`;
-}
+};
 
 export const trackFileExists = async (isbn: Book['isbn'], trackName: string) => {
     const trackFilePath = getTrackFilePath(isbn, trackName);
@@ -27,8 +27,8 @@ export const trackFileExists = async (isbn: Book['isbn'], trackName: string) => 
 
 export const getTrackDownloadStatus = async (isbn: Book['isbn'], track: Track) => {
     const exists = await trackFileExists(isbn, track.name);
-    return exists ? DownloadStatus.DOWNLOADED : DownloadStatus.NOT_DOWNLOADED
-}
+    return exists ? DownloadStatus.DOWNLOADED : DownloadStatus.NOT_DOWNLOADED;
+};
 
 const cleanupFailedDownload = async (filePath: string, trackName: string) => {
     try {
@@ -40,10 +40,10 @@ const cleanupFailedDownload = async (filePath: string, trackName: string) => {
     } catch (error) {
         console.error(`Error cleaning up failed download ${trackName}:`, error);
     }
-}
+};
 
 const augmentBookWithDownloadStatuses = async (book: Book): Promise<Book> => {
-    if (!book.tracks) return book;
+    if (!book.tracks) {return book;}
 
     const updatedTracks = await Promise.all(
         book.tracks.map(async (track) => {
@@ -53,7 +53,7 @@ const augmentBookWithDownloadStatuses = async (book: Book): Promise<Book> => {
     );
 
     return { ...book, tracks: updatedTracks };
-}
+};
 
 interface BookStoreContextType {
     books: BookStoreState,
@@ -81,10 +81,10 @@ const BookStoreContext = createContext<BookStoreContextType | null>(null);
  */
 
 const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
-    const [books, setBooks] = useCallbackState<BookStoreState>({})
+    const [books, setBooks] = useCallbackState<BookStoreState>({});
 
     // UI loading state - triggers re-renders to show/hide loading indicators
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     // Race condition guard - synchronously prevents concurrent loadBooks() calls
     // Using a ref instead of state because refs update immediately (synchronous),
@@ -92,14 +92,14 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
     const loadingGuard = useRef(false);
 
     const networkStatus = useNetworkStatus();
-    const { devSettings, loaded: devSettingsLoaded } = useDevSettings();
+    const { loaded: devSettingsLoaded } = useDevSettings();
     const [authSeal] = useContext(AuthContext);
 
     //Monitor network status changes to attempt reload of books when connectivity is regained
     const networkStatusRef = useRef(networkStatus);
     useEffect(() => {
         // Don't attempt to load until dev settings are ready
-        if (!devSettingsLoaded) return;
+        if (!devSettingsLoaded) {return;}
 
         const prevNetworkStatus = networkStatusRef.current;
 
@@ -112,18 +112,20 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
             loadBooks();
         }
         networkStatusRef.current = networkStatus;
-    }, [networkStatus, devSettingsLoaded])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [networkStatus, devSettingsLoaded]);
 
     //Load books on initial mount if we have an auth seal
     //And whenever the auth seal changes
     useEffect(() => {
         //Wait for dev settings to load before loading books
-        if (!devSettingsLoaded) return;
+        if (!devSettingsLoaded) {return;}
 
         if (authSeal !== null) {
-            loadBooks()
+            loadBooks();
         }
-    }, [authSeal, devSettingsLoaded])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [authSeal, devSettingsLoaded]);
 
     //One time setup
     useEffect(() => {
@@ -137,124 +139,124 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
                     await FileSystem.makeDirectoryAsync(booksDirectoryPath, { intermediates: true });
                 }
             } catch (e) {
-                console.error(`Error during download setup: ${e}`)
+                console.error(`Error during download setup: ${e}`);
             }
         };
         setupDownloadDirectory();
-    }, [])
+    }, []);
 
     //Destructive overwrite of 'books' state
     const loadFromStorage = async () => {
-        console.log(`Loading Books from Storage...`)
-        setLoading(true)
+        console.log('Loading Books from Storage...');
+        setLoading(true);
         try {
-            const booksFromStorageJSON = await AsyncStorage.getItem(`${BookStoreBucket}`)
+            const booksFromStorageJSON = await AsyncStorage.getItem(`${BookStoreBucket}`);
             if (booksFromStorageJSON != null) {
-                const booksFromStorage = JSON.parse(booksFromStorageJSON)
-                setBooks(booksFromStorage, () => setLoading(false))
-                console.log(`Books loaded from Storage!`)
+                const booksFromStorage = JSON.parse(booksFromStorageJSON);
+                setBooks(booksFromStorage, () => setLoading(false));
+                console.log('Books loaded from Storage!');
             } else {
-                console.log(`No books found in local storage`)
+                console.log('No books found in local storage');
             }
         } catch (e) {
-            console.error(`Error loading books from storage: ${e}`)
-            throw e
+            console.error(`Error loading books from storage: ${e}`);
+            throw e;
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     //Destructive overwrite of 'books' state
     //Automatically saves to local storage
     const loadFromAPI = async () => {
-        console.log(`Loading Books from API...`)
-        setLoading(true)
+        console.log('Loading Books from API...');
+        setLoading(true);
         try {
-            if (authSeal === null) throw new Error('Cannot make API call without first loading auth seal')
+            if (authSeal === null) {throw new Error('Cannot make API call without first loading auth seal');}
 
             const response = await APIClient.getHomeBooks(authSeal);
-            if (!response) throw new Error("Could not fetch home books")
+            if (!response) {throw new Error('Could not fetch home books');}
 
             const { library, featured, newReleases, onSale } = response;
             const organizedBooks = await prepBooks(library, [featured, newReleases, onSale].flat());
 
             //Update local storage any time we fetch fresh data from the API
-            saveToStorage(organizedBooks)
+            saveToStorage(organizedBooks);
             //Update state
-            setBooks(organizedBooks, () => setLoading(false))
-            console.log(`Books loaded from API!`)
+            setBooks(organizedBooks, () => setLoading(false));
+            console.log('Books loaded from API!');
         } catch (e) {
-            console.error(`Error loading books from API: ${e}`)
-            throw e
+            console.error(`Error loading books from API: ${e}`);
+            throw e;
         } finally {
             //Ensure loading is reset to false even in case of errors
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     //Merge ownedBooks and unownedBooks, giving precedence to ownedBooks in case of duplicates
     //Also augment ownedBooks with download statuses
     const prepBooks = async (ownedBooks: Book[], unownedBooks: Book[]): Promise<BookStoreState> => {
         //In case a user owns a book that is also in another category,
         //ignore the book data in the other category in favor of the version in the user's library
-        const organizedBooks: { [key: Book['isbn']]: Book } = {}
+        const organizedBooks: { [key: Book['isbn']]: Book } = {};
         unownedBooks.forEach((book) => {
-            organizedBooks[book.isbn] = book
-        })
+            organizedBooks[book.isbn] = book;
+        });
         const augmentedOwnedBooks = await Promise.all(
             ownedBooks.map(async (book) => {
-                return await augmentBookWithDownloadStatuses(book)
+                return await augmentBookWithDownloadStatuses(book);
             })
-        )
+        );
         augmentedOwnedBooks.forEach(book => {
-            organizedBooks[book.isbn] = book
-        })
+            organizedBooks[book.isbn] = book;
+        });
         return organizedBooks;
-    }
+    };
 
     const loadBooks = async () => {
         // Guard against race conditions: multiple useEffects can trigger loadBooks() simultaneously
         // Check the guard synchronously before proceeding
         if (loadingGuard.current) {
-            console.log(`Books are already loading, skipping redundant load request.`)
+            console.log('Books are already loading, skipping redundant load request.');
             return;
         }
-        console.log(`Loading Books...`)
+        console.log('Loading Books...');
         loadingGuard.current = true; // Set guard synchronously to block concurrent calls
         try {
             switch (networkStatus) {
                 case NetworkStatus.ONLINE:
                     // Network is definitely available
-                    console.log(`Network is online, loading from API...`)
-                    await loadFromAPI()
+                    console.log('Network is online, loading from API...');
+                    await loadFromAPI();
                     break;
 
                 case NetworkStatus.UNKNOWN:
                     // Network state is unknown - optimistically attempt API, fall back to storage
-                    console.log(`Network state unknown, optimistically attempting API...`)
+                    console.log('Network state unknown, optimistically attempting API...');
                     try {
-                        await loadFromAPI()
+                        await loadFromAPI();
                     } catch (e) {
-                        console.error(`API failed during unknown network state: ${e}. Falling back to local storage.`)
-                        await loadFromStorage()
+                        console.error(`API failed during unknown network state: ${e}. Falling back to local storage.`);
+                        await loadFromStorage();
                     }
                     break;
 
                 case NetworkStatus.OFFLINE:
                     // Network is definitely offline
-                    console.log(`Network is offline, loading from local storage...`)
-                    await loadFromStorage()
+                    console.log('Network is offline, loading from local storage...');
+                    await loadFromStorage();
                     break;
 
                 default:
-                    console.error(`Unexpected network status: ${networkStatus}. Falling back to local storage.`)
-                    await loadFromStorage()
+                    console.error(`Unexpected network status: ${networkStatus}. Falling back to local storage.`);
+                    await loadFromStorage();
                     break;
             }
         } finally {
             loadingGuard.current = false; // Always release the guard when done
         }
-    }
+    };
 
 
 
@@ -262,7 +264,7 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
         setBooks(prevBooks => {
             const updatedBook = { ...prevBooks[isbn] };
             //If there are no tracks, nothing to update
-            if (!updatedBook.tracks) return prevBooks;
+            if (!updatedBook.tracks) {return prevBooks;}
 
             const updatedTracks = updatedBook.tracks.map(t => {
                 if (t.name === trackName) {
@@ -276,16 +278,16 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
             saveToStorage(newBooks);
             return newBooks;
         });
-    }
+    };
 
     const downloadAudioFiles = async (isbn: Book['isbn']) => {
         const book = books[isbn];
         if (!book) {
-            throw new Error(`Cannot download audio files for unknown book with ISBN [${isbn}]`)
+            throw new Error(`Cannot download audio files for unknown book with ISBN [${isbn}]`);
         }
         const tracks = book.tracks;
         if (!tracks) {
-            throw new Error(`Book with ISBN [${isbn}] has no tracks to download`)
+            throw new Error(`Book with ISBN [${isbn}] has no tracks to download`);
         }
 
         // Ensure the tracks directory exists
@@ -299,7 +301,7 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
         // Download all tracks
         await Promise.all(tracks.map(async (track) => {
             const fileToBeCreated = getTrackFilePath(isbn, track.name);
-            console.log(`Downloading track [${track.name}] to [${fileToBeCreated}]`)
+            console.log(`Downloading track [${track.name}] to [${fileToBeCreated}]`);
             try {
                 //Update track download status in state
                 setTrackDownloadStatus(isbn, track.name, DownloadStatus.DOWNLOADING);
@@ -311,7 +313,7 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
                 await cleanupFailedDownload(fileToBeCreated, track.name);
             }
         }));
-    }
+    };
 
     const removeDownloads = async (isbn: Book['isbn']) => {
         const bookDirectoryPath = `${FileSystem.documentDirectory}books/${isbn}`;
@@ -324,11 +326,11 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
         // Update all tracks to NOT_DOWNLOADED status
         setBooks(prevBooks => {
             const updatedBook = { ...prevBooks[isbn] };
-            if (!updatedBook.tracks) return prevBooks;
+            if (!updatedBook.tracks) {return prevBooks;}
 
             const updatedTracks = updatedBook.tracks.map(track => ({
                 ...track,
-                downloadStatus: DownloadStatus.NOT_DOWNLOADED
+                downloadStatus: DownloadStatus.NOT_DOWNLOADED,
             }));
             updatedBook.tracks = updatedTracks;
 
@@ -336,7 +338,7 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
             saveToStorage(newBooks);
             return newBooks;
         });
-    }
+    };
 
     // Wait for dev settings to load before rendering children
     // In production, devSettingsLoaded is immediately true
@@ -353,20 +355,20 @@ const BookStoreProvider = ({ children }: { children?: ReactNode }) => {
         <BookStoreContext.Provider value={{ books, loadBooks, downloadAudioFiles, removeDownloads, trackFileExists, loading }}>
             {children}
         </BookStoreContext.Provider>
-    )
-}
+    );
+};
 
 const useBookStore = () => {
     const contextValue = useContext(BookStoreContext);
     if (contextValue === null) {
-        throw new Error("Attempted use of BookStoreContext outside of Provider")
+        throw new Error('Attempted use of BookStoreContext outside of Provider');
     }
-    return contextValue
+    return contextValue;
 
-}
+};
 
 export {
     BookStoreContext,
     BookStoreProvider,
-    useBookStore
+    useBookStore,
 };

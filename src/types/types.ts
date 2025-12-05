@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useState } from 'react';
 
-declare module "*.png"
+declare module '*.png'
 
 export type AuthSeal = string
 

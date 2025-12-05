@@ -1,17 +1,17 @@
-import { Button, List, useTheme, Text, MD3Theme } from 'react-native-paper';
-import { useContext, useEffect, useRef, useState } from "react";
-import { Dimensions, Platform, Pressable, StyleSheet, TextInput, View, Linking, Keyboard } from "react-native";
+import { Button, useTheme, Text, MD3Theme } from 'react-native-paper';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { Dimensions, Pressable, StyleSheet, TextInput, View, Linking, Keyboard } from 'react-native';
 
-import APIClient from "APIClient";
-import AuthContext from "contexts/AuthContext";
-import UserContext from "contexts/UserContext";
+import APIClient from 'APIClient';
+import AuthContext from 'contexts/AuthContext';
+import UserContext from 'contexts/UserContext';
 
-import theme from "styler/theme";
+import theme from 'styler/theme';
 import ErrorContext from 'contexts/ErrorContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParams } from 'navigators/RootNavigator';
-import URLs from 'URLs'
+import URLs from 'URLs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const width = Dimensions.get('window').width; //full width
@@ -26,75 +26,75 @@ type Fields = {
 
 const LoginForm = () => {
     const [authSeal, setAuthSeal] = useContext(AuthContext);
-    const [user, setUser] = useContext(UserContext)
+    const [_user, setUser] = useContext(UserContext);
 
-    const [isLoading, setIsLoading] = useState(false)
-    const [loginFailed, setLoginFailed] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
+    const [loginFailed, setLoginFailed] = useState(false);
     const [passwordVisible, setPasswordVisibile] = useState(false);
 
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>()
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-    const { handleThrown } = useContext(ErrorContext)
+    const { handleThrown } = useContext(ErrorContext);
 
     const theme = useTheme();
-    const styles = makeStyles(theme)
+    const styles = makeStyles(theme);
 
     const passwordInputRef = useRef<TextInput>(null);
 
-    const [fields, setFields] = useState<Fields>({ username: "", password: "" });
+    const [fields, setFields] = useState<Fields>({ username: '', password: '' });
     const onChange = (fieldName: string, value: string) => {
         setFields(
             (prevFields) => {
-                const newFields = { ...prevFields, [fieldName]: value }
-                return newFields
+                const newFields = { ...prevFields, [fieldName]: value };
+                return newFields;
             }
-        )
-    }
+        );
+    };
 
     useEffect(() => {
-        if (isLoading) setLoginFailed(false)
-    }, [isLoading])
+        if (isLoading) {setLoginFailed(false);}
+    }, [isLoading]);
 
     useEffect(() => {
-        if (authSeal !== null) navigation.navigate('Core')
-    }, [authSeal])
+        if (authSeal !== null) {navigation.navigate('Core');}
+    }, [authSeal, navigation]);
 
     const handleLogin = async () => {
-        Keyboard.dismiss()
-        setIsLoading(true)
+        Keyboard.dismiss();
+        setIsLoading(true);
         try {
-            const res = await APIClient.login({ username: fields.username, password: fields.password })
+            const res = await APIClient.login({ username: fields.username, password: fields.password });
             if (!res?.success) {
-                setLoginFailed(true)
-                return
+                setLoginFailed(true);
+                return;
             }
             //Set Auth Seal
-            const newAuthSeal = res?.seal || null
-            if(newAuthSeal == null) throw new Error("No auth seal returned")
-            setAuthSeal(newAuthSeal)
+            const newAuthSeal = res?.seal || null;
+            if(newAuthSeal == null) {throw new Error('No auth seal returned');}
+            setAuthSeal(newAuthSeal);
 
             //Set WP User
-            const wpUser = res?.wpUser
-            console.log(JSON.stringify(wpUser, null, 4))
+            const wpUser = res?.wpUser;
+            console.log(JSON.stringify(wpUser, null, 4));
             setUser(
                 (prevUser) =>
                     ({ ...prevUser, wpUser })
-            )
+            );
         } catch (e) {
-            handleThrown(e)
-            setLoginFailed(true)
+            handleThrown(e);
+            setLoginFailed(true);
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
-    }
+    };
 
     const resetPassword = () => {
-        Linking.openURL(URLs.ResetPasswordURL)
-    }
+        Linking.openURL(URLs.ResetPasswordURL);
+    };
 
     const createAccount = () => {
-        navigation.navigate('Register')
-    }
+        navigation.navigate('Register');
+    };
 
     return (
         <View style={styles.FormContainer}>
@@ -104,9 +104,9 @@ const LoginForm = () => {
                     placeholder="Username"
                     placeholderTextColor={'grey'}
                     onChangeText={(value) => {
-                        onChange('username', value)
+                        onChange('username', value);
                     }}
-                    returnKeyType='next'
+                    returnKeyType="next"
                     autoCorrect={false}
                     onSubmitEditing={() => passwordInputRef?.current?.focus()}
                 />
@@ -117,11 +117,11 @@ const LoginForm = () => {
                     placeholderTextColor={'grey'}
                     secureTextEntry={!passwordVisible}
                     onChangeText={(value) => {
-                        onChange('password', value)
+                        onChange('password', value);
                     }}
                     autoCorrect={false}
                     placeholder="Password"
-                    returnKeyType='done'
+                    returnKeyType="done"
                     onSubmitEditing={handleLogin}
                     ref={passwordInputRef}
                 />
@@ -129,13 +129,13 @@ const LoginForm = () => {
                     onPress={() => setPasswordVisibile(!passwordVisible)}
                     style={styles.VisibilityToggle}
                 >
-                    <Icon size={20} name={passwordVisible ? "visibility-off" : "visibility"} />
+                    <Icon size={20} name={passwordVisible ? 'visibility-off' : 'visibility'} />
                 </Pressable>
             </View>
             {
                 loginFailed ?
                     <View style={styles.LoginError}>
-                        <Text variant='labelMedium' style={styles.LoginErrorText}>Login Failed. Try Again?</Text>
+                        <Text variant="labelMedium" style={styles.LoginErrorText}>Login Failed. Try Again?</Text>
                     </View>
                     : null
             }
@@ -154,15 +154,15 @@ const LoginForm = () => {
                 <Text style={{ ...styles.FirstLoginOption, ...styles.LoginOption }} onPress={resetPassword}>Reset Password</Text>
                 <Text style={styles.LoginOption} onPress={createAccount}>Create Account</Text>
             </View>
-            <View style={{ height: 500, width: '100%' }}></View>
+            <View style={{ height: 500, width: '100%' }} />
         </View>
-    )
-}
+    );
+};
 
 const makeStyles = (paperTheme: MD3Theme) => {
     return StyleSheet.create({
         FormContainer: {
-            display: "flex",
+            display: 'flex',
             alignItems: 'center',
             paddingHorizontal: 40,
         },
@@ -172,25 +172,25 @@ const makeStyles = (paperTheme: MD3Theme) => {
             borderRadius: 20,
             borderTopEndRadius: 20,
             borderTopStartRadius: 20,
-            justifyContent: "space-between",
-            textTransform: "lowercase",
-            backgroundColor: "white",
-            alignItems: "center",
-            flexDirection: "row",
+            justifyContent: 'space-between',
+            textTransform: 'lowercase',
+            backgroundColor: 'white',
+            alignItems: 'center',
+            flexDirection: 'row',
         },
         TextInput: {
-            width: "100%",
-            height: "100%",
+            width: '100%',
+            height: '100%',
             margin: height / 50,
             borderRadius: 20,
             borderTopEndRadius: 20,
             borderTopStartRadius: 20,
-            justifyContent: "space-between",
-            textTransform: "lowercase",
-            backgroundColor: "white",
-            color: "black",
-            alignItems: "center",
-            flexDirection: "row",
+            justifyContent: 'space-between',
+            textTransform: 'lowercase',
+            backgroundColor: 'white',
+            color: 'black',
+            alignItems: 'center',
+            flexDirection: 'row',
             fontSize: width / 20,
         },
         LoginError: {
@@ -208,14 +208,14 @@ const makeStyles = (paperTheme: MD3Theme) => {
         VisibilityToggle: {
             position: 'absolute',
             right: 0,
-            paddingRight: 20
+            paddingRight: 20,
         },
         LoginButton: {
             margin: 4,
             backgroundColor: theme.colors.violet,
         },
         LoginButtonText: {
-            color: "white",
+            color: 'white',
             fontSize: width / 20,
             lineHeight: 32,
         },
@@ -225,15 +225,15 @@ const makeStyles = (paperTheme: MD3Theme) => {
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             marginTop: 10,
-            color: paperTheme.colors.primary
+            color: paperTheme.colors.primary,
         },
         FirstLoginOption: {
-            paddingRight: 20
+            paddingRight: 20,
         },
         LoginOption: {
-            color: paperTheme.colors.onPrimary
-        }
-    })
-}
+            color: paperTheme.colors.onPrimary,
+        },
+    });
+};
 
 export default LoginForm;

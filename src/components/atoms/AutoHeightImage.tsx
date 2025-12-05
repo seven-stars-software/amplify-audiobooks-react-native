@@ -1,5 +1,5 @@
-import { ReactPropTypes, useEffect, useState } from "react"
-import { Dimensions, Image, ImageURISource } from "react-native"
+import { useEffect, useState } from 'react';
+import { Image, ImageURISource } from 'react-native';
 
 // Only allow images with URI sources
 type Props = Omit<React.ComponentPropsWithRef<typeof Image>, 'source'> & {
@@ -14,20 +14,20 @@ const AutoHeightImage = (props: Props) => {
         Image.getSize(
             source.uri,
             (width: number, height: number) => {
-                const ratio = containerWidth / width
+                const ratio = containerWidth / width;
                 setDimensions({
-                    width: "100%",
-                    height: height * ratio
-                })
-            })
-    }, [])
+                    width: '100%',
+                    height: height * ratio,
+                });
+            });
+    }, [source.uri, containerWidth]);
 
     return (
         <Image {...props} source={source} style={{
             width: dimensions?.width,
-            height: dimensions?.height
+            height: dimensions?.height,
         }} />
-    )
-}
+    );
+};
 
-export default AutoHeightImage
+export default AutoHeightImage;

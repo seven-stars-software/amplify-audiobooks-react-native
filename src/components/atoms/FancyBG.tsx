@@ -1,11 +1,11 @@
-import styler from "styler/styler";
-import FancyBGSource from "@assets/images/fancy-bg.png"
+import styler from 'styler/styler';
+import FancyBGSource from '@assets/images/fancy-bg.png';
 
 const FancyBG = () => {
     return(
         <FillImage source={FancyBGSource} />
-    )
-}
+    );
+};
 
 const FillImage = styler.Image({
     borderWidth: 3,
@@ -15,6 +15,6 @@ const FillImage = styler.Image({
     left: 0,
     right: 0,
     bottom: 0,
-})
+});
 
 export default FancyBG;

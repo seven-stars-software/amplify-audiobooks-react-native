@@ -1,15 +1,15 @@
-import { useNavigation } from "@react-navigation/native";
-import PlaybackContext from "contexts/PlaybackContext";
-import { useCurrentTrack } from "hooks/useCurrentTrack";
-import { useContext } from "react";
-import { Dimensions, Image, ImageBackground, Pressable, StyleSheet, View } from "react-native";
+import { useNavigation } from '@react-navigation/native';
+import PlaybackContext from 'contexts/PlaybackContext';
+import { useCurrentTrack } from 'hooks/useCurrentTrack';
+import { useContext } from 'react';
+import { Dimensions, Image, ImageBackground, Pressable, StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Surface, Text, ProgressBar, useTheme } from "react-native-paper";
+import { Surface, Text, ProgressBar, useTheme } from 'react-native-paper';
 import TrackPlayer, { State as TrackPlayerState, usePlaybackState } from 'react-native-track-player';
-import React from "react";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParams } from "navigators/RootNavigator";
-import usePlaybackProgress from "hooks/usePlaybackProgress";
+import React from 'react';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParams } from 'navigators/RootNavigator';
+import usePlaybackProgress from 'hooks/usePlaybackProgress';
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -19,21 +19,21 @@ export const nowPlayingCardHeight = 70;
 const NowPlayingCard = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>();
     const theme = useTheme();
-    const playerState = usePlaybackState()
+    const playerState = usePlaybackState();
 
-    const isPlaying = playerState.state === TrackPlayerState.Playing
+    const isPlaying = playerState.state === TrackPlayerState.Playing;
     const currentTrack = useCurrentTrack();
 
-    const { position, duration } = usePlaybackProgress()
+    const { position, duration } = usePlaybackProgress();
 
     const { nowPlaying } = useContext(PlaybackContext);
     if (!nowPlaying) {
-        throw new Error("Somehow the NowPlayingCard rendered without an active book in the PlaybackContext")
+        throw new Error('Somehow the NowPlayingCard rendered without an active book in the PlaybackContext');
     }
 
     const goToNowPlaying = () => {
-        navigation.navigate('NowPlaying')
-    }
+        navigation.navigate('NowPlaying');
+    };
 
     const togglePlay = () => {
         if (isPlaying) {
@@ -41,12 +41,12 @@ const NowPlayingCard = () => {
         } else {
             TrackPlayer.play();
         }
-    }
+    };
 
     return (
         <Surface style={styles.CardSurface}>
             <ImageBackground
-                resizeMode='cover'
+                resizeMode="cover"
                 style={{
                     width: '100%',
                     height: '100%',
@@ -71,7 +71,7 @@ const NowPlayingCard = () => {
                                 numberOfLines={1}
                                 style={{
                                     ...styles.TrackName,
-                                    color: theme.colors.onPrimary
+                                    color: theme.colors.onPrimary,
                                 }}>
                                 {currentTrack?.title}
                             </Text>
@@ -79,7 +79,7 @@ const NowPlayingCard = () => {
                                 numberOfLines={1}
                                 style={{
                                     ...styles.Book,
-                                    color: theme.colors.onPrimary
+                                    color: theme.colors.onPrimary,
                                 }}>
                                 {nowPlaying?.name}
                             </Text>
@@ -95,21 +95,21 @@ const NowPlayingCard = () => {
                         </View>
                     </Pressable>
                     <View style={styles.Progress}>
-                        <ProgressBar 
-                        progress={duration > 0 ? position / duration : 0} 
+                        <ProgressBar
+                        progress={duration > 0 ? position / duration : 0}
                         color={theme.colors.onPrimary}
                         theme={{
                             colors:{
-                                surfaceVariant: 'rgba(0,0,0,0.2)'
-                            }
+                                surfaceVariant: 'rgba(0,0,0,0.2)',
+                            },
                         }}
                         />
                     </View>
                 </View>
             </ImageBackground>
         </Surface>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     CardSurface: {
@@ -117,10 +117,10 @@ const styles = StyleSheet.create({
         borderRadius: nowPlayingCardHeight,
     },
     PressableContainer: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "stretch",
-        paddingTop: 10
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'stretch',
+        paddingTop: 10,
     },
     ImageContainer: {
         height: '100%',
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     CoverImage: {
         height: height / 18,
         width: height / 18,
-        resizeMode: "contain",
+        resizeMode: 'contain',
         borderRadius: 12,
     },
     Details: {
@@ -138,20 +138,20 @@ const styles = StyleSheet.create({
     },
     TrackName: {
         fontSize: width / 30,
-        fontWeight: "800",
+        fontWeight: '800',
     },
     Book: {
         marginTop: 5,
-        fontWeight: "500",
+        fontWeight: '500',
     },
     Controls: {
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     Progress: {
-        width: "100%",
+        width: '100%',
 
-    }
-})
+    },
+});
 
 export default NowPlayingCard;

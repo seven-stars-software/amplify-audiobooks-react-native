@@ -1,11 +1,11 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginScreen from "screens/LoginScreen";
-import CoreTabs from "./CoreTabs";
-import NowPlayingScreen from "screens/NowPlayingScreen";
-import WelcomeNavigator from "./WelcomeNavigator";
-import SplashScreen from "screens/SplashScreen";
-import RegisterScreen from "screens/RegisterScreen";
-import PlaybackProblemScreen from "screens/PlaybackProblemScreen";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginScreen from 'screens/LoginScreen';
+import CoreTabs from './CoreTabs';
+import NowPlayingScreen from 'screens/NowPlayingScreen';
+import WelcomeNavigator from './WelcomeNavigator';
+import SplashScreen from 'screens/SplashScreen';
+import RegisterScreen from 'screens/RegisterScreen';
+import PlaybackProblemScreen from 'screens/PlaybackProblemScreen';
 
 export type RootStackParams = {
     'Splash': undefined,
@@ -63,10 +63,10 @@ const RootNavigator = () => {
                 name="Register"
                 component={RegisterScreen}
                 options={{ headerShown: false }}
-            />       
-            
-        </RootStack.Navigator>
-    )
-}
+            />
 
-export default RootNavigator
+        </RootStack.Navigator>
+    );
+};
+
+export default RootNavigator;
