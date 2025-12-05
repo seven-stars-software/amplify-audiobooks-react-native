@@ -11,7 +11,7 @@ const createWrapper = (handleThrown: jest.Mock = jest.fn()) => {
   const wrapper = ({ children }: { children: React.ReactNode }) =>
     React.createElement(
       ErrorContext.Provider,
-      { value: { handleThrown, clearError: jest.fn(), errorMessage: null } },
+      { value: { handleThrown, handlePlaybackError: jest.fn() } },
       children
     );
   return wrapper;
