@@ -8,7 +8,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
 
-const RegisterScreen = ({ navigation: _navigation }: any) => {
+const RegisterScreen = () => {
 
     return (
         <View style={styles.ScreenContainer}>

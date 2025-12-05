@@ -3,7 +3,7 @@ import SplashLogo from 'components/atoms/SplashLogo';
 import AuthContext from 'contexts/AuthContext';
 import useWelcome, { WelcomeStatus } from 'hooks/useWelcome';
 import { RootStackParams } from 'navigators/RootNavigator';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { ImageBackground, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { SetupService } from 'services';
@@ -33,7 +33,7 @@ const SplashScreen = ({ navigation }: Props) => {
     loggedIn.current = authSeal !== null;
 
     //Random starting index in the quips array
-    const [quipsIndex, _setQuipsIndex] = useState(Math.floor(Math.random() * quips.length));
+    const quipsIndex = useMemo(() => Math.floor(Math.random() * quips.length), []);
 
     const { welcomeStatus } = useWelcome();
 

@@ -7,7 +7,7 @@ import AnimatedBG from 'components/molecules/AnimatedBG';
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
 
-const LoginScreen = ({ navigation: _navigation }: any) => {
+const LoginScreen = () => {
 
     return (
         <View style={styles.ScreenContainer}>
