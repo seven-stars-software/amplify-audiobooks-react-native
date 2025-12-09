@@ -87,11 +87,12 @@ describe('APIClient', () => {
     });
 
     it('throws error on HTTP error response', async () => {
-      mockFetch.mockResolvedValueOnce({
-        status: 401,
-        url: 'https://test.com/auth/login',
-        text: jest.fn().mockResolvedValue('Unauthorized'),
-      } as unknown as Response);
+      mockFetch.mockResolvedValueOnce(
+        createMockResponse('Unauthorized', {
+          status: 401,
+          url: 'https://test.com/auth/login',
+        })
+      );
 
       await expect(
         APIClient.login({ username: 'testuser', password: 'wrong' })
@@ -107,11 +108,12 @@ describe('APIClient', () => {
     });
 
     it('throws error on invalid JSON response', async () => {
-      mockFetch.mockResolvedValueOnce({
-        status: 200,
-        url: 'https://test.com/auth/login',
-        text: jest.fn().mockResolvedValue('Not JSON'),
-      } as unknown as Response);
+      mockFetch.mockResolvedValueOnce(
+        createMockResponse('Not JSON', {
+          status: 200,
+          url: 'https://test.com/auth/login',
+        })
+      );
 
       await expect(
         APIClient.login({ username: 'testuser', password: 'testpassword' })
@@ -127,11 +129,12 @@ describe('APIClient', () => {
         wpUser: { id: 2, name: 'New User' },
       };
 
-      mockFetch.mockResolvedValueOnce({
-        status: 200,
-        text: jest.fn().mockResolvedValue(JSON.stringify(mockResponse)),
-        url: 'https://test-api.com/auth/register',
-      } as unknown as Response);
+      mockFetch.mockResolvedValueOnce(
+        createMockResponse(JSON.stringify(mockResponse), {
+          status: 200,
+          url: 'https://test-api.com/auth/register',
+        })
+      );
 
       const result = await APIClient.register({
         username: 'newuser',
@@ -160,11 +163,12 @@ describe('APIClient', () => {
     it('sends POST request with userID', async () => {
       const mockResponse = { success: true };
 
-      mockFetch.mockResolvedValueOnce({
-        status: 200,
-        text: jest.fn().mockResolvedValue(JSON.stringify(mockResponse)),
-        url: 'https://test-api.com/auth/delete-account',
-      } as unknown as Response);
+      mockFetch.mockResolvedValueOnce(
+        createMockResponse(JSON.stringify(mockResponse), {
+          status: 200,
+          url: 'https://test-api.com/auth/delete-account',
+        })
+      );
 
       const result = await APIClient.deleteAccount({ userID: '123' });
 
@@ -185,11 +189,12 @@ describe('APIClient', () => {
     it('sends POST request with username and seal', async () => {
       const mockResponse = { valid: true };
 
-      mockFetch.mockResolvedValueOnce({
-        status: 200,
-        text: jest.fn().mockResolvedValue(JSON.stringify(mockResponse)),
-        url: 'https://test-api.com/auth/check-seal',
-      } as unknown as Response);
+      mockFetch.mockResolvedValueOnce(
+        createMockResponse(JSON.stringify(mockResponse), {
+          status: 200,
+          url: 'https://test-api.com/auth/check-seal',
+        })
+      );
 
       const result = await APIClient.checkSeal({
         username: 'testuser',
@@ -216,11 +221,12 @@ describe('APIClient', () => {
         { isbn: '456', title: 'Book 2' },
       ];
 
-      mockFetch.mockResolvedValueOnce({
-        status: 200,
-        text: jest.fn().mockResolvedValue(JSON.stringify(mockBooks)),
-        url: 'https://test-api.com/library',
-      } as unknown as Response);
+      mockFetch.mockResolvedValueOnce(
+        createMockResponse(JSON.stringify(mockBooks), {
+          status: 200,
+          url: 'https://test-api.com/library',
+        })
+      );
 
       const result = await APIClient.getLibrary('test-seal');
 
@@ -246,11 +252,12 @@ describe('APIClient', () => {
         onSale: [{ isbn: '101', title: 'Book 4' }],
       };
 
-      mockFetch.mockResolvedValueOnce({
-        status: 200,
-        text: jest.fn().mockResolvedValue(JSON.stringify(mockHomeBooks)),
-        url: 'https://test-api.com/library/home',
-      } as unknown as Response);
+      mockFetch.mockResolvedValueOnce(
+        createMockResponse(JSON.stringify(mockHomeBooks), {
+          status: 200,
+          url: 'https://test-api.com/library/home',
+        })
+      );
 
       const result = await APIClient.getHomeBooks('test-seal');
 
@@ -277,11 +284,12 @@ describe('APIClient', () => {
         ],
       };
 
-      mockFetch.mockResolvedValueOnce({
-        status: 200,
-        text: jest.fn().mockResolvedValue(JSON.stringify(mockTracks)),
-        url: 'https://test-api.com/library/123456789',
-      } as unknown as Response);
+      mockFetch.mockResolvedValueOnce(
+        createMockResponse(JSON.stringify(mockTracks), {
+          status: 200,
+          url: 'https://test-api.com/library/123456789',
+        })
+      );
 
       const result = await APIClient.getBookTracks({
         isbn: '123456789',
@@ -311,11 +319,12 @@ describe('APIClient', () => {
     });
 
     it('includes HTTP status in HTTP error message', async () => {
-      mockFetch.mockResolvedValueOnce({
-        status: 500,
-        url: 'https://test.com/api',
-        text: jest.fn().mockResolvedValue('Internal Server Error'),
-      } as unknown as Response);
+      mockFetch.mockResolvedValueOnce(
+        createMockResponse('Internal Server Error', {
+          status: 500,
+          url: 'https://test.com/api',
+        })
+      );
 
       await expect(APIClient.login({ username: 'test', password: 'test' })).rejects.toThrow(
         'HTTP Error. Status 500'
@@ -323,11 +332,12 @@ describe('APIClient', () => {
     });
 
     it('throws error when JSON parse fails', async () => {
-      mockFetch.mockResolvedValueOnce({
-        status: 200,
-        url: 'https://test.com/api',
-        text: jest.fn().mockResolvedValue('<html>Not JSON</html>'),
-      } as unknown as Response);
+      mockFetch.mockResolvedValueOnce(
+        createMockResponse('<html>Not JSON</html>', {
+          status: 200,
+          url: 'https://test.com/api',
+        })
+      );
 
       await expect(APIClient.login({ username: 'test', password: 'test' })).rejects.toThrow(
         'Expected JSON. Failed to parse.'
