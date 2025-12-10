@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Book, BookStoreState, DownloadStatus } from 'types/types';
+import { BookStoreState, DownloadStatus } from 'types/types';
 import {
     getTrackFilePath,
     getBookDirectoryPath,
