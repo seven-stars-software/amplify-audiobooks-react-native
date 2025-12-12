@@ -3,7 +3,7 @@ import { createContext, ReactNode, useContext, useEffect, useRef, useState } fro
 import { Book, DownloadStatus, Track } from 'types/types';
 import useCheckpoints, { Checkpoint } from 'hooks/useCheckpoints';
 import ErrorContext from './ErrorContext';
-import { getTrackFilePath } from 'stores/BookStore';
+import { getTrackFilePath } from 'utils/bookStorage';
 import * as FileSystem from 'expo-file-system';
 
 type PlaybackController = {
