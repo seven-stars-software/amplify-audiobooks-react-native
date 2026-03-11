@@ -88,3 +88,6 @@ ios/AuthKey_*.p8
 
 # Work journals (may contain sensitive info)
 docs/work_journals/
+
+# Playwright CLI snapshots
+.playwright-cli/
