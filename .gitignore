@@ -85,3 +85,6 @@ ios/AuthKey_*.p8
 
 # Expo
 .expo
+
+# Work journals (may contain sensitive info)
+docs/work_journals/
